@@ -1,0 +1,115 @@
+\documentclass[tikz,border=15pt]{standalone}
+\usepackage{ctex}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, matrix, calc}
+
+\begin{document}
+\begin{tikzpicture}[
+    font=\large,
+    patharrow/.style={very thick, -{Stealth[length=3mm]}, shorten >=2mm, shorten <=2mm},
+    pathtext/.style={font=\bfseries\small}
+]
+
+\definecolor{scolor}{RGB}{144,238,144}
+\definecolor{gcolor}{RGB}{255,255,153}
+\definecolor{ocolor}{RGB}{173,216,230}
+\definecolor{xcolor}{RGB}{255,182,193}
+\definecolor{hashcolor}{RGB}{180,180,180}
+
+% 严格对齐的网格
+\matrix (grid) [
+    matrix of nodes,
+    row sep=-\pgflinewidth,
+    column sep=-\pgflinewidth,
+    nodes={
+        draw, very thick, minimum width=1.6cm, minimum height=1.6cm,
+        align=center, font=\large, anchor=center
+    }
+] {
+    |[fill=hashcolor]| \# & |[fill=white]| . & |[fill=white]| . & |[fill=white]| . & |[fill=white]| . \\
+    |[fill=white]| . & |[fill=scolor]| \textbf{S} & |[fill=ocolor]| o & |[fill=ocolor]| o & |[fill=ocolor]| o \\
+    |[fill=white]| . & |[fill=white]| . & |[fill=xcolor]| x & |[fill=white]| . & |[fill=gcolor]| \textbf{G} \\
+};
+
+% 列号
+\foreach \c/\label in {1/1, 2/2, 3/3, 4/4, 5/5} {
+    \node[above=5pt] at (grid-1-\c.north) {\label};
+}
+% 行号
+\foreach \r/\label in {1/1, 2/2, 3/3} {
+    \node[left=5pt] at (grid-\r-1.west) {\label};
+}
+
+% 方向颜色
+\definecolor{colU}{RGB}{30,144,255}
+\definecolor{colD}{RGB}{34,139,34}
+\definecolor{colL}{RGB}{255,140,0}
+\definecolor{colR}{RGB}{138,43,226}
+
+% 1. S(2,2) -> (3,2): D (向下，绿色)
+\draw[patharrow, colD] (grid-2-2.center) -- (grid-3-2.center);
+\node[pathtext, colD, left=1pt] at ($(grid-2-2.center)+(0,-0.3)$) {D};
+
+% 2. (3,2) -> (3,3): R (向右，紫色)
+\draw[patharrow, colR] (grid-3-2.center) -- (grid-3-3.center);
+\node[pathtext, colR, below=1pt] at ($(grid-3-2.center)+(0.3,0)$) {R};
+
+% 3. (3,3) -> (2,3): U (向上，蓝色，左侧)
+\draw[patharrow, colU] ($(grid-3-3.center)+(-0.25,0)$) -- ($(grid-2-3.center)+(-0.25,0)$);
+\node[pathtext, colU, left=1pt] at ($(grid-3-3.center)+(-0.25,0)+(0,0.3)$) {U};
+
+% 4. (2,3) -> (1,3): U (向上，蓝色，左侧) —— 与U对齐
+\draw[patharrow, colU] ($(grid-2-3.center)+(-0.25,0)$) -- ($(grid-1-3.center)+(-0.25,0)$);
+\node[pathtext, colU, left=1pt] at ($(grid-2-3.center)+(-0.25,0)+(0,0.3)$) {U};
+
+% 5. (1,3) -> (2,3): D (向下，绿色，右侧) —— 与D对齐
+\draw[patharrow, colD] ($(grid-1-3.center)+(0.25,0)$) -- ($(grid-2-3.center)+(0.25,0)$);
+\node[pathtext, colD, right=1pt] at ($(grid-1-3.center)+(0.25,0)+(0,-0.3)$) {D};
+
+% 6. (2,3) -> (3,3): D (向下，绿色，右侧)
+\draw[patharrow, colD] ($(grid-2-3.center)+(0.25,0)$) -- ($(grid-3-3.center)+(0.25,0)$);
+\node[pathtext, colD, right=1pt] at ($(grid-2-3.center)+(0.25,0)+(0,-0.3)$) {D};
+
+% 7. (3,3) -> (3,4): R (向右，紫色)
+\draw[patharrow, colR] (grid-3-3.center) -- (grid-3-4.center);
+\node[pathtext, colR, below=1pt] at ($(grid-3-3.center)+(0.3,0)$) {R};
+
+% 8. (3,4) -> (3,5): R (向右，紫色)
+\draw[patharrow, colR] (grid-3-4.center) -- (grid-3-5.center);
+\node[pathtext, colR, below=1pt] at ($(grid-3-4.center)+(0.3,0)$) {R};
+
+% 图例
+\node[right=2cm] at (grid.east) {
+\begin{tikzpicture}[font=\normalsize, baseline=(current bounding box.north)]
+    \node[anchor=west, font=\large\bfseries] at (0,0) {图例};
+    
+    \draw[very thick, fill=scolor] (0,-0.8) rectangle (0.8,-1.6);
+    \node[anchor=west] at (1,-1.2) {S \quad 起点};
+    
+    \draw[very thick, fill=gcolor] (0,-1.9) rectangle (0.8,-2.7);
+    \node[anchor=west] at (1,-2.3) {G \quad 终点};
+    
+    \draw[very thick, fill=ocolor] (0,-3.0) rectangle (0.8,-3.8);
+    \node[anchor=west] at (1,-3.4) {o \quad 直行(同方向)};
+    
+    \draw[very thick, fill=xcolor] (0,-4.1) rectangle (0.8,-4.9);
+    \node[anchor=west] at (1,-4.5) {x \quad 转弯(不同方向)};
+    
+    \draw[very thick, fill=hashcolor] (0,-5.2) rectangle (0.8,-6.0);
+    \node[anchor=west] at (1,-5.6) {\# \quad 障碍};
+    
+    \node[anchor=west, font=\bfseries, colU] at (0,-6.8) {U};
+    \node[anchor=west] at (0.5,-6.8) {上};
+    \node[anchor=west, font=\bfseries, colD] at (1.2,-6.8) {D};
+    \node[anchor=west] at (1.7,-6.8) {下};
+    \node[anchor=west, font=\bfseries, colL] at (2.4,-6.8) {L};
+    \node[anchor=west] at (2.9,-6.8) {左};
+    \node[anchor=west, font=\bfseries, colR] at (3.6,-6.8) {R};
+    \node[anchor=west] at (4.1,-6.8) {右};
+    
+    \node[anchor=west, font=\small] at (0,-7.5) {路径: D-R-U-U-D-D-R-R};
+\end{tikzpicture}
+};
+
+\end{tikzpicture}
+\end{document}

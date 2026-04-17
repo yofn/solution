@@ -1,0 +1,73 @@
+\documentclass[tikz,border=15pt]{standalone}
+\usepackage{ctex}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+
+\begin{document}
+\begin{tikzpicture}[
+    font=\large,
+    axis/.style={thick, -{Stealth[length=3mm]}},
+    movenotcross/.style={thick, -{Stealth[length=2.5mm]}, blue},
+    movecross/.style={thick, -{Stealth[length=2.5mm]}, red},
+    dot/.style={fill, circle, inner sep=1.2pt},
+    coord/.style={font=\small}
+]
+
+% 数轴
+\draw[axis] (-3,0) -- (5,0);
+
+% 整数刻度（长竖线 + 数字）
+\foreach \x in {-2,-1,0,1,2,3,4} {
+    \draw (\x,0.15) -- (\x,-0.15);
+    \node[coord, below=3pt] at (\x,0) {\x};
+}
+
+% 0.5 刻度（短竖线，不标数字）
+\foreach \x in {-1.5,-0.5,0.5,1.5,2.5,3.5} {
+    \draw (\x,0.08) -- (\x,-0.08);
+}
+
+% 过零标记（红星）
+\node[red, star, star points=5, fill=red, inner sep=0.8pt] at (0,0) {};
+\node[above=10pt, red, font=\small] at (-0.3,0) {过零};
+
+% 起点
+\node[dot, green!60!black] at (0.5,0) {};
+\node[above=10pt, green!60!black, font=\small] at (0.8,0) {起点};
+
+% 终点
+\node[dot, green!60!black] at (0.5,-1.8) {};
+\node[below=4pt, green!60!black, font=\small] at (0.5,-1.8) {终点};
+
+% 第1步: 0.5 -> -1.5 (经过0)
+\draw[movecross] (0.5,1.0) -- (-1.5,1.0);
+\node[dot, red] at (-1.5,1.0) {};
+\node[font=\bfseries, red] at (-0.5,1.25) {1};
+
+% 第2步: -1.5 -> 3.5 (经过0)
+\draw[movecross] (-1.5,2.0) -- (3.5,2.0);
+\node[dot, red] at (3.5,2.0) {};
+\node[font=\bfseries, red] at (1.0,2.25) {2};
+
+% 第3步: 3.5 -> 1.5 (不经过0)
+\draw[movenotcross] (3.5,1.0) -- (1.5,1.0);
+\node[dot, blue] at (1.5,1.0) {};
+\node[font=\bfseries, blue] at (2.5,1.25) {3};
+
+% 第4步: 1.5 -> -0.5 (经过0)
+\draw[movecross] (1.5,-1.0) -- (-0.5,-1.0);
+\node[dot, red] at (-0.5,-1.0) {};
+\node[font=\bfseries, red] at (0.5,-1.25) {4};
+
+% 第5步: -0.5 -> 0.5 (经过0)
+\draw[movecross] (-0.5,-1.8) -- (0.5,-1.8);
+\node[font=\bfseries, red] at (0.0,-2.05) {5};
+
+% 右侧说明
+\node[right=0.8cm, font=\normalsize] at (5, 1.2) {\textbf{过零次数:} 4};
+\node[right=0.8cm, font=\small, red] at (5, 0.4) {红色 = 过零};
+\node[right=0.8cm, font=\small, blue] at (5, -0.2) {蓝色 = 不过零};
+\node[right=0.8cm, font=\small] at (5, -0.8) {数字 = 第几步};
+
+\end{tikzpicture}
+\end{document}

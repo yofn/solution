@@ -1,0 +1,61 @@
+\documentclass[tikz,border=15pt]{standalone}
+\usepackage{ctex}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, calc}
+\begin{document}
+\begin{tikzpicture}[
+  arr/.style={-{Stealth[length=3mm]}, thick},
+  rev/.style={-{Stealth[length=3mm]}, thick, dashed, gray}
+]
+\colorlet{colR}{purple}
+\colorlet{colU}{blue}
+
+% ============================================================
+% 底部：两个相邻格子，位置 (x,y) 和 (x',y')
+% ============================================================
+% 左格
+\fill[green!12, rounded corners=3pt] (-2.2,-1) rectangle (-0.2,1);
+\draw[gray, thick, rounded corners=3pt] (-2.2,-1) rectangle (-0.2,1);
+\node[above] at (-1.2,1.15) {\small (x,y)};
+
+% 右格
+\fill[yellow!18, rounded corners=3pt] (-0.2,-1) rectangle (1.8,1);
+\draw[gray, thick, rounded corners=3pt] (-0.2,-1) rectangle (1.8,1);
+\node[above] at (0.8,1.15) {\small (x$'$,y$'$)};
+
+% ============================================================
+% 节点
+% ============================================================
+% 左节点：状态 (x,y,R) — 紫色，方向→
+\draw[colR, line width=2pt, fill=purple!20] (-1.2,0) circle (0.6);
+\draw[colR, -{Stealth[length=3mm]}, line width=2pt] (-1.2,0) -- ++(0.4,0);
+\node[below, purple] at (-1.2,-0.8) {\small (x,y,R)};
+
+% 右节点：状态 (x',y',U) — 蓝色，方向↑
+\draw[colU, line width=2pt, fill=blue!20] (0.8,0) circle (0.6);
+\draw[colU, -{Stealth[length=3mm]}, line width=2pt] (0.8,0) -- ++(0,0.4);
+\node[below, blue] at (0.8,-0.8) {\small (x$'$,y$'$,U)};
+
+% ============================================================
+% 正向转移（左 → 右）
+% ============================================================
+\draw[colR, arr, line width=2.5pt] (-0.55,0) -- (0.15,0);
+\node[above, purple] at (-0.2,0.25) {\small 正向};
+
+% ============================================================
+% 关键：p[x'][y'][d'] 记录了来向方向 d = R
+% ============================================================
+\fill[colR] (1.42,0) circle (0.15);
+\draw[white, line width=1.5pt] (1.42,0) circle (0.15);
+\node[purple, align=left, anchor=south west] at (1.6,0.1) 
+  {\small 记录: p[x$'$][y$'$][U] = R};
+
+% ============================================================
+% 反向回溯（右 → 左）
+% ============================================================
+\draw[rev, line width=1.8pt] (0.8,-0.65) 
+  .. controls (0.8,-2.0) and (-1.2,-2.0) .. (-1.2,-0.65);
+\node[gray, below] at (0,-2.15) {\small 逆向: 用记录的方向 R 反推出 (x,y)};
+
+\end{tikzpicture}
+\end{document}

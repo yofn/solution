@@ -1,0 +1,64 @@
+\documentclass[tikz,border=15pt]{standalone}
+\usepackage{ctex}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning, calc, fit}
+
+\begin{document}
+\begin{tikzpicture}[
+    font=\large,
+    cell/.style={draw, very thick, minimum width=1.8cm, minimum height=1.8cm, align=center, font=\large},
+    arrow/.style={thick, -{Stealth[length=3mm]}},
+    smallarrow/.style={thick, -{Stealth[length=2mm]}},
+    statebox/.style={draw, thick, rounded corners=3pt, fill=blue!8, inner sep=6pt, font=\small},
+    labelbox/.style={font=\small, align=left}
+]
+
+\definecolor{ocolor}{RGB}{173,216,230}
+\definecolor{xcolor}{RGB}{255,182,193}
+
+% 标题
+\node[font=\Large\bfseries] at (0,4.5) {状态设计：$(x, y, d)$};
+
+% 当前状态框
+\node[statebox] (cur) at (-3.5,2.5) {当前状态：$(x, y, d)$};
+\node[labelbox, below=2pt of cur] {$d$: 从 $(x,y)$ 出发的方向};
+
+% 当前格子
+\node[cell, fill=ocolor] (cell_cur) at (0,2.5) {o};
+\node[above=2pt, font=\tiny] at (cell_cur.north) {$(x,y)$};
+
+% 四个方向箭头从当前格子伸出
+\draw[smallarrow, red] (cell_cur.center) -- ++(0,1.2) node[above, font=\small, red] {$d=3$: U};
+\draw[smallarrow, green!60!black] (cell_cur.center) -- ++(0,-1.2) node[below, font=\small, green!60!black] {$d=1$: D};
+\draw[smallarrow, purple] (cell_cur.center) -- ++(1.2,0) node[right, font=\small, purple] {$d=0$: R};
+\draw[smallarrow, orange] (cell_cur.center) -- ++(-1.2,0) node[left, font=\small, orange] {$d=2$: L};
+
+% 走方向d=1(D)，到达新格子
+\node[cell, fill=xcolor, below=2.5cm of cell_cur] (cell_new) {x};
+\node[below=2pt, font=\tiny] at (cell_new.south) {$(x+1, y)$};
+\draw[arrow, green!60!black] (cell_cur.south) -- (cell_new.north) node[midway, right, font=\small] {按 $d$ 走};
+
+% 新方向选择
+\node[statebox, right=2cm of cell_new] (newstate) {新状态：$(nx, ny, i)$};
+\node[labelbox, below=2pt of newstate] {$nx=x+dx[d]$\\$ny=y+dy[d]$\\$i$: 新出方向};
+
+% 新格子的方向选择
+\draw[smallarrow, green!60!black] (cell_new.center) -- ++(0,-1.0) node[below, font=\small, green!60!black] {\textbf{不能选D}!};
+\draw[smallarrow, red] (cell_new.center) -- ++(0,1.0) node[above, font=\small, red] {可选U};
+\draw[smallarrow, purple] (cell_new.center) -- ++(1.0,0) node[right, font=\small, purple] {可选R};
+\draw[smallarrow, orange] (cell_new.center) -- ++(-1.0,0) node[left, font=\small, orange] {可选L};
+
+% 说明框
+\node[draw, thick, rounded corners=5pt, fill=yellow!15, inner sep=10pt, font=\small, text width=10cm, align=left] at (0,-3.5) {
+\textbf{状态转移规则：}\\[4pt]
+1. 当前状态 $(x,y,d)$：位于 $(x,y)$，下一步沿方向 $d$ 走\\
+2. 移动：$nx = x + dx[d],\; ny = y + dy[d]$\\
+3. 到达 $(nx,ny)$ 后，根据格子类型选择新方向 $i$：\\
+\quad \textbullet\ o格子：必须 $i = d$（直行）\\
+\quad \textbullet\ x格子：必须 $i \neq d$（转弯）\\
+\quad \textbullet\ . / S / G 格子：任意方向\\
+4. 新状态为 $(nx, ny, i)$，距离 $+1$
+};
+
+\end{tikzpicture}
+\end{document}

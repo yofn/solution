@@ -1,0 +1,65 @@
+\documentclass[tikz,border=15pt]{standalone}
+\usepackage{ctex}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, positioning, calc}
+
+\begin{document}
+\begin{tikzpicture}[
+    font=\normalsize,
+    cell/.style={draw, very thick, minimum width=2cm, minimum height=2cm, align=center, font=\large},
+    backarrow/.style={very thick, -{Stealth[length=3.5mm]}, dashed, blue!70!black},
+    stepnote/.style={font=\small, blue!70!black}
+]
+
+\definecolor{scolor}{RGB}{144,238,144}
+\definecolor{gcolor}{RGB}{255,255,153}
+\definecolor{ocolor}{RGB}{173,216,230}
+\definecolor{xcolor}{RGB}{255,182,193}
+
+% 标题
+\node[font=\Large\bfseries] at (0,4.8) {回溯：从终点倒着走回起点};
+
+% 网格（放大）
+\matrix (grid) [
+    matrix of nodes,
+    row sep=-\pgflinewidth,
+    column sep=-\pgflinewidth,
+    nodes={cell}
+] {
+    |[fill=scolor]| \textbf{S} & |[fill=white]| . & |[fill=xcolor]| x & |[fill=white]| . \\
+    |[fill=white]| . & |[fill=ocolor]| o & |[fill=ocolor]| o & |[fill=gcolor]| \textbf{G} \\
+};
+
+% 回溯虚线箭头
+\draw[backarrow] (grid-2-4.center) -- (grid-2-3.center);
+\node[stepnote, above=1pt] at ($(grid-2-4.center)!0.3!(grid-2-3.center)$) {查R};
+
+\draw[backarrow] (grid-2-3.center) -- (grid-2-2.center);
+\node[stepnote, above=1pt] at ($(grid-2-3.center)!0.3!(grid-2-2.center)$) {查R};
+
+\draw[backarrow] (grid-2-2.center) -- (grid-1-2.center);
+\node[stepnote, left=1pt] at ($(grid-2-2.center)!0.3!(grid-1-2.center)$) {查D};
+
+\draw[backarrow] (grid-1-2.center) -- (grid-1-1.center);
+\node[stepnote, above=1pt] at ($(grid-1-2.center)!0.3!(grid-1-1.center)$) {查D};
+
+% 右侧说明
+\node[right=1cm, font=\normalsize, align=left] at (grid.east) {
+\textbf{每步查} $p[x][y][d]$：\\[4pt]
+\textcolor{blue!70!black}{$\bullet$} 在G：查得R $\Rightarrow$ 从左边来\\[2pt]
+\textcolor{blue!70!black}{$\bullet$} 在x：查得R $\Rightarrow$ 还在左边\\[2pt]
+\textcolor{blue!70!black}{$\bullet$} 在o：查得D $\Rightarrow$ 从上边来\\[2pt]
+\textcolor{blue!70!black}{$\bullet$} 在.：查得D $\Rightarrow$ 上边是S！\\[6pt]
+\textbf{记录}：\texttt{path = [R,R,D,D]}\\
+\textbf{反转}：\texttt{reverse} $\Rightarrow$ \textbf{D-D-R-R}
+};
+
+% 底部公式框
+\node[draw, thick, rounded corners=5pt, fill=yellow!15, inner sep=8pt, font=\small, text width=14cm, align=left] at (0,-2.5) {
+\textbf{核心思想}：$p[x][y][d]$ 记录"正着走时，从哪个方向走到 $(x,y,d)$ 的"。\\
+倒着走：查 $p$ 得方向 $pd$ $\Rightarrow$ 上一步位置：$px = x - dx[pd],\; py = y - dy[pd]$。\\
+循环收集所有 $pd$，最后 \texttt{reverse(path)} 即得正向路径。
+};
+
+\end{tikzpicture}
+\end{document}

@@ -1,0 +1,11 @@
+# macOS
+.DS_Store
+
+# LaTeX intermediates
+*.aux
+*.log
+missfont.log
+
+# Credentials
+personal-info.txt
+.env
