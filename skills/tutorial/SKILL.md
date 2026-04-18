@@ -14,9 +14,9 @@ This skill chains four sub-skills in order:
 | Step | Skill | Output |
 |------|-------|--------|
 | 1 | **getcode** | Contest directory with `README.md` + `.cpp` files |
-| 2 | **figure** | `figures/*.png` — algorithm diagrams |
-| 3 | **code** | `figures_sel/*_code.png` — syntax-highlighted code fallbacks |
-| 4 | **article** | `article.md` + `article.html` — WeChat-ready tutorial |
+| 2 | **figure** | `figures/*.png` — algorithm diagrams (then copied to `figures_sel/`) |
+| 3 | **code** | `figures_sel/*_code.png` — syntax-highlighted code block images |
+| 4 | **article** | `article.md` + `article.html` — WeChat-ready tutorial with CDN image URLs |
 
 Run them sequentially. Each step consumes the previous step's output.
 
@@ -54,6 +54,8 @@ ABCxxx/figures/
 └── rotate_version.sh
 ```
 
+After verification, copy the final PNGs to `figures_sel/` for article embedding.
+
 **Principles**:
 - One diagram per core concept
 - Chinese labels, mobile-friendly sizing
@@ -63,7 +65,7 @@ ABCxxx/figures/
 
 ## Step 3: Generate code images (`code`)
 
-Render each solution's code into a syntax-highlighted PNG fallback.
+Render each solution's code into a syntax-highlighted PNG image.
 
 **Input**: `.cpp` files from Step 1  
 **Output**:
@@ -73,7 +75,7 @@ ABCxxx/figures_sel/
 └── d_code.png
 ```
 
-**Why**: WeChat's editor sometimes strips whitespace from HTML `<pre>` blocks. The PNG guarantees perfect alignment and color consistency on mobile.
+**Why**: WeChat's editor strips whitespace from HTML `<pre>` blocks. PNG images guarantee perfect alignment and color consistency on mobile. The article inserts these as `<img>` elements, not `<pre><code>` blocks.
 
 **Prerequisites**: Python + Pillow (`python3 -m venv .venv && pip install Pillow`).
 
@@ -85,7 +87,7 @@ Use the `code` skill for the full rendering script and color scheme.
 
 Compose the tutorial in Markdown, then convert to WeChat-friendly HTML.
 
-**Input**: `README.md`, `.cpp`, `figures/*.png`, `figures_sel/*_code.png`  
+**Input**: `README.md`, `.cpp`, `figures_sel/*.png`  
 **Output**:
 ```
 ABCxxx/
@@ -93,9 +95,25 @@ ABCxxx/
 └── article.html
 ```
 
+**Image URLs**: All images in `article.html` must use **jsDelivr CDN** addresses:
+
+```
+https://cdn.jsdelivr.net/gh/<username>/<repo>@main/ABCxxx/figures_sel/<filename>.png
+```
+
+This allows WeChat's editor to auto-download images when pasting HTML.
+
+**Code blocks**: Do NOT use `<pre><code>`. Insert the PNG image directly:
+
+```html
+<img src="https://cdn.jsdelivr.net/gh/yofn/solution@main/ABC453/figures_sel/c_code.png"
+     alt="C题代码"
+     style="max-width:100%;display:block;margin:14px auto;border-radius:10px;border:1px solid #ece8e0;">
+```
+
 **Structure**:
 1. Opening — connect to broader algorithm knowledge
-2. Problem C — restatement → insight → diagram → code → explanation
+2. Problem C — restatement → insight → diagram → code PNG → explanation
 3. Problem D — same structure
 4. Closing — encouragement and regular practice
 
@@ -103,7 +121,16 @@ ABCxxx/
 - All text in Chinese
 - No comments inside code blocks; explanations go in prose
 - Use colored `<span>` for emphasis, never `<strong>`
-- Embed both HTML code blocks **and** PNG fallbacks
+
+---
+
+## Step 5: Publish
+
+1. **Push** the repository to GitHub (ensure the repo is **public**)
+2. Wait **1–2 minutes** for jsDelivr cache to refresh
+3. Open `article.html` in a browser to confirm all images load from CDN
+4. Select all and copy the HTML content
+5. Paste into WeChat Official Account editor — images will auto-download and be re-hosted on WeChat's CDN
 
 ---
 
@@ -116,21 +143,21 @@ ABCxxx/
 ├── d.cpp
 ├── article.md
 ├── article.html
-├── figures/
+├── figures/                          # TikZ source + intermediate files
 │   ├── c_diagram.tex / .pdf / .png
-│   ├── c_diagram_v1...v5.*       # backups
+│   ├── c_diagram_v1...v5.*           # backups
 │   ├── d_diagram.tex / .pdf / .png
 │   ├── d_state.tex / .pdf / .png
 │   ├── d_backtrack.tex / .pdf / .png
 │   └── rotate_version.sh
-├── figures_sel/                    # article embeddables
+├── figures_sel/                      # all article embeddables (push these)
 │   ├── c_diagram.png
 │   ├── d_diagram.png
 │   ├── d_state.png
 │   ├── d_backtrack.png
 │   ├── c_code.png
 │   └── d_code.png
-└── code_to_image.py              # optional generator script
+└── code_to_image.py                  # optional generator script
 ```
 
 ---
@@ -140,7 +167,9 @@ ABCxxx/
 - [ ] Code compiles and passes all test cases
 - [ ] All diagram PNGs are readable on a phone screen
 - [ ] Code block PNGs match article HTML colors exactly
-- [ ] `article.html` has no HTML escapes inside `<pre><code>`
+- [ ] All images in `article.html` use jsDelivr CDN URLs, not local paths
+- [ ] Code blocks are `<img>` PNGs, not `<pre><code>` HTML
+- [ ] Repository is public so jsDelivr can serve files
 - [ ] No personal identifiers anywhere
 - [ ] All text in Chinese
-- [ ] Article CSS uses `#faf8f5` warm beige for code background
+- [ ] Article CSS uses `#faf8f5` warm beige background

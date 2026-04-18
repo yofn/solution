@@ -14,8 +14,7 @@ Generate a complete tutorial article for competitive programming solutions, suit
 Read from the contest directory:
 - `README.md` — problem statements
 - `<letter>.cpp` — AC solution code
-- `figures/` — algorithm diagrams (PNG files)
-- `figures_sel/` — code block images (`<letter>_code.png`) as WeChat fallback
+- `figures_sel/` — all embeddable images (diagrams + code block PNGs)
 
 ### 2. Plan the article structure
 
@@ -28,8 +27,8 @@ Read from the contest directory:
    - Problem restatement (brief, in Chinese)
    - Key insight / observation
    - Diagram explanation (embed PNG)
-   - Code walkthrough (no comments in code; explain in prose)
-   - Embed the code block PNG fallback alongside HTML code
+   - Code walkthrough (embed code block PNG image)
+   - Code explanation in prose
 
 3. Problem D walkthrough
    - Same structure as C
@@ -47,15 +46,32 @@ Save as `ABCxxx/article.md`.
 - All text in **Chinese**
 - No contestant IDs or personal identifiers
 - Code blocks: delete ALL comments from the source; move explanations to surrounding text
-- Code must NOT use HTML escape sequences (`&lt;`, `&gt;`, etc.); keep raw `< >`
-- Prepare a matching PNG fallback (`figures_sel/<letter>_code.png`) in case WeChat's editor strips whitespace from the HTML code block
 - Use **colored font** (`<span style="color:#xxx">text</span>`) for emphasis, NOT bold
-- Embed PNG images directly with `![alt](figures/xxx.png)`
+- Embed PNG images with local path `![alt](figures_sel/xxx.png)` for Markdown preview
 - WeChat publication target: "信奥观察"
 
 ### 4. Convert to HTML
 
 Generate `ABCxxx/article.html` with inline CSS styled for WeChat reading.
+
+**Image URLs**: Use **jsDelivr CDN** addresses so WeChat's editor can auto-download images when pasting:
+
+```
+https://cdn.jsdelivr.net/gh/<username>/<repo>@main/ABCxxx/figures_sel/<filename>.png
+```
+
+Example:
+```html
+<img src="https://cdn.jsdelivr.net/gh/yofn/solution@main/ABC453/figures_sel/c_diagram.png" alt="C题数轴路径">
+```
+
+**Code blocks**: Do NOT use `<pre><code>` HTML blocks. Insert the syntax-highlighted PNG image directly:
+
+```html
+<img src="https://cdn.jsdelivr.net/gh/yofn/solution@main/ABC453/figures_sel/c_code.png" alt="C题代码" style="max-width:100%;display:block;margin:14px auto;border-radius:10px;border:1px solid #ece8e0;">
+```
+
+This avoids WeChat's editor stripping whitespace or misaligning text from HTML code blocks.
 
 **Key design choices:**
 
@@ -64,53 +80,12 @@ Generate `ABCxxx/article.html` with inline CSS styled for WeChat reading.
 | Page width | `max-width: 420px` (~20 Chinese chars per line) |
 | Body background | `#f0f2f5` light gray |
 | Card background | `#fff` white with rounded corners and shadow |
-| **Code block background** | **Warm beige `#faf8f5`** (eye-protecting, not dark) |
-| Code border | `1px solid #ece8e0` |
+| Code block background | `#faf8f5` warm beige (for occasional inline `<code>` only) |
 | h1 | Red left border + gradient background + rounded right corners |
 | h2 | Purple gradient dot prefix (with white inner dot) + dashed underline |
 | h3 | Light gray gradient rounded pill label with thin border |
 
-**Syntax highlighting:** Use a Python script during conversion to colorize C++ code with inline `<span>` classes:
-
-```python
-import re
-
-def highlight_cpp(code):
-    # Protect strings first
-    strings = []
-    def protect_str(m):
-        strings.append(m.group(0))
-        return f"__STR{len(strings)-1}__"
-    code = re.sub(r'"(?:\\.|[^"\\])*"', protect_str, code)
-    code = re.sub(r"'(?:\\.|[^'\\])*'", protect_str, code)
-    
-    # Preprocessor directives (#include, #define, etc.)
-    code = re.sub(r'(#\s*\w+)', r'<span class="pp">\1</span>', code)
-    
-    # long long before long
-    code = re.sub(r'\b(long long)\b', r'<span class="ty">\1</span>', code)
-    
-    # Keywords
-    kw = r'\b(include|using|namespace|typedef|const|int|long|void|if|return|for|while|struct|sizeof|continue|push|pop|front|empty|reverse|begin|end|puts|cout|cin|scanf|printf|memset|max|min|vector|queue|string|char|bool|auto|new|delete|class|public|private|protected|template|typename|operator|friend|inline|static|extern|volatile|mutable|explicit|virtual|override|final|noexcept|constexpr|consteval|constinit|decltype|concept|requires|co_await|co_return|co_yield)\b'
-    code = re.sub(kw, r'<span class="kw">\1</span>', code)
-    
-    # Common type aliases
-    code = re.sub(r'\b(ll|node)\b', r'<span class="ty">\1</span>', code)
-    
-    # Numbers
-    code = re.sub(r'\b(\d+)\b', r'<span class="nu">\1</span>', code)
-    
-    # Function calls
-    code = re.sub(r'\b([a-zA-Z_]\w*)\s*(\()', r'<span class="fn">\1</span>\2', code)
-    
-    # Restore strings
-    for i, s in enumerate(strings):
-        code = code.replace(f"__STR{i}__", f'<span class="st">{s}</span>')
-    
-    return code
-```
-
-**Highlight color scheme (on `#faf8f5` warm background):**
+**Syntax highlighting color scheme** (used by the `code` skill when rendering code PNGs, keep consistent):
 
 | Class | Color | For |
 |-------|-------|-----|
@@ -120,6 +95,7 @@ def highlight_cpp(code):
 | `.nu` | `#d73a49` | Numbers |
 | `.pp` | `#6f42c1` | Preprocessor directives |
 | `.fn` | `#8250df` | Function names |
+| default | `#383a42` | Other text |
 
 **Full CSS template:**
 
@@ -181,13 +157,19 @@ hr { border: none; border-top: 1px solid #e0e0e0; margin: 24px 0; }
 
 ### 5. Verify
 
+- [ ] All images use jsDelivr CDN URLs, not local paths
+- [ ] Code blocks are inserted as `<img>` PNGs, not `<pre><code>` HTML
 - [ ] All figures display correctly
-- [ ] Code blocks use warm beige `#faf8f5` background (not dark)
-- [ ] Code has syntax highlighting (keywords, types, strings, numbers colored)
-- [ ] Code blocks render without escaped characters
-- [ ] Code block PNG fallbacks are generated and available in `figures_sel/`
 - [ ] No comments inside code
 - [ ] No personal identifiers
 - [ ] Colored `<span>` used for emphasis, NOT `<strong>`/`<b>`
 - [ ] h1/h2/h3 have decorative styles distinct from body text
 - [ ] Chinese text throughout
+
+### 6. Publish to WeChat
+
+1. Push the repository to GitHub (ensure all PNGs in `figures_sel/` are pushed)
+2. Wait 1–2 minutes for jsDelivr cache to refresh
+3. Open `article.html` in a browser to confirm all images load
+4. Select all and copy the HTML content
+5. Paste into WeChat Official Account editor — images will auto-download and be re-hosted on WeChat's CDN

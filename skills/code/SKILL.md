@@ -5,14 +5,15 @@ description: Convert C++ code blocks to syntax-highlighted PNG images for embedd
 
 # Generate Code Block Images
 
-Convert C++ solution code into syntax-highlighted PNG images for use as fallback when WeChat's editor strips whitespace from HTML code blocks.
+Convert C++ solution code into syntax-highlighted PNG images. These images replace HTML `<pre><code>` blocks in the final WeChat article to prevent whitespace stripping.
 
-## Why PNG Fallback
+## Why PNG Instead of HTML Code Blocks
 
 WeChat's editor sometimes collapses whitespace or misaligns text when copying HTML `<pre><code>` blocks. A PNG image guarantees:
 - Exact indentation and monospace alignment
 - Consistent syntax highlighting colors
 - No font substitution issues on mobile
+- No risk of WeChat reformatting the code
 
 ## Workflow
 
@@ -33,7 +34,7 @@ Priority order:
 6. Numbers → `nu`
 7. Function calls (identifier before `(`) → `fn`
 
-**Color scheme** (same as article HTML):
+**Color scheme** (must match article HTML exactly):
 
 | Class | Color | For |
 |-------|-------|-----|
@@ -65,22 +66,29 @@ Measure each token's width with `font.getlength()`, sum per line for image dimen
 
 Save to `ABCxxx/figures_sel/<letter>_code.png`.
 
+This puts the code image in the same directory as the diagram images, so all article embeddables are in one place.
+
 ## File Organization
 
 ```
 ABCxxx/
 ├── c.cpp, d.cpp              # original source
 ├── figures_sel/
-│   ├── c_code.png            # generated fallback image
+│   ├── c_code.png            # generated code image
 │   └── d_code.png
 └── code_to_image.py          # generation script (optional)
+```
+
+After generating, push the repository. The article HTML will reference these images via jsDelivr CDN:
+
+```
+https://cdn.jsdelivr.net/gh/<username>/<repo>@main/ABCxxx/figures_sel/c_code.png
 ```
 
 ## Key Gotchas
 
 - **Do NOT generate intermediate HTML `<span>` tags during highlighting** — they can be re-matched by keyword regexes (e.g. `class` inside `<span class="...">`). Highlight by computing non-overlapping intervals directly on the raw source text.
-- **`
-` in strings**: When reading `"Yes\n"` from a file, Python sees two characters (`\` and `n`). Ensure the renderer prints them literally on one line, not as an actual line break.
+- **`\n` in strings**: When reading `"Yes\n"` from a file, Python sees two characters (`\` and `n`). Ensure the renderer prints them literally on one line, not as an actual line break.
 - **Tab characters**: Expand to 4 spaces before measuring/rendering, or indentation will be inconsistent.
 
 ## Verification Checklist
@@ -90,3 +98,4 @@ ABCxxx/
 - [ ] No HTML tag text visible in the image
 - [ ] Escape sequences like `\n` render on a single line
 - [ ] Image width fits within mobile screen (≤ 480 px ideal)
+- [ ] Output saved to `figures_sel/`, not a separate directory

@@ -119,9 +119,22 @@ This script rotates backups automatically:
 
 Keeps **5 versions** of `.tex`, `.pdf`, and `.png` for each diagram.
 
+### 7. Copy to `figures_sel/`
+
+After verification, copy the final PNGs to `figures_sel/` so all article embeddables are in one place:
+
+```bash
+cp figures/c_diagram.png figures_sel/
+cp figures/d_diagram.png figures_sel/
+cp figures/d_state.png figures_sel/
+cp figures/d_backtrack.png figures_sel/
+```
+
+These PNGs will be pushed to GitHub and referenced in the article HTML via jsDelivr CDN.
+
 ## File Organization
 
-Place files in the contest's `figures/` subdirectory:
+Place TikZ source and intermediate files in the contest's `figures/` subdirectory. Final PNGs for the article live in `figures_sel/`:
 
 ```
 ABCxxx/
@@ -136,6 +149,11 @@ ABCxxx/
 │   ├── d_diagram_v1.tex / .pdf / .png
 │   ├── ...
 │   └── rotate_version.sh
+└── figures_sel/                          # article embeddables
+    ├── c_diagram.png
+    ├── d_diagram.png
+    ├── d_state.png
+    └── d_backtrack.png
 ```
 
 Clean up intermediate files (`.aux`, `.log`) after verification.
