@@ -14,7 +14,8 @@ Generate a complete tutorial article for competitive programming solutions, suit
 Read from the contest directory:
 - `README.md` — problem statements
 - `<letter>.cpp` — AC solution code
-- `figures/` — diagrams (PNG files)
+- `figures/` — algorithm diagrams (PNG files)
+- `figures_sel/` — code block images (`<letter>_code.png`) as WeChat fallback
 
 ### 2. Plan the article structure
 
@@ -28,6 +29,7 @@ Read from the contest directory:
    - Key insight / observation
    - Diagram explanation (embed PNG)
    - Code walkthrough (no comments in code; explain in prose)
+   - Embed the code block PNG fallback alongside HTML code
 
 3. Problem D walkthrough
    - Same structure as C
@@ -46,6 +48,7 @@ Save as `ABCxxx/article.md`.
 - No contestant IDs or personal identifiers
 - Code blocks: delete ALL comments from the source; move explanations to surrounding text
 - Code must NOT use HTML escape sequences (`&lt;`, `&gt;`, etc.); keep raw `< >`
+- Prepare a matching PNG fallback (`figures_sel/<letter>_code.png`) in case WeChat's editor strips whitespace from the HTML code block
 - Use **colored font** (`<span style="color:#xxx">text</span>`) for emphasis, NOT bold
 - Embed PNG images directly with `![alt](figures/xxx.png)`
 - WeChat publication target: "信奥观察"
@@ -182,6 +185,7 @@ hr { border: none; border-top: 1px solid #e0e0e0; margin: 24px 0; }
 - [ ] Code blocks use warm beige `#faf8f5` background (not dark)
 - [ ] Code has syntax highlighting (keywords, types, strings, numbers colored)
 - [ ] Code blocks render without escaped characters
+- [ ] Code block PNG fallbacks are generated and available in `figures_sel/`
 - [ ] No comments inside code
 - [ ] No personal identifiers
 - [ ] Colored `<span>` used for emphasis, NOT `<strong>`/`<b>`
