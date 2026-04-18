@@ -152,13 +152,13 @@
 
 <p>下图展示了样例的最优路径：</p>
 
-<img src="figures_sel/c_diagram.png" alt="C题数轴路径">
+<img src="https://cdn.jsdelivr.net/gh/yofn/solution@main/ABC453/figures_sel/c_diagram.png" alt="C题数轴路径">
 
 <p>图中绿色圆点是起点和终点，红色星号标记了每一次穿过坐标 0 的位置。5 步之中，最优方案可以穿过 0 共 <span style="color:#e74c3c">4 次</span>。</p>
 
 <h3>代码</h3>
 
-<img src="figures_sel/c_code.png" alt="C题代码" style="max-width:100%;display:block;margin:14px auto;border-radius:10px;border:1px solid #ece8e0;">
+<img src="https://cdn.jsdelivr.net/gh/yofn/solution@main/ABC453/figures_sel/c_code.png" alt="C题代码" style="max-width:100%;display:block;margin:14px auto;border-radius:10px;border:1px solid #ece8e0;">
 
 <h3>代码解析</h3>
 
@@ -191,7 +191,7 @@
 
 <p>如果只用 <span style="color:#e74c3c">(x, y)</span> 作为状态，会出现什么问题？看看下面这张图：</p>
 
-<img src="figures_sel/d_state.png" alt="状态对比">
+<img src="https://cdn.jsdelivr.net/gh/yofn/solution@main/ABC453/figures_sel/d_state.png" alt="状态对比">
 
 <p>左半边是"只有位置"的情况：你站在一个 o 格子上，题目要求你"直行"——但你不知道自己面朝哪个方向，所以根本不知道该往哪走。同样，站在 x 格子上要求"转弯"，也不知道该往哪转。</p>
 
@@ -217,7 +217,7 @@
 
 <p>BFS 不仅能判断是否存在路径，还能通过父指针数组还原出路径本身。这里有一个精妙的设计：</p>
 
-<img src="figures_sel/d_backtrack.png" alt="路径回溯">
+<img src="https://cdn.jsdelivr.net/gh/yofn/solution@main/ABC453/figures_sel/d_backtrack.png" alt="路径回溯">
 
 <p>当我们从状态 (x, y, d) 沿方向 d 走到 (nx, ny)，并选择新方向 nd 时，我们把<span style="color:#e74c3c">来向方向 d</span>记录到 `p[nx][ny][nd]` 中。</p>
 
@@ -232,13 +232,13 @@ py = ny - dy[d]</code></pre>
 
 <p>下图展示了样例 1 的迷宫和一条可行路径：</p>
 
-<img src="figures_sel/d_diagram.png" alt="D题迷宫路径">
+<img src="https://cdn.jsdelivr.net/gh/yofn/solution@main/ABC453/figures_sel/d_diagram.png" alt="D题迷宫路径">
 
 <p>路径为 D-R-U-U-D-D-R-R，从 S 出发经过 o 和 x 格子，最终到达 G。</p>
 
 <h3>代码</h3>
 
-<img src="figures_sel/d_code.png" alt="D题代码" style="max-width:100%;display:block;margin:14px auto;border-radius:10px;border:1px solid #ece8e0;">
+<img src="https://cdn.jsdelivr.net/gh/yofn/solution@main/ABC453/figures_sel/d_code.png" alt="D题代码" style="max-width:100%;display:block;margin:14px auto;border-radius:10px;border:1px solid #ece8e0;">
 
 <h3>代码解析</h3>
 
