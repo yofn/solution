@@ -158,27 +158,27 @@
 
 <h3>代码</h3>
 
-<pre><code><span <span class="kw">class</span>="pp">#<span class="kw">include</span></span><bits/stdc++.h>
+<pre><code><span class="pp">#include</span>&lt;bits/stdc++.h&gt;
 <span class="kw">using</span> <span class="kw">namespace</span> std;
-<span class="kw">typedef</span> <span <span class="kw">class</span>="ty"><span class="kw">long</span> <span class="kw">long</span></span> <span class="ty">ll</span>;
+<span class="kw">typedef</span> <span class="ty">long long</span> <span class="ty">ll</span>;
 <span class="kw">const</span> <span class="kw">int</span> maxn = <span class="nu">22</span>;
 <span class="kw">int</span> L[maxn];
 <span class="kw">int</span> n;
 <span class="kw">int</span> maxpass = <span class="nu">0</span>;
 <span class="kw">void</span> <span class="fn">dfs</span>(<span class="ty">ll</span> x,<span class="kw">int</span> i,<span class="kw">int</span> pass){
-    <span class="kw">if</span>(i>n){
+    <span class="kw">if</span>(i&gt;n){
         maxpass = <span class="kw">max</span>(pass,maxpass);
         <span class="kw">return</span>;
     }
-    <span class="fn">dfs</span>(x+L[i],i+<span class="nu">1</span>,pass+(x+L[i]><span class="nu">0</span> ^ x><span class="nu">0</span>));
-    <span class="fn">dfs</span>(x-L[i],i+<span class="nu">1</span>,pass+(x-L[i]><span class="nu">0</span> ^ x><span class="nu">0</span>));
+    <span class="fn">dfs</span>(x+L[i],i+<span class="nu">1</span>,pass+(x+L[i]&gt;<span class="nu">0</span> ^ x&gt;<span class="nu">0</span>));
+    <span class="fn">dfs</span>(x-L[i],i+<span class="nu">1</span>,pass+(x-L[i]&gt;<span class="nu">0</span> ^ x&gt;<span class="nu">0</span>));
 }
 <span class="kw">int</span> <span class="fn">main</span>(){
-    <span class="kw">cin</span> >> n;
-    <span class="kw">for</span>(<span class="kw">int</span> i=<span class="nu">1</span>;i<=n;++i) <span class="kw">cin</span> >> L[i];
-    <span class="kw">for</span>(<span class="kw">int</span> i=<span class="nu">1</span>;i<=n;++i) L[i] <<= <span class="nu">1</span>;
+    <span class="kw">cin</span> &gt;&gt; n;
+    <span class="kw">for</span>(<span class="kw">int</span> i=<span class="nu">1</span>;i&lt;=n;++i) <span class="kw">cin</span> &gt;&gt; L[i];
+    <span class="kw">for</span>(<span class="kw">int</span> i=<span class="nu">1</span>;i&lt;=n;++i) L[i] &lt;&lt;= <span class="nu">1</span>;
     <span class="fn">dfs</span>(<span class="nu">1</span>,<span class="nu">1</span>,<span class="nu">0</span>);
-    <span class="kw">cout</span> << maxpass << endl;
+    <span class="kw">cout</span> &lt;&lt; maxpass &lt;&lt; endl;
     <span class="kw">return</span> <span class="nu">0</span>;
 }</code></pre>
 
@@ -260,9 +260,9 @@ py = ny - dy[d]</code></pre>
 
 <h3>代码</h3>
 
-<pre><code><span <span class="kw">class</span>="pp">#<span class="kw">include</span></span><bits/stdc++.h>
+<pre><code><span class="pp">#include</span>&lt;bits/stdc++.h&gt;
 <span class="kw">using</span> <span class="kw">namespace</span> std;
-<span class="kw">typedef</span> <span <span class="kw">class</span>="ty"><span class="kw">long</span> <span class="kw">long</span></span> <span class="ty">ll</span>;
+<span class="kw">typedef</span> <span class="ty">long long</span> <span class="ty">ll</span>;
 <span class="kw">const</span> <span class="kw">int</span> maxn = <span class="nu">1003</span>;
 <span class="kw">char</span> s[maxn][maxn];
 <span class="kw">int</span> f[maxn][maxn][<span class="nu">4</span>];
@@ -274,18 +274,18 @@ py = ny - dy[d]</code></pre>
     <span class="kw">int</span> x,y,d;
 };
 <span class="kw">int</span> <span class="fn">main</span>(){
-    <span class="kw">int</span> H,W; <span class="kw">cin</span> >> H >> W;
-    <span class="kw">for</span>(<span class="kw">int</span> i=<span class="nu">1</span>;i<=H;++i) <span class="kw">scanf</span>(<span class="st">"%s"</span>,s[i]+<span class="nu">1</span>);
+    <span class="kw">int</span> H,W; <span class="kw">cin</span> &gt;&gt; H &gt;&gt; W;
+    <span class="kw">for</span>(<span class="kw">int</span> i=<span class="nu">1</span>;i&lt;=H;++i) <span class="kw">scanf</span>(<span class="st">"%s"</span>,s[i]+<span class="nu">1</span>);
     <span class="kw">int</span> sx,sy,gx,gy;
-    <span class="kw">for</span>(<span class="kw">int</span> i=<span class="nu">1</span>;i<=H;++i){
-        <span class="kw">for</span>(<span class="kw">int</span> j=<span class="nu">1</span>;j<=W;++j){
+    <span class="kw">for</span>(<span class="kw">int</span> i=<span class="nu">1</span>;i&lt;=H;++i){
+        <span class="kw">for</span>(<span class="kw">int</span> j=<span class="nu">1</span>;j&lt;=W;++j){
             <span class="kw">if</span>(s[i][j]==<span class="st">'S'</span>) sx=i,sy=j,s[i][j]=<span class="st">'.'</span>;
             <span class="kw">if</span>(s[i][j]==<span class="st">'G'</span>) gx=i,gy=j,s[i][j]=<span class="st">'.'</span>;
         }
     }
     <span class="kw">memset</span>(f,-<span class="nu">1</span>,<span class="kw">sizeof</span>(f));
-    <span class="kw">queue</span><<span class="ty">node</span>> q;
-    <span class="kw">for</span>(<span class="kw">int</span> i=<span class="nu">0</span>;i<<span class="nu">4</span>;++i){
+    <span class="kw">queue</span>&lt;<span class="ty">node</span>&gt; q;
+    <span class="kw">for</span>(<span class="kw">int</span> i=<span class="nu">0</span>;i&lt;<span class="nu">4</span>;++i){
         q.<span class="kw">push</span>({sx,sy,i});
         f[sx][sy][i]=<span class="nu">0</span>;
     }
@@ -293,12 +293,12 @@ py = ny - dy[d]</code></pre>
         <span class="ty">node</span> u = q.<span class="kw">front</span>(); q.<span class="kw">pop</span>();
         <span class="kw">int</span> nx = u.x + dx[u.d];
         <span class="kw">int</span> ny = u.y + dy[u.d];
-        <span class="kw">if</span>(nx<<span class="nu">1</span> || nx>H) <span class="kw">continue</span>;
-        <span class="kw">if</span>(ny<<span class="nu">1</span> || ny>W) <span class="kw">continue</span>;
+        <span class="kw">if</span>(nx&lt;<span class="nu">1</span> || nx&gt;H) <span class="kw">continue</span>;
+        <span class="kw">if</span>(ny&lt;<span class="nu">1</span> || ny&gt;W) <span class="kw">continue</span>;
         <span class="kw">if</span>(s[nx][ny]==<span class="st">'#'</span>) <span class="kw">continue</span>;
-        <span class="kw">for</span>(<span class="kw">int</span> i=<span class="nu">0</span>;i<<span class="nu">4</span>;++i){
-            <span class="kw">if</span>(s[nx][ny]==<span class="st">'x'</span> && i==u.d) <span class="kw">continue</span>;
-            <span class="kw">if</span>(s[nx][ny]==<span class="st">'o'</span> && i!=u.d) <span class="kw">continue</span>;
+        <span class="kw">for</span>(<span class="kw">int</span> i=<span class="nu">0</span>;i&lt;<span class="nu">4</span>;++i){
+            <span class="kw">if</span>(s[nx][ny]==<span class="st">'x'</span> &amp;&amp; i==u.d) <span class="kw">continue</span>;
+            <span class="kw">if</span>(s[nx][ny]==<span class="st">'o'</span> &amp;&amp; i!=u.d) <span class="kw">continue</span>;
             <span class="kw">if</span>(f[nx][ny][i]!=-<span class="nu">1</span>) <span class="kw">continue</span>;
             f[nx][ny][i] = f[u.x][u.y][u.d]+<span class="nu">1</span>;
             p[nx][ny][i] = u.d;
@@ -306,9 +306,10 @@ py = ny - dy[d]</code></pre>
         }
     }
     <span class="kw">if</span>(f[gx][gy][<span class="nu">0</span>]==-<span class="nu">1</span>) <span class="kw">return</span> <span class="nu">0</span>*<span class="kw">puts</span>(<span class="st">"No"</span>);
-    <span class="kw">cout</span> << <span class="st">"Yes\n"</span>;
+    <span class="kw">cout</span> &lt;&lt; <span class="st">"Yes
+"</span>;
     <span class="kw">int</span> x=gx,y=gy,d=<span class="nu">0</span>;
-    <span class="kw">vector</span><<span class="kw">char</span>> path;
+    <span class="kw">vector</span>&lt;<span class="kw">char</span>&gt; path;
     <span class="kw">while</span>(x!=sx || y!=sy){
         <span class="kw">int</span> pd = p[x][y][d];
         <span class="kw">int</span> px = x-dx[pd];
@@ -317,9 +318,9 @@ py = ny - dy[d]</code></pre>
         x=px,y=py,d=pd;
     }
     <span class="kw">reverse</span>(path.<span class="kw">begin</span>(),path.<span class="kw">end</span>());
-    <span class="kw">for</span>(<span class="kw">int</span> i=<span class="nu">0</span>;i<path.<span class="fn">size</span>();++i)
-        <span class="kw">cout</span> << path[i];
-    <span class="kw">cout</span> << endl;
+    <span class="kw">for</span>(<span class="kw">int</span> i=<span class="nu">0</span>;i&lt;path.<span class="fn">size</span>();++i)
+        <span class="kw">cout</span> &lt;&lt; path[i];
+    <span class="kw">cout</span> &lt;&lt; endl;
     <span class="kw">return</span> <span class="nu">0</span>;
 }</code></pre>
 
