@@ -23,24 +23,53 @@
     box-shadow: 0 2px 12px rgba(0,0,0,0.06);
   }
   h1 {
-    font-size: 20px;
+    font-size: 22px;
     color: #2c3e50;
-    border-left: 4px solid #e74c3c;
-    padding-left: 12px;
-    margin: 28px 0 18px;
+    background: linear-gradient(90deg, #fff0f0 0%, #fff 100%);
+    border-left: 5px solid #e74c3c;
+    padding: 14px 16px;
+    margin: 32px 0 20px;
+    border-radius: 0 10px 10px 0;
     line-height: 1.4;
   }
   h2 {
-    font-size: 17px;
+    font-size: 18px;
     color: #34495e;
-    margin: 26px 0 14px;
-    padding-bottom: 6px;
-    border-bottom: 1px solid #eee;
+    position: relative;
+    padding: 10px 0 10px 36px;
+    margin: 28px 0 16px;
+    border-bottom: 1px dashed #ddd;
+  }
+  h2::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 10px;
+    width: 26px;
+    height: 26px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 50%;
+    box-shadow: 0 2px 6px rgba(102,126,234,0.35);
+  }
+  h2::after {
+    content: "";
+    position: absolute;
+    left: 8px;
+    top: 18px;
+    width: 10px;
+    height: 10px;
+    background: #fff;
+    border-radius: 50%;
   }
   h3 {
     font-size: 15px;
     color: #555;
-    margin: 20px 0 10px;
+    display: inline-block;
+    background: linear-gradient(90deg, #f0f4f8 0%, #f8fafc 100%);
+    padding: 5px 16px;
+    border-radius: 20px;
+    border: 1px solid #e8ecf1;
+    margin: 20px 0 12px;
   }
   p {
     margin: 12px 0;
@@ -55,21 +84,26 @@
     box-shadow: 0 2px 8px rgba(0,0,0,0.08);
   }
   pre {
-    background: #1e1e2e;
-    color: #cdd6f4;
-    padding: 14px 16px;
-    border-radius: 8px;
+    background: #faf8f5;
+    color: #2d2d2d;
+    padding: 16px 18px;
+    border-radius: 10px;
     overflow-x: auto;
-    font-size: 12.5px;
-    line-height: 1.6;
+    font-size: 13px;
+    line-height: 1.65;
     margin: 14px 0;
+    border: 1px solid #ece8e0;
   }
   code {
     font-family: "SF Mono", "Fira Code", Monaco, "Cascadia Code", Consolas, monospace;
   }
-  pre code {
-    color: #cdd6f4;
-  }
+  pre code { color: #2d2d2d; }
+  .kw { color: #0066cc; }
+  .ty { color: #0969da; }
+  .st { color: #0a7a3f; }
+  .nu { color: #d73a49; }
+  .pp { color: #6f42c1; }
+  .fn { color: #8250df; }
   hr {
     border: none;
     border-top: 1px solid #e0e0e0;
@@ -124,28 +158,28 @@
 
 <h3>代码</h3>
 
-<pre><code class="language-cpp">#include<bits/stdc++.h>
-using namespace std;
-typedef long long ll;
-const int maxn = 22;
-int L[maxn];
-int n;
-int maxpass = 0;
-void dfs(ll x,int i,int pass){
-    if(i>n){
-        maxpass = max(pass,maxpass);
-        return;
+<pre><code><span <span class="kw">class</span>="pp">#<span class="kw">include</span></span><bits/stdc++.h>
+<span class="kw">using</span> <span class="kw">namespace</span> std;
+<span class="kw">typedef</span> <span <span class="kw">class</span>="ty"><span class="kw">long</span> <span class="kw">long</span></span> <span class="ty">ll</span>;
+<span class="kw">const</span> <span class="kw">int</span> maxn = <span class="nu">22</span>;
+<span class="kw">int</span> L[maxn];
+<span class="kw">int</span> n;
+<span class="kw">int</span> maxpass = <span class="nu">0</span>;
+<span class="kw">void</span> <span class="fn">dfs</span>(<span class="ty">ll</span> x,<span class="kw">int</span> i,<span class="kw">int</span> pass){
+    <span class="kw">if</span>(i>n){
+        maxpass = <span class="kw">max</span>(pass,maxpass);
+        <span class="kw">return</span>;
     }
-    dfs(x+L[i],i+1,pass+(x+L[i]>0 ^ x>0));
-    dfs(x-L[i],i+1,pass+(x-L[i]>0 ^ x>0));
+    <span class="fn">dfs</span>(x+L[i],i+<span class="nu">1</span>,pass+(x+L[i]><span class="nu">0</span> ^ x><span class="nu">0</span>));
+    <span class="fn">dfs</span>(x-L[i],i+<span class="nu">1</span>,pass+(x-L[i]><span class="nu">0</span> ^ x><span class="nu">0</span>));
 }
-int main(){
-    cin >> n;
-    for(int i=1;i<=n;++i) cin >> L[i];
-    for(int i=1;i<=n;++i) L[i] <<= 1;
-    dfs(1,1,0);
-    cout << maxpass << endl;
-    return 0;
+<span class="kw">int</span> <span class="fn">main</span>(){
+    <span class="kw">cin</span> >> n;
+    <span class="kw">for</span>(<span class="kw">int</span> i=<span class="nu">1</span>;i<=n;++i) <span class="kw">cin</span> >> L[i];
+    <span class="kw">for</span>(<span class="kw">int</span> i=<span class="nu">1</span>;i<=n;++i) L[i] <<= <span class="nu">1</span>;
+    <span class="fn">dfs</span>(<span class="nu">1</span>,<span class="nu">1</span>,<span class="nu">0</span>);
+    <span class="kw">cout</span> << maxpass << endl;
+    <span class="kw">return</span> <span class="nu">0</span>;
 }</code></pre>
 
 <h3>代码解析</h3>
@@ -211,7 +245,7 @@ int main(){
 
 <p>为什么只需要记录方向 d 就够了？因为知道了 (nx, ny) 和来向方向 d，就可以反推出前一个位置：</p>
 
-<pre><code class="language-cpp">px = nx - dx[d]
+<pre><code>px = nx - dx[d]
 py = ny - dy[d]</code></pre>
 
 <p>这样回溯时不需要额外存储坐标，只需要方向一个变量，既省空间又清晰。</p>
@@ -226,67 +260,67 @@ py = ny - dy[d]</code></pre>
 
 <h3>代码</h3>
 
-<pre><code class="language-cpp">#include<bits/stdc++.h>
-using namespace std;
-typedef long long ll;
-const int maxn = 1003;
-char s[maxn][maxn];
-int f[maxn][maxn][4];
-int p[maxn][maxn][4];
-int dx[]={0,1, 0,-1};
-int dy[]={1,0,-1, 0};
-char dc[]={'R','D','L','U'};
-struct node{
-    int x,y,d;
+<pre><code><span <span class="kw">class</span>="pp">#<span class="kw">include</span></span><bits/stdc++.h>
+<span class="kw">using</span> <span class="kw">namespace</span> std;
+<span class="kw">typedef</span> <span <span class="kw">class</span>="ty"><span class="kw">long</span> <span class="kw">long</span></span> <span class="ty">ll</span>;
+<span class="kw">const</span> <span class="kw">int</span> maxn = <span class="nu">1003</span>;
+<span class="kw">char</span> s[maxn][maxn];
+<span class="kw">int</span> f[maxn][maxn][<span class="nu">4</span>];
+<span class="kw">int</span> p[maxn][maxn][<span class="nu">4</span>];
+<span class="kw">int</span> dx[]={<span class="nu">0</span>,<span class="nu">1</span>, <span class="nu">0</span>,-<span class="nu">1</span>};
+<span class="kw">int</span> dy[]={<span class="nu">1</span>,<span class="nu">0</span>,-<span class="nu">1</span>, <span class="nu">0</span>};
+<span class="kw">char</span> dc[]={<span class="st">'R'</span>,<span class="st">'D'</span>,<span class="st">'L'</span>,<span class="st">'U'</span>};
+<span class="kw">struct</span> <span class="ty">node</span>{
+    <span class="kw">int</span> x,y,d;
 };
-int main(){
-    int H,W; cin >> H >> W;
-    for(int i=1;i<=H;++i) scanf("%s",s[i]+1);
-    int sx,sy,gx,gy;
-    for(int i=1;i<=H;++i){
-        for(int j=1;j<=W;++j){
-            if(s[i][j]=='S') sx=i,sy=j,s[i][j]='.';
-            if(s[i][j]=='G') gx=i,gy=j,s[i][j]='.';
+<span class="kw">int</span> <span class="fn">main</span>(){
+    <span class="kw">int</span> H,W; <span class="kw">cin</span> >> H >> W;
+    <span class="kw">for</span>(<span class="kw">int</span> i=<span class="nu">1</span>;i<=H;++i) <span class="kw">scanf</span>(<span class="st">"%s"</span>,s[i]+<span class="nu">1</span>);
+    <span class="kw">int</span> sx,sy,gx,gy;
+    <span class="kw">for</span>(<span class="kw">int</span> i=<span class="nu">1</span>;i<=H;++i){
+        <span class="kw">for</span>(<span class="kw">int</span> j=<span class="nu">1</span>;j<=W;++j){
+            <span class="kw">if</span>(s[i][j]==<span class="st">'S'</span>) sx=i,sy=j,s[i][j]=<span class="st">'.'</span>;
+            <span class="kw">if</span>(s[i][j]==<span class="st">'G'</span>) gx=i,gy=j,s[i][j]=<span class="st">'.'</span>;
         }
     }
-    memset(f,-1,sizeof(f));
-    queue<node> q;
-    for(int i=0;i<4;++i){
-        q.push({sx,sy,i});
-        f[sx][sy][i]=0;
+    <span class="kw">memset</span>(f,-<span class="nu">1</span>,<span class="kw">sizeof</span>(f));
+    <span class="kw">queue</span><<span class="ty">node</span>> q;
+    <span class="kw">for</span>(<span class="kw">int</span> i=<span class="nu">0</span>;i<<span class="nu">4</span>;++i){
+        q.<span class="kw">push</span>({sx,sy,i});
+        f[sx][sy][i]=<span class="nu">0</span>;
     }
-    while(!q.empty()){
-        node u = q.front(); q.pop();
-        int nx = u.x + dx[u.d];
-        int ny = u.y + dy[u.d];
-        if(nx<1 || nx>H) continue;
-        if(ny<1 || ny>W) continue;
-        if(s[nx][ny]=='#') continue;
-        for(int i=0;i<4;++i){
-            if(s[nx][ny]=='x' && i==u.d) continue;
-            if(s[nx][ny]=='o' && i!=u.d) continue;
-            if(f[nx][ny][i]!=-1) continue;
-            f[nx][ny][i] = f[u.x][u.y][u.d]+1;
+    <span class="kw">while</span>(!q.<span class="kw">empty</span>()){
+        <span class="ty">node</span> u = q.<span class="kw">front</span>(); q.<span class="kw">pop</span>();
+        <span class="kw">int</span> nx = u.x + dx[u.d];
+        <span class="kw">int</span> ny = u.y + dy[u.d];
+        <span class="kw">if</span>(nx<<span class="nu">1</span> || nx>H) <span class="kw">continue</span>;
+        <span class="kw">if</span>(ny<<span class="nu">1</span> || ny>W) <span class="kw">continue</span>;
+        <span class="kw">if</span>(s[nx][ny]==<span class="st">'#'</span>) <span class="kw">continue</span>;
+        <span class="kw">for</span>(<span class="kw">int</span> i=<span class="nu">0</span>;i<<span class="nu">4</span>;++i){
+            <span class="kw">if</span>(s[nx][ny]==<span class="st">'x'</span> && i==u.d) <span class="kw">continue</span>;
+            <span class="kw">if</span>(s[nx][ny]==<span class="st">'o'</span> && i!=u.d) <span class="kw">continue</span>;
+            <span class="kw">if</span>(f[nx][ny][i]!=-<span class="nu">1</span>) <span class="kw">continue</span>;
+            f[nx][ny][i] = f[u.x][u.y][u.d]+<span class="nu">1</span>;
             p[nx][ny][i] = u.d;
-            q.push({nx,ny,i});
+            q.<span class="kw">push</span>({nx,ny,i});
         }
     }
-    if(f[gx][gy][0]==-1) return 0*puts("No");
-    cout << "Yes\n";
-    int x=gx,y=gy,d=0;
-    vector<char> path;
-    while(x!=sx || y!=sy){
-        int pd = p[x][y][d];
-        int px = x-dx[pd];
-        int py = y-dy[pd];
-        path.push_back(dc[pd]);
+    <span class="kw">if</span>(f[gx][gy][<span class="nu">0</span>]==-<span class="nu">1</span>) <span class="kw">return</span> <span class="nu">0</span>*<span class="kw">puts</span>(<span class="st">"No"</span>);
+    <span class="kw">cout</span> << <span class="st">"Yes\n"</span>;
+    <span class="kw">int</span> x=gx,y=gy,d=<span class="nu">0</span>;
+    <span class="kw">vector</span><<span class="kw">char</span>> path;
+    <span class="kw">while</span>(x!=sx || y!=sy){
+        <span class="kw">int</span> pd = p[x][y][d];
+        <span class="kw">int</span> px = x-dx[pd];
+        <span class="kw">int</span> py = y-dy[pd];
+        path.<span class="fn">push_back</span>(dc[pd]);
         x=px,y=py,d=pd;
     }
-    reverse(path.begin(),path.end());
-    for(int i=0;i<path.size();++i)
-        cout << path[i];
-    cout << endl;
-    return 0;
+    <span class="kw">reverse</span>(path.<span class="kw">begin</span>(),path.<span class="kw">end</span>());
+    <span class="kw">for</span>(<span class="kw">int</span> i=<span class="nu">0</span>;i<path.<span class="fn">size</span>();++i)
+        <span class="kw">cout</span> << path[i];
+    <span class="kw">cout</span> << endl;
+    <span class="kw">return</span> <span class="nu">0</span>;
 }</code></pre>
 
 <h3>代码解析</h3>
