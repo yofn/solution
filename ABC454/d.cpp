@@ -10,7 +10,8 @@ string f(string s){
         //能POP的情况
         char c = s[i];
         int n = st.size();
-        if(c==')' && n>=3 && st[n-1]=='x' && st[n-2]=='x' && st[n-3]=='('){
+        if(c==')' && n>=3 && st[n-1]=='x'
+                && st[n-2]=='x' && st[n-3]=='('){
             st[n-3]='x';
             st.pop_back();
         }else st.push_back(c);
