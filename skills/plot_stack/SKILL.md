@@ -28,24 +28,27 @@ The stack **must** grow from bottom to top. The base sits low, the top is high.
     [ base ]
 ```
 
-### 2. Input stream layout: three elements in a horizontal row
+### 2. Input stream layout: three aligned boxes in a horizontal row
 
-Above the stack, display **three horizontally-aligned** visual elements:
+Above the stack, display **three horizontally-aligned boxes** with consistent styling:
 
 | Left | Center | Right |
 |------|--------|-------|
-| **已处理** (gray) | **当前** (red/highlight) | **待处理** (yellow/channel) |
-| Characters already consumed | Character being processed now | Characters not yet read |
+| **已处理** (gray box + text) | **当前** (red box + text) | **待处理** (yellow box + text) |
+| Already consumed | Being processed now | Not yet read |
 
-- All three labels and boxes must sit on the **same horizontal baseline**.
-- The **current** element must be vertically aligned with the stack top.
+Rules:
+- All three boxes must share the **same y-position and height**.
+- All three labels sit **above their boxes with a visible gap** — labels must never overlap boxes.
+- The **current** box must be vertically aligned with the stack top.
 
 ### 3. Current element hovers above stack top (NO overlap)
 
 The current-character box sits **directly above** the stack top with a small, visible gap. A short downward arrow connects it to the stack top, creating a "falling in" visual without actual overlap.
 
 ```
-[已处理]   [ 当前 ]   [待处理]
+ 已处理     当前      待处理
+[.....]   [  )  ]   [  x  ]
             ↓ 压栈
           [ top ]   ← dashed box for incoming element
           [ ... ]
@@ -79,21 +82,26 @@ Show the **exact moment** when a pattern is detected at the stack top:
   % Title
   \node at (5.5,5.2) {\textbf{Stack + Input Stream}};
 
-  % ===== Top row: processed | current | pending =====
-  \node[donegray, font=\small] at (1.5,4.5) {已处理};
-  \node[donegray] at (1.5,4.1) {\texttt{...}};
+  % ===== Top row: three aligned boxes =====
+  \def\boxy{3.3}
+  \def\boxh{0.7}
+  \def\labely{4.45}
 
-  \node[highlight, font=\small] at (4.9,4.5) {当前};
-  \draw[thick, highlight, fill=highlight!10] (4.45,3.9) rectangle ++(0.9,0.6);
-  \node[highlight] at (4.9,4.2) {\texttt{c}};
+  \node[donegray, font=\small] at (1.5,\labely) {已处理};
+  \draw[thick, donegray, fill=donegray!10] (0.6,\boxy) rectangle ++(1.8,\boxh);
+  \node[donegray] at (1.5,\boxy+0.35) {\texttt{...}};
 
-  \node[channelborder, font=\small] at (8.3,4.5) {待处理};
-  \draw[thick, channelborder, fill=channelbg] (7.85,3.9) rectangle ++(0.9,0.6);
-  \node at (8.3,4.2) {\texttt{...}};
+  \node[highlight, font=\small] at (4.9,\labely) {当前};
+  \draw[thick, highlight, fill=highlight!10] (4.45,\boxy) rectangle ++(0.9,\boxh);
+  \node[highlight] at (4.9,\boxy+0.35) {\texttt{c}};
+
+  \node[channelborder, font=\small] at (8.3,\labely) {待处理};
+  \draw[thick, channelborder, fill=channelbg] (7.85,\boxy) rectangle ++(0.9,\boxh);
+  \node at (8.3,\boxy+0.35) {\texttt{...}};
 
   % Short arrow from current down to stack top
-  \draw[-{Stealth[length=3mm]}, thick, highlight] (4.9,3.85) -- (4.9,3.35);
-  \node[highlight, font=\small] at (5.4,3.6) {压栈};
+  \draw[-{Stealth[length=3mm]}, thick, highlight] (4.9,\boxy) -- (4.9,3.25);
+  \node[highlight, font=\small] at (5.4,3.5) {压栈};
 
   % ===== Stack (grows upward) =====
   \node[anchor=west, gray] at (3.3,2.9) {\small 栈};
