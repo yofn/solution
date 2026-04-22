@@ -146,6 +146,8 @@ cp figures/d_backtrack.png figures_sel/
 
 These PNGs will be pushed to GitHub and referenced in the article HTML via jsDelivr CDN.
 
+**Critical**: `article.md` references `figures/` for local Markdown preview, but `article.html` uses CDN links pointing to `figures_sel/`. If you edit a diagram and forget to re-copy it to `figures_sel/`, the Markdown preview will show the new image while the published HTML still serves the stale one from CDN. Always sync before generating HTML.
+
 ## File Organization
 
 Place TikZ source and intermediate files in the contest's `figures/` subdirectory. Final PNGs for the article live in `figures_sel/`:

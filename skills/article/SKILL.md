@@ -18,6 +18,8 @@ Read from the contest directory:
 
 **Note**: Diagram PNGs in `figures_sel/` must be produced by the `figure` skill (TikZ + xelatex + pdftoppm at 400 DPI). Do not accept low-quality images from other sources.
 
+**Sync reminder**: `article.md` references `figures/xxx.png` for local preview, but `article.html` uses CDN links to `figures_sel/xxx.png`. Before converting Markdown to HTML, ensure `figures_sel/` contains the latest PNGs copied from `figures/`.
+
 ### 2. Plan the article structure
 
 ```
