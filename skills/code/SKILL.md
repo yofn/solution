@@ -19,7 +19,7 @@ WeChat's editor sometimes collapses whitespace or misaligns text when copying HT
 
 ### 1. Prepare source code
 
-Read the `.cpp` file and remove all comments (`// ...`) and blank lines. Keep only executable code — explanations belong in the article prose, not in the code.
+Read the `.cpp` file and remove **all comments** (`// ...` line comments AND `/* ... */` block comments) and blank lines. Keep only executable code — explanations belong in the article prose, not in the code.
 
 ### 2. Syntax highlight
 

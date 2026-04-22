@@ -38,7 +38,10 @@ KW_PATTERN = re.compile(r'\b(' + '|'.join(re.escape(w) for w in KW_LIST) + r')\b
 
 
 def remove_comments(code):
-    """Remove // comments and blank lines."""
+    """Remove // comments, /* */ block comments, and blank lines."""
+    import re
+    # Remove /* ... */ block comments (non-greedy, multiline)
+    code = re.sub(r'/\*.*?\*/', '', code, flags=re.DOTALL)
     lines = []
     for line in code.splitlines():
         line = line.split("//")[0].rstrip()
