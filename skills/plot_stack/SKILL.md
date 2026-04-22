@@ -20,7 +20,7 @@ Examples: ABC454-D `(xx)` normalization, bracket matching, postfix evaluation, m
 
 ### 1. Stack grows upward
 
-The stack **must** grow from bottom to top. The base sits low, the top is high. This matches the physical intuition of "stacking" items.
+The stack **must** grow from bottom to top. The base sits low, the top is high.
 
 ```
     [ top  ]  ← new items arrive here
@@ -28,19 +28,31 @@ The stack **must** grow from bottom to top. The base sits low, the top is high. 
     [ base ]
 ```
 
-### 2. Incoming channel sits directly above the stack top
+### 2. Input stream layout: three elements in a horizontal row
 
-Place the input stream (character boxes or array cells) horizontally above the stack. The "current" element should be vertically aligned with the stack top, with a downward arrow suggesting it "falls into" the stack.
+Above the stack, display **three horizontally-aligned** visual elements:
+
+| Left | Center | Right |
+|------|--------|-------|
+| **已处理** (gray) | **当前** (red/highlight) | **待处理** (yellow/channel) |
+| Characters already consumed | Character being processed now | Characters not yet read |
+
+- All three labels and boxes must sit on the **same horizontal baseline**.
+- The **current** element must be vertically aligned with the stack top.
+
+### 3. Current element hovers above stack top (NO overlap)
+
+The current-character box sits **directly above** the stack top with a small, visible gap. A short downward arrow connects it to the stack top, creating a "falling in" visual without actual overlap.
 
 ```
-[ a ] [ b ] [ c ] ← current
-            ↓
-          [ c ]   ← stack top
-          [ b ]
-          [ a ]
+[已处理]   [ 当前 ]   [待处理]
+            ↓ 压栈
+          [ top ]   ← dashed box for incoming element
+          [ ... ]
+          [base ]
 ```
 
-### 3. Highlight the triggering moment
+### 4. Highlight the triggering moment
 
 Show the **exact moment** when a pattern is detected at the stack top:
 - Dashed box for the incoming element being pushed
@@ -48,8 +60,6 @@ Show the **exact moment** when a pattern is detected at the stack top:
 - "Before / After" side-by-side stacks if a replacement occurs
 
 ## TikZ Template
-
-Use this as a starting point. Save as `ABCxxx/figures/<name>.tex`.
 
 ```latex
 \documentclass[tikz,border=10pt]{standalone}
@@ -62,48 +72,44 @@ Use this as a starting point. Save as `ABCxxx/figures/<name>.tex`.
 \definecolor{highlight}{RGB}{231,76,60}
 \definecolor{channelbg}{RGB}{255,250,240}
 \definecolor{channelborder}{RGB}{230,180,100}
+\definecolor{donegray}{RGB}{160,160,160}
 
 \begin{document}
 \begin{tikzpicture}[font=\large, line cap=round, line join=round]
   % Title
-  \node at (5.5,5.2) {\textbf{栈 + 输入通道示意图}};
+  \node at (5.5,5.2) {\textbf{Stack + Input Stream}};
 
-  % Incoming channel (horizontal boxes above stack)
-  \node[gray] at (5.15,4.6) {\small 输入通道};
-  % Draw channel boxes; highlight the current one
-  \draw[thick, channelborder, fill=channelbg] (2.0,3.8) rectangle ++(0.9,0.7);
-  \node at (2.45,4.15) {\texttt{x}};
-  % ... more boxes ...
-  \draw[thick, highlight, fill=channelbg] (6.4,3.8) rectangle ++(0.9,0.7);
-  \node at (6.85,4.15) {\texttt{)}};  % current char
+  % ===== Top row: processed | current | pending =====
+  \node[donegray, font=\small] at (1.5,4.5) {已处理};
+  \node[donegray] at (1.5,4.1) {\texttt{...}};
 
-  % Arrow from current channel item down to stack top
-  \draw[-{Stealth[length=3mm]}, thick, highlight] (6.85,3.8) -- (6.85,3.0);
-  \node[highlight, font=\small] at (7.5,3.4) {当前字符};
+  \node[highlight, font=\small] at (4.9,4.5) {当前};
+  \draw[thick, highlight, fill=highlight!10] (4.45,3.9) rectangle ++(0.9,0.6);
+  \node[highlight] at (4.9,4.2) {\texttt{c}};
 
-  % Stack BEFORE (grows upward: bottom y < top y)
-  \node[anchor=west, gray] at (0.3,2.7) {\small 栈（替换前）};
-  % bottom cell
-  \draw[thick, stackborder, fill=stackbg] (1.0,0.3) rectangle ++(0.9,0.6);
-  \node at (1.45,0.6) {\texttt{x}};
+  \node[channelborder, font=\small] at (8.3,4.5) {待处理};
+  \draw[thick, channelborder, fill=channelbg] (7.85,3.9) rectangle ++(0.9,0.6);
+  \node at (8.3,4.2) {\texttt{...}};
+
+  % Short arrow from current down to stack top
+  \draw[-{Stealth[length=3mm]}, thick, highlight] (4.9,3.85) -- (4.9,3.35);
+  \node[highlight, font=\small] at (5.4,3.6) {压栈};
+
+  % ===== Stack (grows upward) =====
+  \node[anchor=west, gray] at (3.3,2.9) {\small 栈};
+  \def\sx{4.0}
+  \draw[thick, stackborder, fill=stackbg] (\sx,0.3) rectangle ++(0.9,0.6);
+  \node at (\sx+0.45,0.6) {\texttt{a}};
   % ... more cells upward ...
-  % top cell (incoming)
-  \draw[thick, highlight, fill=stackbg, dashed] (1.0,2.7) rectangle ++(0.9,0.6);
-  \node[highlight] at (1.45,3.0) {\texttt{)}};
-
-  % Stack AFTER (optional)
-  \node[anchor=west, gray] at (5.5,2.7) {\small 栈（替换后）};
-  % ... draw result stack ...
-
-  % Bottom note
-  \node at (3.6,-0.2) {\small 核心逻辑描述};
+  \draw[thick, highlight, fill=stackbg, dashed] (\sx,2.7) rectangle ++(0.9,0.6);
+  \node[highlight] at (\sx+0.45,3.0) {\texttt{c}};
 \end{tikzpicture}
 \end{document}
 ```
 
 ## Compilation
 
-Same as the `figure` skill:
+Handled by the parent `figure` skill:
 
 ```bash
 xelatex -interaction=nonstopmode diagram.tex
@@ -115,13 +121,13 @@ pdftoppm -png -r 400 -singlefile diagram.pdf diagram
 | Element | Recommended size |
 |---------|------------------|
 | Stack cell | `0.9 × 0.6` cm |
-| Channel cell | `0.9 × 0.7` cm |
-| Vertical gap (stack cells) | `0` (adjacent, shared border) |
-| Horizontal gap (channel cells) | `0.2` cm |
-| Arrow from channel to stack top | `~0.8` cm vertical |
+| Top-row cell (current/pending) | `0.9 × 0.6` cm |
+| Vertical gap: current box → stack top | `0.25` cm |
+| Horizontal gap between top-row cells | `2.5+` cm |
 
 ## Anti-patterns
 
-- **Do NOT** draw the stack growing downward (top at bottom). This inverts the physical metaphor.
-- **Do NOT** place the input channel far away from the stack top. Keep them close so the "falling in" visual is immediate.
-- **Do NOT** use Python drawing libraries for this. Always use TikZ + xelatex + pdftoppm (400 DPI).
+- **Do NOT** draw the stack growing downward.
+- **Do NOT** place processed characters inside the "pending" channel. Keep them in separate left/center/right elements.
+- **Do NOT** overlap the current-character box with the stack top. Maintain a visible gap with a short arrow.
+- **Do NOT** use Python drawing libraries. Always use TikZ + xelatex + pdftoppm (400 DPI).

@@ -51,7 +51,20 @@ Keep it **simple and focused**. Mobile screens are small.
 - Right side: show clear arrows with direction labels (e.g., 面朝 = R, 直行 → R)
 - Use horizontal line to separate rows, dashed vertical line to separate columns
 
-### 3. Write TikZ code
+### 3. Version roll before editing
+
+**Before modifying an existing `.tex` file, you MUST roll the current version.**
+
+Use the `rotate_version.sh` script in the `figures/` directory:
+
+```bash
+cd ABCxxx/figures
+./rotate_version.sh c_diagram
+```
+
+This rotates backups automatically (`v1` ← current, `v2` ← old `v1`, ... up to `v5`). Keeps 5 versions of `.tex`, `.pdf`, and `.png`.
+
+### 4. Write TikZ code
 
 Use this template as starting point:
 
@@ -84,7 +97,7 @@ Use this template as starting point:
 - Left: orange `RGB{255,140,0}`
 - Right: purple `RGB{138,43,226}`
 
-### 4. Compile and convert
+### 5. Compile and convert
 
 ```bash
 # Compile with xelatex (required for ctex Chinese support)
@@ -94,7 +107,7 @@ xelatex -interaction=nonstopmode diagram.tex
 pdftoppm -png -r 400 -singlefile diagram.pdf diagram
 ```
 
-### 5. Verify
+### 6. Verify
 
 Open the PNG and check:
 - [ ] All text is readable at phone screen size
@@ -102,7 +115,7 @@ Open the PNG and check:
 - [ ] Colors are distinguishable
 - [ ] Chinese characters render correctly
 
-### 6. Save version backup (important)
+### 7. Save version backup (important)
 
 Before making the next edit, save the current version to keep a rollback history.
 
@@ -120,7 +133,7 @@ This script rotates backups automatically:
 
 Keeps **5 versions** of `.tex`, `.pdf`, and `.png` for each diagram.
 
-### 7. Copy to `figures_sel/`
+### 8. Copy to `figures_sel/`
 
 After verification, copy the final PNGs to `figures_sel/` so all article embeddables are in one place:
 

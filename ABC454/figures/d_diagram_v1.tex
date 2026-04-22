@@ -13,39 +13,39 @@
 \begin{document}
 \begin{tikzpicture}[font=\large, line cap=round, line join=round]
   % Title
-  \node at (5.5,5.2) {\textbf{D题：栈规范化字符串}};
+  \node at (5.5,5.0) {\textbf{D题：栈规范化字符串}};
 
-  % ===== Top row: processed | current | pending (horizontally aligned) =====
-  % Processed
-  \node[donegray, font=\small] at (1.5,4.5) {已处理};
-  \node[donegray] at (1.5,4.1) {\texttt{x(x x}};
+  % ===== Processed (left, gray) =====
+  \node[donegray, font=\small] at (1.8,4.3) {已处理};
+  \node[donegray] at (1.8,3.9) {\texttt{x(x x}};
 
-  % Current (hovering directly above stack top, NOT overlapping)
-  \node[highlight, font=\small] at (4.9,4.5) {当前};
-  \draw[thick, highlight, fill=highlight!10] (4.45,3.9) rectangle ++(0.9,0.6);
-  \node[highlight] at (4.9,4.2) {\texttt{)}};
+  % ===== Current character (center, red, visually intersecting stack top) =====
+  \draw[thick, highlight, fill=highlight!10] (4.45,3.15) rectangle ++(0.9,0.6);
+  \node[highlight] at (4.9,3.45) {\texttt{)}};
 
-  % Pending (input channel)
-  \node[channelborder, font=\small] at (8.3,4.5) {待处理};
-  \draw[thick, channelborder, fill=channelbg] (7.85,3.9) rectangle ++(0.9,0.6);
-  \node at (8.3,4.2) {\texttt{x}};
+  % ===== Input channel (right, only remaining unprocessed) =====
+  \node[channelborder, font=\small] at (6.6,4.0) {待处理};
+  \draw[thick, channelborder, fill=channelbg] (6.15,3.3) rectangle ++(0.9,0.6);
+  \node at (6.6,3.6) {\texttt{x}};
 
-  % ===== Short vertical arrow: current → stack top =====
-  \draw[-{Stealth[length=3mm]}, thick, highlight] (4.9,3.85) -- (4.9,3.35);
-  \node[highlight, font=\small] at (5.4,3.6) {压栈};
+  % ===== Short arrow: current falls into stack top =====
+  \draw[-{Stealth[length=3mm]}, thick, highlight] (4.9,3.1) -- (4.9,2.95);
+  \node[highlight, font=\small] at (5.35,3.0) {压栈};
 
   % ===== Stack (grows upward, base at bottom) =====
   \node[anchor=west, gray] at (3.3,2.9) {\small 栈};
   \def\sx{4.0}
+  % bottom
   \draw[thick, stackborder, fill=stackbg] (\sx,0.3) rectangle ++(0.9,0.6);
   \node at (\sx+0.45,0.6) {\texttt{x}};
+  % up
   \draw[thick, stackborder, fill=stackbg] (\sx,0.9) rectangle ++(0.9,0.6);
   \node at (\sx+0.45,1.2) {\texttt{(}};
   \draw[thick, stackborder, fill=stackbg] (\sx,1.5) rectangle ++(0.9,0.6);
   \node at (\sx+0.45,1.8) {\texttt{x}};
   \draw[thick, stackborder, fill=stackbg] (\sx,2.1) rectangle ++(0.9,0.6);
   \node at (\sx+0.45,2.4) {\texttt{x}};
-  % dashed incoming cell on top
+  % incoming on top (dashed)
   \draw[thick, highlight, fill=stackbg, dashed] (\sx,2.7) rectangle ++(0.9,0.6);
   \node[highlight] at (\sx+0.45,3.0) {\texttt{)}};
 
@@ -57,7 +57,7 @@
   \node[highlight, font=\small, anchor=west] at (\sx+1.25, 1.5)
     {恰好是 \texttt{(xx)} 吗？};
 
-  % ===== Result stack =====
+  % ===== Result stack (right side) =====
   \node[anchor=west, gray] at (7.3,2.9) {\small 替换后};
   \def\sxr{7.8}
   \draw[thick, stackborder, fill=stackbg] (\sxr,0.9) rectangle ++(0.9,0.6);
