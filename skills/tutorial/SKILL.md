@@ -136,7 +136,18 @@ This allows WeChat's editor to auto-download images when pasting HTML.
 
 ---
 
-## Step 5: Publish
+## Step 5: Git commit (agent does NOT push)
+
+The agent performs `git add -A` and `git commit`, then **reminds the user to push**:
+
+```bash
+git add -A
+git commit -m "Add ABCxxx tutorial with TikZ diagrams and AC code"
+```
+
+> ⚠️ **The agent must NOT run `git push`**. The user decides when to publish.
+
+## Step 6: Publish
 
 1. **Push** the repository to GitHub (ensure the repo is **public**)
 2. Wait **1–2 minutes** for jsDelivr cache to refresh
