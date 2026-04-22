@@ -37,7 +37,7 @@ C 题则是一道经典的图论建模题：把物品交换规则抽象成有向
 
 下图展示了样例 1 的有向图结构和 DFS 遍历过程：
 
-![C题有向图](figures_sel/c_diagram.png)
+![C题有向图](figures/c_diagram.png)
 
 图中红色节点是起点（物品 1），蓝色节点是可到达的物品。从 1 出发沿着有向边走，能到达 1、2、3、4 共 <span style="color:#e74c3c">4</span> 个节点。
 
@@ -132,7 +132,7 @@ int main(){
 
 下图展示了字符串 `x(xx)x` 的栈简化过程：
 
-![D题栈简化](figures_sel/d_diagram.png)
+![D题栈简化](figures/d_diagram.png)
 
 当栈顶出现 `(xx)` 时，立即将其替换为 `xx`。最终得到规范形式 `xxx`。
 

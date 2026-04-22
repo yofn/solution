@@ -49,7 +49,7 @@ Save as `ABCxxx/article.md`.
 - No contestant IDs or personal identifiers
 - Code blocks: delete ALL comments from the source; move explanations to surrounding text
 - Use **colored font** (`<span style="color:#xxx">text</span>`) for emphasis, NOT bold
-- Embed PNG images with local path `![alt](figures_sel/xxx.png)` for Markdown preview
+- Embed PNG images with local path `![alt](figures/xxx.png)` for Markdown preview
 - WeChat publication target: "信奥观察"
 
 ### 4. Convert to HTML
