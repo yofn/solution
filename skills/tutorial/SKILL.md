@@ -20,6 +20,8 @@ This skill chains four sub-skills in order:
 
 Run them sequentially. Each step consumes the previous step's output.
 
+**Critical**: When executing this workflow, you must **actively read and follow** each sub-skill (`getcode`, `figure`, `code`, `article`) rather than improvising your own implementation. In particular, the `figure` step requires TikZ + LaTeX compilation — do not substitute with Python drawing libraries.
+
 ---
 
 ## Step 1: Get code & problems (`getcode`)
@@ -39,7 +41,9 @@ ABCxxx/
 
 ---
 
-## Step 2: Draw figures (`figure`)
+## Step 2: Draw figures (`figure`) — **MANDATORY**
+
+**You MUST invoke the `figure` skill** to generate diagram PNGs. Do NOT use Pillow, Matplotlib, or any other non-LaTeX method to draw diagrams — those produce low-quality images that do not meet publication standards.
 
 Create TikZ diagrams that explain the core insight of each problem.
 
@@ -47,19 +51,27 @@ Create TikZ diagrams that explain the core insight of each problem.
 **Output**:
 ```
 ABCxxx/figures/
-├── c_diagram.png
-├── d_diagram.png
-├── d_state.png
-├── d_backtrack.png
+├── c_diagram.tex / .pdf / .png
+├── c_diagram_v1...v5.*           # backups managed by rotate_version.sh
+├── d_diagram.tex / .pdf / .png
+├── d_state.tex / .pdf / .png
+├── d_backtrack.tex / .pdf / .png
 └── rotate_version.sh
 ```
 
-After verification, copy the final PNGs to `figures_sel/` for article embedding.
+**Workflow**:
+1. Read the `figure` skill (`skills/figure/SKILL.md`) for TikZ templates, color schemes, and compilation commands (`xelatex` + `pdftoppm -r 400`).
+2. Write `.tex` files in `ABCxxx/figures/`.
+3. Compile with `xelatex -interaction=nonstopmode` and convert with `pdftoppm -png -r 400 -singlefile`.
+4. Verify the PNG is readable on a phone screen.
+5. Use `rotate_version.sh` before edits to keep backups.
+6. Copy final PNGs to `figures_sel/` for article embedding.
 
 **Principles**:
 - One diagram per core concept
 - Chinese labels, mobile-friendly sizing
-- Use the `figure` skill for TikZ templates and compilation commands
+- **Always use TikZ + xelatex + pdftoppm (400 DPI)** for all diagrams
+- If the algorithm involves a stack processing an input stream (e.g., bracket matching, string normalization), invoke the **`plot_stack`** sub-skill for the diagram template and layout rules
 
 ---
 

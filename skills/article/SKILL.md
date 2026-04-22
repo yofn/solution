@@ -16,6 +16,8 @@ Read from the contest directory:
 - `<letter>.cpp` — AC solution code
 - `figures_sel/` — all embeddable images (diagrams + code block PNGs)
 
+**Note**: Diagram PNGs in `figures_sel/` must be produced by the `figure` skill (TikZ + xelatex + pdftoppm at 400 DPI). Do not accept low-quality images from other sources.
+
 ### 2. Plan the article structure
 
 ```

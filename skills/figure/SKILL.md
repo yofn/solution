@@ -35,13 +35,14 @@ Keep it **simple and focused**. Mobile screens are small.
 
 **Common patterns:**
 
-| Problem Type | Visualization |
-|-------------|---------------|
-| Number line / coordinate | Horizontal axis with arrows for moves |
-| Grid / maze | Matrix with colored cells and path arrows |
-| Tree / graph | Nodes and edges with labels |
-| Array operations | Vertical bars or sequence diagram |
-| State comparison | Side-by-side grid layout showing why extra dimension is needed |
+| Problem Type | Visualization | Sub-skill |
+|-------------|---------------|-----------|
+| Number line / coordinate | Horizontal axis with arrows for moves | — |
+| Grid / maze | Matrix with colored cells and path arrows | — |
+| Tree / graph | Nodes and edges with labels | — |
+| Array operations | Vertical bars or sequence diagram | — |
+| State comparison | Side-by-side grid layout showing why extra dimension is needed | — |
+| Stack + incoming stream | Stack growing upward with channel above top | `plot_stack` |
 
 **State comparison diagrams** (e.g., `(x,y)` vs `(x,y,d)`):
 - Use a 2x2 grid layout: left=insufficient state, right=sufficient state

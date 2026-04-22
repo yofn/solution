@@ -1,0 +1,77 @@
+\documentclass[tikz,border=10pt]{standalone}
+\usepackage{ctex}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, decorations.pathreplacing}
+
+\definecolor{stackbg}{RGB}{240,244,248}
+\definecolor{stackborder}{RGB}{52,152,219}
+\definecolor{highlight}{RGB}{231,76,60}
+\definecolor{channelbg}{RGB}{255,250,240}
+\definecolor{channelborder}{RGB}{230,180,100}
+\definecolor{donegray}{RGB}{160,160,160}
+
+\begin{document}
+\begin{tikzpicture}[font=\large, line cap=round, line join=round]
+  % Title
+  \node at (5.5,5.0) {\textbf{D题：栈规范化字符串}};
+
+  % ===== Processed (left, gray) =====
+  \node[donegray, font=\small] at (1.8,4.3) {已处理};
+  \node[donegray] at (1.8,3.9) {\texttt{x(x x}};
+
+  % ===== Current character (center, red, visually intersecting stack top) =====
+  \draw[thick, highlight, fill=highlight!10] (4.45,3.15) rectangle ++(0.9,0.6);
+  \node[highlight] at (4.9,3.45) {\texttt{)}};
+
+  % ===== Input channel (right, only remaining unprocessed) =====
+  \node[channelborder, font=\small] at (6.6,4.0) {待处理};
+  \draw[thick, channelborder, fill=channelbg] (6.15,3.3) rectangle ++(0.9,0.6);
+  \node at (6.6,3.6) {\texttt{x}};
+
+  % ===== Short arrow: current falls into stack top =====
+  \draw[-{Stealth[length=3mm]}, thick, highlight] (4.9,3.1) -- (4.9,2.95);
+  \node[highlight, font=\small] at (5.35,3.0) {压栈};
+
+  % ===== Stack (grows upward, base at bottom) =====
+  \node[anchor=west, gray] at (3.3,2.9) {\small 栈};
+  \def\sx{4.0}
+  % bottom
+  \draw[thick, stackborder, fill=stackbg] (\sx,0.3) rectangle ++(0.9,0.6);
+  \node at (\sx+0.45,0.6) {\texttt{x}};
+  % up
+  \draw[thick, stackborder, fill=stackbg] (\sx,0.9) rectangle ++(0.9,0.6);
+  \node at (\sx+0.45,1.2) {\texttt{(}};
+  \draw[thick, stackborder, fill=stackbg] (\sx,1.5) rectangle ++(0.9,0.6);
+  \node at (\sx+0.45,1.8) {\texttt{x}};
+  \draw[thick, stackborder, fill=stackbg] (\sx,2.1) rectangle ++(0.9,0.6);
+  \node at (\sx+0.45,2.4) {\texttt{x}};
+  % incoming on top (dashed)
+  \draw[thick, highlight, fill=stackbg, dashed] (\sx,2.7) rectangle ++(0.9,0.6);
+  \node[highlight] at (\sx+0.45,3.0) {\texttt{)}};
+
+  % ===== Detection brace =====
+  \draw[thick, highlight, decorate, decoration={brace, amplitude=5pt, raise=3pt}]
+    (\sx+0.95, 2.4) -- (\sx+0.95, 0.9);
+  \node[highlight, font=\small, anchor=west] at (\sx+1.25, 1.95)
+    {栈顶4个元素};
+  \node[highlight, font=\small, anchor=west] at (\sx+1.25, 1.5)
+    {恰好是 \texttt{(xx)} 吗？};
+
+  % ===== Result stack (right side) =====
+  \node[anchor=west, gray] at (7.3,2.9) {\small 替换后};
+  \def\sxr{7.8}
+  \draw[thick, stackborder, fill=stackbg] (\sxr,0.9) rectangle ++(0.9,0.6);
+  \node at (\sxr+0.45,1.2) {\texttt{x}};
+  \draw[thick, stackborder, fill=stackbg] (\sxr,1.5) rectangle ++(0.9,0.6);
+  \node at (\sxr+0.45,1.8) {\texttt{x}};
+  \draw[thick, stackborder, fill=stackbg] (\sxr,2.1) rectangle ++(0.9,0.6);
+  \node at (\sxr+0.45,2.4) {\texttt{x}};
+
+  % ===== Replace arrow =====
+  \draw[-{Stealth[length=3mm]}, thick, highlight] (5.8,2.2) -- (6.8,2.2);
+  \node[highlight, font=\small] at (6.3,2.55) {替换为 \texttt{xx}};
+
+  % ===== Bottom note =====
+  \node at (4.9,-0.2) {\small 核心：逐个压栈；若栈顶形成 \texttt{(xx)} 则替换为 \texttt{xx}};
+\end{tikzpicture}
+\end{document}

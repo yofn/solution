@@ -43,7 +43,36 @@ Fetch the submission page with `FetchURL` and extract the source code from the `
 
 **Note**: AtCoder submission detail pages are publicly accessible. Submission *list* pages (with filters) require login and cannot be scraped.
 
-### 5. Write solution file
+### 5. Alternative: Fetch via AtCoder Problems API
+
+If the user provides an AtCoder username and wants to auto-discover their submissions, use the **AtCoder Problems API**:
+
+```
+https://kenkoooo.com/atcoder/atcoder-api/v3/user/submissions?user=<username>&from_second=<unix_timestamp>
+```
+
+**Python example:**
+```python
+import requests
+url = "https://kenkoooo.com/atcoder/atcoder-api/v3/user/submissions"
+params = {"user": "bnu2020", "from_second": 0}  # from_second is a Unix timestamp
+r = requests.get(url, params=params, headers={"User-Agent": "Mozilla/5.0"})
+data = r.json()  # List of submission objects
+for s in data:
+    print(s["contest_id"], s["problem_id"], s["id"], s["result"])
+```
+
+Each submission object contains:
+- `id` — submission ID (use to build AtCoder detail URL)
+- `contest_id` — e.g., `abc454`
+- `problem_id` — e.g., `abc454_c`
+- `result` — `AC`, `WA`, `TLE`, etc.
+
+Filter by `contest_id` and `problem_id`, then fetch the accepted submission detail page to extract the source code.
+
+**Note**: The API returns the most recent 500 submissions by default. Use a later `from_second` timestamp to paginate forward in time.
+
+### 6. Write solution file
 
 Create a file named `<lowercase_letter>.cpp` in the contest directory and write the extracted code. Preserve the original code as-is (including comments and formatting).
 
@@ -55,6 +84,6 @@ ABC453/
 └── d.cpp
 ```
 
-### 6. Verify
+### 7. Verify
 
 List the directory to confirm files were created correctly.

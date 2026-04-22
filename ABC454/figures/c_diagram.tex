@@ -1,0 +1,37 @@
+\documentclass[tikz,border=10pt]{standalone}
+\usepackage{ctex}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, calc, positioning}
+
+\definecolor{startred}{RGB}{231,76,60}
+\definecolor{nodeblue}{RGB}{52,152,219}
+\definecolor{arrowgray}{RGB}{102,102,102}
+
+\begin{document}
+\begin{tikzpicture}[font=\large, line cap=round, line join=round]
+  % Title
+  \node at (4,3.2) {\textbf{C题：有向图与DFS遍历}};
+
+  % Nodes
+  \node[circle, fill=startred, text=white, minimum size=1.2cm, inner sep=0pt] (n1) at (1.2,2) {1};
+  \node[circle, fill=nodeblue, text=white, minimum size=1.2cm, inner sep=0pt] (n2) at (3.5,2.4) {2};
+  \node[circle, fill=nodeblue, text=white, minimum size=1.2cm, inner sep=0pt] (n3) at (6,2) {3};
+  \node[circle, fill=nodeblue, text=white, minimum size=1.2cm, inner sep=0pt] (n4) at (3.5,0.6) {4};
+  \node[circle, fill=nodeblue, text=white, minimum size=1.2cm, inner sep=0pt] (n5) at (6,0.5) {5};
+
+  % Edges with arrows
+  \draw[-{Stealth[length=3mm]}, thick, arrowgray] (n1) -- (n2);
+  \draw[-{Stealth[length=3mm]}, thick, arrowgray] (n2) -- (n3);
+  \draw[-{Stealth[length=3mm]}, thick, arrowgray] (n2) -- (n4);
+  \draw[-{Stealth[length=3mm]}, thick, arrowgray] (n4) -- (n3);
+  \draw[-{Stealth[length=3mm]}, thick, arrowgray] (n5) -- (n2);
+
+  % Labels
+  \node[below=0.15cm of n1, startred, font=\small] {起点(物品1)};
+  \node[below=0.1cm of n4, font=\small] {可达物品};
+
+  % Bottom note
+  \node at (4,-0.8) {\small DFS从节点1出发，能到达的节点即为可获得物品};
+  \node at (4,-1.4) {\small ans = 可达节点数（包含起点）};
+\end{tikzpicture}
+\end{document}
