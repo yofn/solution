@@ -1,0 +1,49 @@
+\documentclass[tikz,border=10pt]{standalone}
+\usepackage{ctex}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, calc, positioning}
+
+\definecolor{nodebg}{RGB}{240,244,248}
+\definecolor{nodeborder}{RGB}{52,152,219}
+\definecolor{highlight}{RGB}{231,76,60}
+\definecolor{accent}{RGB}{46,204,113}
+\definecolor{warn}{RGB}{255,140,0}
+\definecolor{graytext}{RGB}{120,120,120}
+
+\begin{document}
+\begin{tikzpicture}[font=\large, line cap=round, line join=round,
+    box/.style={draw=nodeborder, thick, fill=nodebg, minimum width=1.0cm, minimum height=0.7cm, rounded corners=3pt, font=\ttfamily},
+    arrow/.style={-{Stealth[length=2.5mm]}, thick, nodeborder}
+]
+  % ========== Title ==========
+  \node at (5.5,6.2) {\textbf{D 题：为什么链表模拟可以变成离线并查集？}};
+
+  % ========== Key insights ==========
+  \node[anchor=west, accent] at (0.5,5.4) {\textbf{关键洞察：只取最后一次 down 关系}};
+
+  \node[anchor=west, font=\small] at (0.5,4.8) {$\bullet$ P 始终是堆顶 \textcolor{highlight}{$\Rightarrow$} 一张卡片最多当一次 P};
+  \node[anchor=west, font=\small] at (0.5,4.35) {$\bullet$ C 可以多次移动，但\textbf{只有最后一次}决定最终位置};
+  \node[anchor=west, font=\small] at (0.5,3.9) {$\bullet$ 我们不需要知道中间过程，只需要最终的静态森林};
+
+  % ========== Extract down relations ==========
+  \node[anchor=west, warn, font=\small] at (0.5,3.2) {提取最终关系: down[1]=4, down[4]=2};
+
+  % ========== Forest result ==========
+  \node[box] (r2) at (2.5,2.2) {2};
+  \node[box] (r4) at (1.5,1.1) {4};
+  \node[box] (r1) at (3.5,1.1) {1};
+  \node[box] (r3) at (5.5,2.2) {3};
+  \node[box] (r5) at (7.5,2.2) {5};
+
+  \draw[arrow] (r4) -- (r2);
+  \draw[arrow] (r1) -- (r2);
+
+  \node[accent, font=\small] at (2.5,0.3) {并查集合并后，根的大小 = 堆的卡片数};
+  \node[font=\small] at (5.5,0.3) {sz[2]=3, sz[3]=1, sz[5]=1};
+
+  % ========== Bottom summary ==========
+  \draw[thick, graytext] (0.2,-0.4) rectangle (10.8,-0.9);
+  \node[font=\small] at (5.5,-0.65) {\textbf{本质：最终状态只取决于每个节点最后一次作为 C 被移向哪里}};
+
+\end{tikzpicture}
+\end{document}
