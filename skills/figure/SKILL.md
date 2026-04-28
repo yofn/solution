@@ -97,6 +97,15 @@ Use this template as starting point:
 - Left: orange `RGB{255,140,0}`
 - Right: purple `RGB{138,43,226}`
 
+**Color design principles for text and emphasis:**
+- Do NOT use a single pure color (e.g., pure green `#2ecc71`, pure red `#ff0000`) for emphasis text, titles, or key insights. Pure monochromatic colors look cheap on mobile screens and provide poor contrast against white backgrounds.
+- For emphasis, use **gradient or muted accent colors** instead, such as:
+  - Soft indigo `RGB{102,126,234}` (a desaturated blue-purple)
+  - Muted coral `RGB{231,76,60}` (already used for highlight/warn)
+  - Steel blue `RGB{52,152,219}`
+- When creating "before vs after" or "intuitive vs insightful" comparison diagrams, avoid overly wide horizontal layouts that exceed mobile screen width. Prefer vertical stacking or a compact single-column layout.
+- Always ensure text labels do not overlap with nodes, arrows, or other text elements. Leave adequate horizontal and vertical gaps.
+
 ### 5. Compile and convert
 
 ```bash
