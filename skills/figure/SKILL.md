@@ -98,11 +98,12 @@ Use this template as starting point:
 - Right: purple `RGB{138,43,226}`
 
 **Color design principles for text and emphasis:**
-- Do NOT use a single pure color (e.g., pure green `#2ecc71`, pure red `#ff0000`) for emphasis text, titles, or key insights. Pure monochromatic colors look cheap on mobile screens and provide poor contrast against white backgrounds.
-- For emphasis, use **gradient or muted accent colors** instead, such as:
-  - Soft indigo `RGB{102,126,234}` (a desaturated blue-purple)
-  - Muted coral `RGB{231,76,60}` (already used for highlight/warn)
-  - Steel blue `RGB{52,152,219}`
+- **Never use light/pale colors for text on a white or light background** — this includes light green, light blue, light orange, yellow, cyan, and any color with high luminance. On mobile screens with brightness variation, pale text becomes unreadable.
+- Text, labels, and emphasis must use **dark, high-contrast colors** against white/`#fff` or off-white/`#faf8f5` backgrounds. Safe choices:
+  - Dark slate `RGB{44,62,80}` or `RGB{52,73,94}` for body text
+  - Muted coral `RGB{231,76,60}` for warnings and key alerts
+  - Deep indigo `RGB{102,126,234}` or steel blue `RGB{52,152,219}` for accent emphasis
+- Light colors should only be used for **fills, backgrounds, or decorative elements** (e.g., pale green for a highlighted cell, light gray for a grid line), never for text or labels.
 - When creating "before vs after" or "intuitive vs insightful" comparison diagrams, avoid overly wide horizontal layouts that exceed mobile screen width. Prefer vertical stacking or a compact single-column layout.
 - Always ensure text labels do not overlap with nodes, arrows, or other text elements. Leave adequate horizontal and vertical gaps.
 
