@@ -78,14 +78,14 @@ int main(){
 
 这个思路是对的，但实现起来相当繁琐——链表切断和拼接涉及大量指针调整，代码长且容易出错。有没有更简洁的视角？
 
-#### 观察一：<strong>P</strong> 始终是堆顶
+### 观察一：<strong>P</strong> 始终是堆顶
 
 题目明确保证：每次操作的 <strong>P</strong> 都是<span style="color:#e74c3c">某个堆的顶部</span>。这是一个极强的约束。它意味着：
 
 - 当卡片 <strong>P</strong> 接收了 <strong>C</strong> 及其上方的整段卡片后，<strong>P</strong> 被压在了这段卡片的下方，不再是堆顶
 - 因此，<span style="color:#2980b9">一张卡片最多只能当一次 <strong>P</strong></span>——一旦它作为 <strong>P</strong> 接收了别的卡片，它就被埋在了下面，后续操作中不可能再满足"<strong>P</strong> 是堆顶"的条件
 
-#### 观察二：<strong>C</strong> 可以多次移动，但只有最后一次决定最终位置
+### 观察二：<strong>C</strong> 可以多次移动，但只有最后一次决定最终位置
 
 一张卡片可以多次作为 <strong>C</strong> 被移走吗？可以。第一次作为 <strong>C</strong> 被移到 <strong>P</strong> 上方后，它和它上方的卡片成为一个整体。如果之后这个整体的最底部（仍然是那张卡片）又作为 <strong>C</strong> 被移到 <strong>P</strong> 上方，那么这张卡片最终就在 <strong>P</strong> 的上方。
 
@@ -93,7 +93,7 @@ int main(){
 
 因此，对于每张卡片，我们只需要知道它<span style="color:#2980b9">最后一次作为 <strong>C</strong> 时被移到了哪个 <strong>P</strong></span>。这就是它最终的"下方支撑"关系。
 
-#### 观察三：整个过程可以离线处理
+### 观察三：整个过程可以离线处理
 
 既然最终结构只取决于每张卡片最后一次的"下方支撑"关系，我们根本不需要在线维护链表！
 
