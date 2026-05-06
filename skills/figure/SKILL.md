@@ -32,6 +32,7 @@ Keep it **simple and focused**. Mobile screens are small.
 - Use **color coding** to distinguish states/operations
 - Avoid text clutter — remove coordinate labels unless essential
 - Ensure no overlapping elements
+- **Focus on core algorithm concepts** (state definition, transition logic, key insight) — do **not** emphasize implementation tricks like rolling arrays, bit compression, or other optimizations in the diagram
 
 **Common patterns:**
 
