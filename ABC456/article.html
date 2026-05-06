@@ -70,21 +70,21 @@ hr { border: none; border-top: 1px solid #e0e0e0; margin: 24px 0; }
 <hr>
 <h2>二、C 题：Not Adjacent（线性 DP）</h2>
 <h3>题意</h3>
-<p>给定一个由 `a`、`b`、`c` 组成的字符串 `S`，求其中有多少个非空子串满足"没有两个相邻字符相同"。位置不同的相同子串也要分别计数。答案对 $998244353$ 取模。</p>
+<p>给定一个由 a、b、c 组成的字符串 S，求其中有多少个非空子串满足"没有两个相邻字符相同"。位置不同的相同子串也要分别计数。答案对 998244353 取模。</p>
 <h3>关键观察</h3>
 <p>子串是<span style="color:#e74c3c">连续的</span>。这意味着一个合法子串向右延伸时，<span style="color:#0969da">只需要看它右边紧邻的一个字符</span>。</p>
-<p>如果我们知道了"以位置 $i-1$ 结尾的合法子串有多少个"，那么：</p>
-<p>- 若 $S[i] \neq S[i-1]$，这些子串都可以向后延伸一位，再加上"只选 $S[i]$ 自己"这一个新子串</p>
-<p>- 若 $S[i] = S[i-1]$，则无法延伸，只能新建一个单字符子串</p>
+<p>如果我们知道了"以位置 i-1 结尾的合法子串有多少个"，那么：</p>
+<p>- 若 S[i] ≠ S[i-1]，这些子串都可以向后延伸一位，再加上"只选 S[i] 自己"这一个新子串</p>
+<p>- 若 S[i] = S[i-1]，则无法延伸，只能新建一个单字符子串</p>
 <h3>图示</h3>
 <img src="https://cdn.jsdelivr.net/gh/yofn/solution@main/ABC456/figures_sel/c_diagram.png" alt="C题递推示意图" style="max-width:100%;display:block;margin:14px auto;border-radius:6px;">
 <h3>代码</h3>
 <img src="https://cdn.jsdelivr.net/gh/yofn/solution@main/ABC456/figures_sel/c_code.png" alt="C题代码" style="max-width:100%;display:block;margin:14px auto;border-radius:10px;border:1px solid #ece8e0;">
 <h3>代码解析</h3>
-<p>- `f[i]` 表示以第 $i$ 个字符结尾的合法子串个数</p>
-<p>- 初始化 `f[i] = 1`，对应只取 $S[i-1]$ 这一个字符的子串</p>
-<p>- `accumulate(..., -1LL)` 中的 `-1` 用于扣除 $f[0]=1$ 这个虚拟初始值</p>
-<p>- 时间复杂度 $O(n)$，空间复杂度 $O(n)$（可进一步优化到 $O(1)$）</p>
+<p>- f[i] 表示以第 i 个字符结尾的合法子串个数</p>
+<p>- 初始化 f[i] = 1，对应只取 S[i-1] 这一个字符的子串</p>
+<p>- accumulate(..., -1LL) 中的 -1 用于扣除 f[0]=1 这个虚拟初始值</p>
+<p>- 时间复杂度 O(n)，空间复杂度 O(n)（可进一步优化到 O(1)）</p>
 <hr>
 <h2>三、D 题：Not Adjacent 2（二维 DP + 滚动数组）</h2>
 <h3>题意</h3>
@@ -92,22 +92,22 @@ hr { border: none; border-top: 1px solid #e0e0e0; margin: 24px 0; }
 <h3>关键观察</h3>
 <p>子序列不要求连续，这意味着当前字符可以接在<span style="color:#0969da">前面任意一个合法子序列</span>的后面，只要最后一个字符不同。</p>
 <p>此时，我们不能再像 C 题那样只关心"上一个位置"，因为子序列的"上一个字符"可能出现在很前面。真正需要记住的信息是：<span style="color:#e74c3c">这个子序列以什么字符结尾</span>。</p>
-<p>因此定义二维状态：$dp[i][j]$ 表示前 $i$ 个字符中，以字符 $j$（$0$ 代表 `a`，$1$ 代表 `b`，$2$ 代表 `c`）结尾的合法子序列个数。</p>
+<p>因此定义二维状态：dp[i][j] 表示前 i 个字符中，以字符 j（0 代表 a，1 代表 b，2 代表 c）结尾的合法子序列个数。</p>
 <h3>图示</h3>
 <img src="https://cdn.jsdelivr.net/gh/yofn/solution@main/ABC456/figures_sel/d_diagram.png" alt="D题状态转移示意图" style="max-width:100%;display:block;margin:14px auto;border-radius:6px;">
 <h3>代码</h3>
 <img src="https://cdn.jsdelivr.net/gh/yofn/solution@main/ABC456/figures_sel/d_code.png" alt="D题代码" style="max-width:100%;display:block;margin:14px auto;border-radius:10px;border:1px solid #ece8e0;">
 <h3>代码解析</h3>
-<p>- 状态本质上是二维的 $dp[i][3]$，但因为第 $i$ 行只依赖第 $i-1$ 行，所以用<span style="color:#e74c3c">滚动数组</span> `f[3]` 和 `g[3]` 交替使用，将空间压到 $O(1)$</p>
-<p>- `f[0]+f[1]+f[2]-f[x]` 的含义：所有以"不同于当前字符"结尾的合法子序列，都可以把当前字符接在后面</p>
-<p>- `+1` 的含义：单独选当前字符这一个子序列</p>
-<p>- `g[x] %= mod` 保证数值始终在模数范围内</p>
+<p>- 状态本质上是二维的 dp[i][3]，但因为第 i 行只依赖第 i-1 行，所以用<span style="color:#e74c3c">滚动数组</span> f[3] 和 g[3] 交替使用，将空间压到 O(1)</p>
+<p>- f[0]+f[1]+f[2]-f[x] 的含义：所有以"不同于当前字符"结尾的合法子序列，都可以把当前字符接在后面</p>
+<p>- +1 的含义：单独选当前字符这一个子序列</p>
+<p>- g[x] %= mod 保证数值始终在模数范围内</p>
 <p>- 最后答案就是三个状态的求和</p>
 <h3>C 题与 D 题的状态对比</h3>
 <p>| 题目 | 模型 | 状态设计 | 维度 |</p>
 <p>|------|------|----------|------|</p>
-<p>| C 题 | 子串（连续） | $f[i]$ = 以位置 $i$ 结尾的个数 | 一维 |</p>
-<p>| D 题 | 子序列（可不连续） | $dp[i][j]$ = 以字符 $j$ 结尾的个数 | 二维（滚动后 $O(1)$ 空间）|</p>
+<p>| C 题 | 子串（连续） | f[i] = 以位置 i 结尾的个数 | 一维 |</p>
+<p>| D 题 | 子序列（可不连续） | dp[i][j] = 以字符 j 结尾的个数 | 二维（滚动后 O(1) 空间）|</p>
 <p>同样的"不相邻"限制，仅仅因为<span style="color:#e74c3c">连续性</span>的差异，就让状态从一维跳到了二维。这就是 DP 状态设计的魅力所在。</p>
 <hr>
 <h2>四、写在最后</h2>
