@@ -1,0 +1,48 @@
+\documentclass[tikz,border=10pt]{standalone}
+\usepackage{ctex}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, calc, positioning}
+
+\definecolor{darktext}{RGB}{44,62,80}
+\definecolor{statea}{RGB}{52,152,219}
+\definecolor{stateb}{RGB}{46,204,113}
+\definecolor{statec}{RGB}{155,89,182}
+\definecolor{accent}{RGB}{231,76,60}
+
+\begin{document}
+\begin{tikzpicture}[font=\large, >=Stealth, line cap=round, line join=round]
+
+% Title
+\node[font=\bfseries\Large, text=darktext] at (5.5, 3.4) {D题：二维DP，滚动成 $f[3]$};
+
+% Previous row
+\node[anchor=east, font=\bfseries, text=darktext] at (0.3, 2.0) {前一行};
+\node[draw, thick, fill=statea!10, minimum width=1.6cm, minimum height=1.1cm, font=\bfseries] (p1) at (2.2, 2.0) {$f[0]$};
+\node[draw, thick, fill=stateb!10, minimum width=1.6cm, minimum height=1.1cm, font=\bfseries] (p2) at (5.0, 2.0) {$f[1]$};
+\node[draw, thick, fill=statec!10, minimum width=1.6cm, minimum height=1.1cm, font=\bfseries] (p3) at (7.8, 2.0) {$f[2]$};
+\node[below=2pt of p1, font=\tiny, text=darktext] {a};
+\node[below=2pt of p2, font=\tiny, text=darktext] {b};
+\node[below=2pt of p3, font=\tiny, text=darktext] {c};
+
+% Current row
+\node[anchor=east, font=\bfseries, text=darktext] at (0.3, 0.4) {当前};
+\node[draw, very thick, fill=white, minimum width=1.6cm, minimum height=1.1cm, font=\bfseries] (c1) at (2.2, 0.4) {$g[0]$};
+\node[draw, very thick, fill=white, minimum width=1.6cm, minimum height=1.1cm, font=\bfseries] (c2) at (5.0, 0.4) {$g[1]$};
+\node[draw, very thick, fill=white, minimum width=1.6cm, minimum height=1.1cm, font=\bfseries] (c3) at (7.8, 0.4) {$g[2]$};
+
+% Vertical arrows
+\draw[->, very thick, statea] (p1) -- (c1);
+\draw[->, very thick, stateb] (p2) -- (c2);
+\draw[->, very thick, statec] (p3) -- (c3);
+
+% Current character
+\node[draw=accent, thick, fill=accent!10, minimum width=1.3cm, minimum height=0.9cm, font=\bfseries, text=accent] (cur) at (9.3, 1.2) {$S[i]$};
+\draw[->, thick, accent, dashed] (cur.west) -- ++(-0.6,0);
+
+% Formula
+\node[below=0.5cm, font=\normalsize, text=darktext] at (c2.south) {
+    $g[x] += \big(f[0]+f[1]+f[2]-f[x]\big) + 1$
+};
+
+\end{tikzpicture}
+\end{document}
