@@ -72,6 +72,7 @@ Use this template as starting point:
 ```latex
 \documentclass[tikz,border=10pt]{standalone}
 \usepackage{ctex}
+\usepackage{amsmath}
 \usepackage{tikz}
 \usetikzlibrary{arrows.meta, matrix, calc}
 
@@ -91,6 +92,8 @@ Use this template as starting point:
 **Overlapping avoidance:**
 - When multiple arrows pass through the same cell/region, offset them slightly using `+(-0.25,0)` or `+(0.25,0)`
 - Use `matrix` with `row sep=-\pgflinewidth, column sep=-\pgflinewidth` for aligned grids
+- **Label coordinate accuracy**: When placing text labels above/below arrows or between blocks, compute the midpoint precisely (e.g., `(start+end)/2` rather than approximate offsets). Incorrect label coordinates are a common cause of text-block overlap.
+- **Avoid `...` inside `oreach` item lists**: TikZ interprets `...` as a range operator. If your list contains an element like `3/...`, it will break. Use manual iteration or avoid ellipsis in `oreach` definitions.
 
 **Color scheme for directions:**
 - Up: blue `RGB{30,144,255}`

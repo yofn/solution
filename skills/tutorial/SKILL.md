@@ -145,7 +145,7 @@ git add -A
 git commit -m "Add ABCxxx tutorial with TikZ diagrams and AC code"
 ```
 
-> ⚠️ **The agent must NOT run `git push`**. The user decides when to publish.
+> ⚠️ **The agent must NOT run `git push` by default**. The user decides when to publish. If the user explicitly asks the agent to push, the agent may attempt it.
 
 ## Step 6: Publish
 

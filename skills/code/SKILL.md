@@ -29,7 +29,7 @@ Priority order:
 1. String literals `"..."` / `'...'` → `st`
 2. Preprocessor directives `#include`, `#define` → `pp`
 3. `long long` (before single `long`) → `ty`
-4. Keywords (`if`, `for`, `return`, `int`, `void`, `struct`, `push`, `pop`, `cout`, `cin`, `scanf`, `memset`, `max`, `min`, `vector`, `queue`, `char`, `bool`, `class`, `template`, `sizeof`, `continue`, `using`, `namespace`, `typedef`, `const`, `while`, `reverse`, `begin`, `end`, `puts`, `printf`, `auto`, `new`, `delete`, `public`, `private`, `protected`, `typename`, `operator`, `friend`, `inline`, `static`, `extern`, `volatile`, `mutable`, `explicit`, `virtual`, `override`, `final`, `noexcept`, `constexpr`, `consteval`, `constinit`, `decltype`, `concept`, `requires`, `co_await`, `co_return`, `co_yield`) → `kw`
+4. Keywords (`if`, `for`, `return`, `int`, `void`, `struct`, `push`, `pop`, `cout`, `cin`, `scanf`, `memset`, `max`, `min`, `vector`, `queue`, `char`, `bool`, `class`, `template`, `sizeof`, `continue`, `using`, `namespace`, `typedef`, `const`, `while`, `reverse`, `begin`, `end`, `puts`, `printf`, `auto`, `new`, `delete`, `public`, `private`, `protected`, `typename`, `operator`, `friend`, `inline`, `static`, `extern`, `volatile`, `mutable`, `explicit`, `virtual`, `override`, `final`, `noexcept`, `constexpr`, `consteval`, `constinit`, `decltype`, `concept`, `requires`, `co_await`, `co_return`, `co_yield`, `break`, `else`) → `kw`
 5. Common type aliases (`ll`, `node`) → `ty`
 6. Numbers → `nu`
 7. Function calls (identifier before `(`) → `fn`
