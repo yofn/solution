@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ABC457 题解</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  font-size: 16px; line-height: 1.85; color: #333;
+  background: #f0f2f5; padding: 16px;
+}
+.container {
+  max-width: 420px; margin: 0 auto; background: #fff;
+  padding: 24px 20px; border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+h1 {
+  font-size: 22px; color: #2c3e50;
+  background: linear-gradient(90deg, #fff0f0 0%, #fff 100%);
+  border-left: 5px solid #e74c3c; padding: 14px 16px;
+  margin: 32px 0 20px; border-radius: 0 10px 10px 0;
+}
+h2 {
+  font-size: 18px; color: #34495e; position: relative;
+  padding: 10px 0 10px 36px; margin: 28px 0 16px;
+  border-bottom: 1px dashed #ddd;
+}
+h2::before {
+  content: ""; position: absolute; left: 0; top: 10px;
+  width: 26px; height: 26px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 50%; box-shadow: 0 2px 6px rgba(102,126,234,0.35);
+}
+h2::after {
+  content: ""; position: absolute; left: 8px; top: 18px;
+  width: 10px; height: 10px; background: #fff; border-radius: 50%;
+}
+h3 {
+  font-size: 15px; color: #555; display: inline-block;
+  background: linear-gradient(90deg, #f0f4f8 0%, #f8fafc 100%);
+  padding: 5px 16px; border-radius: 20px;
+  border: 1px solid #e8ecf1; margin: 20px 0 12px;
+}
+p { margin: 12px 0; text-align: justify; word-break: break-word; }
+img { max-width: 100%; display: block; margin: 16px auto; border-radius: 6px; }
+pre {
+  background: #faf8f5; color: #2d2d2d; padding: 16px 18px;
+  border-radius: 10px; overflow-x: auto; font-size: 13px;
+  line-height: 1.65; margin: 14px 0; border: 1px solid #ece8e0;
+}
+code { font-family: "SF Mono", "Fira Code", Monaco, "Cascadia Code", Consolas, monospace; }
+.kw { color: #0066cc; }
+.ty { color: #0969da; }
+.st { color: #0a7a3f; }
+.nu { color: #d73a49; }
+.pp { color: #6f42c1; }
+.fn { color: #8250df; }
+hr { border: none; border-top: 1px solid #e0e0e0; margin: 24px 0; }
+</style>
+</head>
+<body>
+<div class="container">
+<h1>ABC457 题解：大数困境与二分智慧</h1>
+<h2>一、开篇引言</h2>
+<p>在算法竞赛中，当我们看到<span style="color:#e74c3c">数据范围极大</span>的题目时，第一反应不应该是望而却步，而是冷静思考：问题的结构中是否隐藏着某种性质，让我们可以<span style="color:#0969da">避免真正处理这么大规模的数据</span>？</p>
+<p>本次 ABC457 的 C 题和 D 题，恰好展示了两种面对"大数"的经典策略：</p>
+<p>- C 题中，重复次数 Ci 可达 10^9，但<span style="color:#0969da">所有序列长度之和却很小</span>，这让我们可以用"跳过"代替"展开"。</p>
+<p>- D 题中，数值和 K 都可达 10^18，完全无法暴力枚举，但<span style="color:#0969da">"二分答案"</span>这把利器，能让我们在 log 级别的时间内锁定最优解。</p>
+<p>通过这两道题，我们可以学到：<span style="color:#e74c3c">数据范围决定算法选择，而结构特征决定我们能否化繁为简。</span></p>
+<hr>
+<h2>二、C 题：Long Sequence（模拟与跳过）</h2>
+<h3>题意</h3>
+<p>给定 N 个序列 A1, A2, ..., AN，以及 N 个重复次数 C1, C2, ..., CN。</p>
+<p>按照顺序，将 Ai 重复拼接 Ci 次，构成一个大序列 B。求 B 的第 K 个元素。</p>
+<h3>关键观察</h3>
+<p>直接展开 B 是不可能的——Ci 最大 10^9，B 的总长度可能大到天文数字。</p>
+<p>但注意一个关键约束：<span style="color:#e74c3c">所有 Li 之和 ≤ 2×10^5</span>。这意味着，虽然每个序列被重复了很多次，但<span style="color:#0969da">不同序列的种类很少</span>。</p>
+<p>对于第 i 个序列，它在 B 中占据的总长度是：</p>
+<p><span style="color:#0969da">Ci × Li</span></p>
+<p>如果我们按顺序扫描每个序列，只需要判断 K 是否落在当前这个"大块"里面：</p>
+<p>- 若 K > Ci × Li，说明答案还在后面，<span style="color:#0969da">直接把 K 减去这个长度</span>，继续看下一块</p>
+<p>- 若 K ≤ Ci × Li，说明答案就在这一块里。由于这一块是 Ai 循环重复，下标直接用 <span style="color:#0969da">(K-1) mod Li</span> 即可</p>
+<h3>图示</h3>
+<img src="https://cdn.jsdelivr.net/gh/yofn/solution@main/ABC457/figures_sel/c_diagram.png" alt="C题递推示意图" style="max-width:100%;display:block;margin:14px auto;border-radius:6px;">
+<h3>代码</h3>
+<img src="https://cdn.jsdelivr.net/gh/yofn/solution@main/ABC457/figures_sel/c_code.png" alt="C题代码" style="max-width:100%;display:block;margin:14px auto;border-radius:10px;border:1px solid #ece8e0;">
+<h3>代码解析</h3>
+<p>代码的核心逻辑非常简洁：</p>
+<p>1. 读入所有序列和重复次数</p>
+<p>2. 遍历每个序列，计算 <span style="color:#0969da">ac = Ci × Li</span></p>
+<p>3. 如果 k 大于 ac，说明目标在更后面，执行 <span style="color:#0969da">k -= ac</span> 跳过整块</p>
+<p>4. 否则目标就在当前块中，<span style="color:#0969da">--k</span> 将 K 转换为 0-based 下标，再用 <span style="color:#0969da">k % li</span> 得到循环中的具体位置</p>
+<p>注意 1LL 的强制类型转换，防止 Ci × Li 在 32 位 int 中溢出。</p>
+<hr>
+<h2>三、D 题：Raise Minimum（二分答案）</h2>
+<h3>题意</h3>
+<p>给定长度为 N 的数列 A 和整数 K。</p>
+<p>每次操作选择一个下标 i，将 Ai 加上 i。最多进行 K 次操作，求操作后数列<span style="color:#e74c3c">最小值的最大可能值</span>。</p>
+<h3>关键观察</h3>
+<p>"最小值最大"是<span style="color:#0969da">二分答案</span>的经典信号。</p>
+<p>假设我们想让最终的最小值达到 x，需要验证：能否在不超过 K 次操作内，让所有 Ai 都至少等于 x？</p>
+<p>对于第 i 个位置（注意下标从 1 开始）：</p>
+<p>- 若 Ai ≥ x，已经满足，不需要操作</p>
+<p>- 若 Ai < x，每次操作只能加 i，因此至少需要 <span style="color:#0969da">ceil((x - Ai) / i)</span> 次操作</p>
+<p>在整数运算中，ceil((x - Ai) / i) 可以写成 <span style="color:#0969da">(x - Ai + i - 1) / i</span>。</p>
+<p>把所有位置需要的操作次数加起来，如果总和 ≤ K，则 x 可行；否则不可行。</p>
+<p>二分搜索的范围：下界显然是 1，上界可以取 <span style="color:#0969da">A1 + K + 1</span>（因为下标 1 的位置每次只能加 1，最多提升 K）。</p>
+<h3>图示</h3>
+<img src="https://cdn.jsdelivr.net/gh/yofn/solution@main/ABC457/figures_sel/d_diagram.png" alt="D题验证示意图" style="max-width:100%;display:block;margin:14px auto;border-radius:6px;">
+<h3>代码</h3>
+<img src="https://cdn.jsdelivr.net/gh/yofn/solution@main/ABC457/figures_sel/d_code.png" alt="D题代码" style="max-width:100%;display:block;margin:14px auto;border-radius:10px;border:1px solid #ece8e0;">
+<h3>代码解析</h3>
+<p>1. <span style="color:#0969da">check(x)</span> 函数是验证的核心：遍历每个元素，计算让它达到 x 所需的操作次数，累加到 tot。一旦 tot 超过 K 就提前返回 false，避免不必要的计算。</p>
+<p>2. 二分边界：<span style="color:#0969da">L = 1</span> 是肯定可行的最小值，<span style="color:#0969da">R = a[1] + K + 1</span> 是一个稳妥的上界（因为位置 1 每次只能加 1）。使用 <span style="color:#0969da">R - L > 1</span> 的循环条件，最终 L 就是最大的可行值。</p>
+<p>3. 注意数组下标从 1 开始，这与题目中"加上 i"的定义一致。</p>
+<hr>
+<h2>四、结语</h2>
+<p>C 题教会我们：面对"重复次数极大"的问题，先看看<span style="color:#0969da">不同结构的总数</span>是否可控。如果种类有限，就可以用"跳过整块"代替"逐一枚举"。</p>
+<p>D 题则展示了<span style="color:#0969da">二分答案</span>的威力：当我们需要求"最大值的最小"或"最小值的最大"时，与其正向构造，不如反向验证——给定一个目标值，判断它是否可达，往往比直接求最优解简单得多。</p>
+<p>每周的 ABC 都是一次思维训练。坚持参加、坚持复盘，你会发现自己的算法直觉正在悄然生长。</p>
+</div>
+</body>
+</html>

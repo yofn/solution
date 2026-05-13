@@ -1,0 +1,79 @@
+\documentclass[tikz,border=10pt]{standalone}
+\usepackage{ctex}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta, decorations.pathreplacing}
+
+\definecolor{barbg}{RGB}{52,152,219}
+\definecolor{barnew}{RGB}{102,126,234}
+\definecolor{target}{RGB}{231,76,60}
+\definecolor{okbg}{RGB}{34,139,34}
+\definecolor{textdark}{RGB}{44,62,80}
+
+\begin{document}
+\begin{tikzpicture}[font=\large, line cap=round, line join=round, text=textdark]
+
+% Title
+\node[font=\bfseries] at (5.5,5.2) {二分答案验证：目标最小值 $x$};
+
+% Target line
+\draw[thick, target, dashed] (-0.5,3.5) -- (11,3.5);
+\node[target, font=\small] at (-0.2,3.75) {目标 $x$};
+
+% Bars data: (x, original, index i)
+% A1=3, i=1, need ceil((x-3)/1) = 2 (assuming x=5)
+% A2=4, i=2, need ceil((x-4)/2) = 1
+% A3=7, i=3, already >= x
+% A4=2, i=4, need ceil((x-2)/4) = 1
+% A5=6, i=5, already >= x
+
+\def\barw{0.65}
+\def\scale{0.5}
+
+% Bar 1: A1=3, need 2 ops
+\fill[barbg!25] (0.5,0) rectangle ++(\barw,3.5);
+\fill[barbg] (0.5,0) rectangle ++(\barw,3*\scale);
+\draw[thick, textdark] (0.5,0) rectangle ++(\barw,3.5);
+\node[font=\small] at (0.5+\barw/2, 3*\scale/2) {3};
+\node[font=\small, target] at (0.5+\barw/2, 3.5+0.25) {2次};
+
+% Bar 2: A2=4, need 1 op
+\fill[barbg!25] (1.8,0) rectangle ++(\barw,3.5);
+\fill[barbg] (1.8,0) rectangle ++(\barw,4*\scale);
+\draw[thick, textdark] (1.8,0) rectangle ++(\barw,3.5);
+\node[font=\small] at (1.8+\barw/2, 4*\scale/2) {4};
+\node[font=\small, target] at (1.8+\barw/2, 3.5+0.25) {1次};
+
+% Bar 3: A3=7, already OK
+\fill[okbg!25] (3.1,0) rectangle ++(\barw,7*\scale);
+\fill[okbg] (3.1,0) rectangle ++(\barw,7*\scale);
+\draw[thick, textdark] (3.1,0) rectangle ++(\barw,7*\scale);
+\node[font=\small] at (3.1+\barw/2, 7*\scale/2) {7};
+\node[font=\small, okbg] at (3.1+\barw/2, 7*\scale+0.25) {已达};
+
+% Bar 4: A4=2, need 1 op
+\fill[barbg!25] (4.4,0) rectangle ++(\barw,3.5);
+\fill[barbg] (4.4,0) rectangle ++(\barw,2*\scale);
+\draw[thick, textdark] (4.4,0) rectangle ++(\barw,3.5);
+\node[font=\small] at (4.4+\barw/2, 2*\scale/2) {2};
+\node[font=\small, target] at (4.4+\barw/2, 3.5+0.25) {1次};
+
+% Bar 5: A5=6, already OK
+\fill[okbg!25] (5.7,0) rectangle ++(\barw,6*\scale);
+\fill[okbg] (5.7,0) rectangle ++(\barw,6*\scale);
+\draw[thick, textdark] (5.7,0) rectangle ++(\barw,6*\scale);
+\node[font=\small] at (5.7+\barw/2, 6*\scale/2) {6};
+\node[font=\small, okbg] at (5.7+\barw/2, 6*\scale+0.25) {已达};
+
+% Formula annotation
+\node[anchor=west, font=\small] at (7.2,2.5) {对于 $A_i < x$：};
+\node[anchor=west, font=\small] at (7.2,2.0) {需要操作次数 $= \left\lceil\dfrac{x - A_i}{i}\right\rceil$};
+\node[anchor=west, font=\small] at (7.2,1.3) {总次数 $\le K$？};
+\node[anchor=west, font=\small, target] at (7.2,0.7) {若满足 $\rightarrow$ $x$ 可行};
+
+% Axis
+\draw[->, thick, gray] (0.2,0) -- (0.2,4.2);
+\node[font=\small, gray] at (0.0,4.4) {值};
+
+\end{tikzpicture}
+\end{document}
