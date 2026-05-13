@@ -1,7 +1,7 @@
 \documentclass[tikz,border=10pt]{standalone}
 \usepackage{ctex}
 \usepackage{tikz}
-\usetikzlibrary{arrows.meta, calc, decorations.pathreplacing}
+\usetikzlibrary{arrows.meta, calc}
 
 \definecolor{blockbg}{RGB}{240,248,255}
 \definecolor{blockborder}{RGB}{52,152,219}
@@ -13,76 +13,84 @@
 \begin{tikzpicture}[font=\large, line cap=round, line join=round, text=textdark]
 
 % Title
-\node[font=\bfseries] at (6,3.2) {K 的逐级定位过程};
+\node[font=\bfseries] at (6.5,4.2) {K 的逐级定位过程};
 
-% Define blocks
+% Block parameters
 \def\bh{0.9}
-\def\bwA{2.0}
-\def\bwB{1.4}
-\def\bwC{2.6}
-\def\y{1.5}
+\def\bwA{2.2}
+\def\bwB{1.6}
+\def\bwC{2.8}
+\def\by{2.2}
+\def\gap{1.0}
 
 % Block A1
-\draw[thick, blockborder, fill=blockbg] (0,\y) rectangle ++(\bwA,\bh);
-\node at (\bwA/2, \y+\bh/2) {\texttt{A\textsubscript{1}}};
-\draw[-{Stealth[length=2.5mm]}, thick, blockborder] (\bwA/2, \y+\bh+0.15) arc (120:60:0.6);
-\node[font=\small, blockborder] at (\bwA/2, \y+\bh+0.55) {$\times C_1$};
-\node[font=\small] at (\bwA/2, \y-0.35) {总长度 $C_1 L_1$};
+\draw[thick, blockborder, fill=blockbg] (0,\by) rectangle ++(\bwA,\bh);
+\node at (\bwA/2, \by+\bh/2) {\texttt{A\textsubscript{1}}};
+\draw[-{Stealth[length=2.5mm]}, thick, blockborder] (\bwA/2, \by+\bh+0.15) arc (120:60:0.6);
+\node[font=\small, blockborder] at (\bwA/2, \by+\bh+0.55) {$\times C_1$};
+\node[font=\small] at (\bwA/2, \by-0.35) {总长度 $C_1 L_1$};
 
 % Block A2
-\draw[thick, blockborder, fill=blockbg] (\bwA+0.6,\y) rectangle ++(\bwB,\bh);
-\node at (\bwA+0.6+\bwB/2, \y+\bh/2) {\texttt{A\textsubscript{2}}};
-\draw[-{Stealth[length=2.5mm]}, thick, blockborder] (\bwA+0.6+\bwB/2, \y+\bh+0.15) arc (120:60:0.6);
-\node[font=\small, blockborder] at (\bwA+0.6+\bwB/2, \y+\bh+0.55) {$\times C_2$};
-\node[font=\small] at (\bwA+0.6+\bwB/2, \y-0.35) {总长度 $C_2 L_2$};
+\def\bxB{\bwA+\gap}
+\draw[thick, blockborder, fill=blockbg] (\bxB,\by) rectangle ++(\bwB,\bh);
+\node at (\bxB+\bwB/2, \by+\bh/2) {\texttt{A\textsubscript{2}}};
+\draw[-{Stealth[length=2.5mm]}, thick, blockborder] (\bxB+\bwB/2, \by+\bh+0.15) arc (120:60:0.6);
+\node[font=\small, blockborder] at (\bxB+\bwB/2, \by+\bh+0.55) {$\times C_2$};
+\node[font=\small] at (\bxB+\bwB/2, \by-0.35) {总长度 $C_2 L_2$};
 
-% Block A3 (highlighted, where K lands)
-\draw[thick, highlight, fill=highlight!8] (\bwA+0.6+\bwB+0.6,\y) rectangle ++(\bwC,\bh);
-\node at (\bwA+0.6+\bwB+0.6+\bwC/2, \y+\bh/2) {\texttt{A\textsubscript{3}}};
-\draw[-{Stealth[length=2.5mm]}, thick, highlight] (\bwA+0.6+\bwB+0.6+\bwC/2, \y+\bh+0.15) arc (120:60:0.6);
-\node[font=\small, highlight] at (\bwA+0.6+\bwB+0.6+\bwC/2, \y+\bh+0.55) {$\times C_3$};
-\node[font=\small, highlight] at (\bwA+0.6+\bwB+0.6+\bwC/2, \y-0.35) {总长度 $C_3 L_3$};
+% Block A3 (highlighted)
+\def\bxC{\bxB+\bwB+\gap}
+\draw[thick, highlight, fill=highlight!8] (\bxC,\by) rectangle ++(\bwC,\bh);
+\node at (\bxC+\bwC/2, \by+\bh/2) {\texttt{A\textsubscript{3}}};
+\draw[-{Stealth[length=2.5mm]}, thick, highlight] (\bxC+\bwC/2, \by+\bh+0.15) arc (120:60:0.6);
+\node[font=\small, highlight] at (\bxC+\bwC/2, \by+\bh+0.55) {$\times C_3$};
+\node[font=\small, highlight] at (\bxC+\bwC/2, \by-0.35) {总长度 $C_3 L_3$};
 
-% Arrows for K skipping
-\draw[-{Stealth[length=3mm]}, thick, accent] (-0.3, \y+\bh/2) -- (0.2, \y+\bh/2);
-\node[font=\small, accent] at (-0.5, \y+\bh/2) {K};
+% Arrow layer
+\def\ay{0.9}
+\draw[-{Stealth[length=3mm]}, thick, accent] (-0.6, \ay) -- (-0.1, \ay);
+\node[font=\small, accent] at (-0.8, \ay) {K};
 
-\draw[-{Stealth[length=3mm]}, thick, gray] (\bwA+0.2, \y+\bh/2) -- (\bwA+0.4, \y+\bh/2);
-\node[font=\small, gray] at (\bwA+0.3, \y+\bh/2+0.35) {$K > C_1L_1$};
-\node[font=\small, gray] at (\bwA+0.3, \y+\bh/2-0.35) {跳过};
+% Skip arrow 1: A1 -> A2
+\draw[-{Stealth[length=3mm]}, thick, gray] (\bwA+0.15, \ay) -- (\bxB-0.15, \ay);
+\node[font=\small, gray] at (\bwA+\gap/2, \ay+0.4) {$K > C_1L_1$};
+\node[font=\small, gray] at (\bwA+\gap/2, \ay-0.35) {跳过};
 
-\draw[-{Stealth[length=3mm]}, thick, gray] (\bwA+0.6+\bwB+0.2, \y+\bh/2) -- (\bwA+0.6+\bwB+0.4, \y+\bh/2);
-\node[font=\small, gray] at (\bwA+0.6+\bwB+0.3, \y+\bh/2+0.35) {$K > C_2L_2$};
-\node[font=\small, gray] at (\bwA+0.6+\bwB+0.3, \y+\bh/2-0.35) {跳过};
+% Skip arrow 2: A2 -> A3
+\draw[-{Stealth[length=3mm]}, thick, gray] (\bxB+\bwB+0.15, \ay) -- (\bxC-0.15, \ay);
+\node[font=\small, gray] at (\bxB+\bwB+\gap/2, \ay+0.4) {$K > C_2L_2$};
+\node[font=\small, gray] at (\bxB+\bwB+\gap/2, \ay-0.35) {跳过};
 
-\draw[-{Stealth[length=3mm]}, thick, highlight] (\bwA+0.6+\bwB+0.6+\bwC+0.2, \y+\bh/2) -- (\bwA+0.6+\bwB+0.6+\bwC+0.5, \y+\bh/2);
-\node[font=\small, highlight] at (\bwA+0.6+\bwB+0.6+\bwC+0.5, \y+\bh/2+0.35) {$K \le C_3L_3$};
-\node[font=\small, highlight] at (\bwA+0.6+\bwB+0.6+\bwC+0.5, \y+\bh/2-0.35) {落在这里};
+% Land arrow: A3 -> end
+\draw[-{Stealth[length=3mm]}, thick, highlight] (\bxC+\bwC+0.15, \ay) -- (\bxC+\bwC+0.8, \ay);
+\node[font=\small, highlight] at (\bxC+\bwC+0.5, \ay+0.4) {$K \le C_3L_3$};
+\node[font=\small, highlight] at (\bxC+\bwC+0.5, \ay-0.35) {落在这里};
 
 % Expanded view of A3
 \def\ey{-0.8}
-\draw[thick, highlight, fill=highlight!5] (\bwA+0.6+\bwB+0.6, \ey) rectangle ++(3.5, 0.7);
+\def\ew{0.7}
+\draw[thick, highlight, fill=highlight!5] (\bxC+0.3, \ey) rectangle ++(5*\ew, 0.7);
 
-% Draw 5 cells manually
-\draw[highlight!60] (\bwA+0.6+\bwB+0.6+0.0, \ey) -- ++(0, 0.7);
-\draw[highlight!60] (\bwA+0.6+\bwB+0.6+0.7, \ey) -- ++(0, 0.7);
-\draw[highlight!60] (\bwA+0.6+\bwB+0.6+1.4, \ey) -- ++(0, 0.7);
-\draw[highlight!60] (\bwA+0.6+\bwB+0.6+2.1, \ey) -- ++(0, 0.7);
-\draw[highlight!60] (\bwA+0.6+\bwB+0.6+2.8, \ey) -- ++(0, 0.7);
-\draw[highlight!60] (\bwA+0.6+\bwB+0.6+3.5, \ey) -- ++(0, 0.7);
+% 5 cells
+\draw[highlight!60] (\bxC+0.3+0*\ew, \ey) -- ++(0, 0.7);
+\draw[highlight!60] (\bxC+0.3+1*\ew, \ey) -- ++(0, 0.7);
+\draw[highlight!60] (\bxC+0.3+2*\ew, \ey) -- ++(0, 0.7);
+\draw[highlight!60] (\bxC+0.3+3*\ew, \ey) -- ++(0, 0.7);
+\draw[highlight!60] (\bxC+0.3+4*\ew, \ey) -- ++(0, 0.7);
+\draw[highlight!60] (\bxC+0.3+5*\ew, \ey) -- ++(0, 0.7);
 
-\node[font=\small] at (\bwA+0.6+\bwB+0.6+0.35, \ey+0.35) {\texttt{1}};
-\node[font=\small] at (\bwA+0.6+\bwB+0.6+0.7+0.35, \ey+0.35) {\texttt{2}};
-\node[font=\small] at (\bwA+0.6+\bwB+0.6+1.4+0.35, \ey+0.35) {\texttt{3}};
-\node[font=\small] at (\bwA+0.6+\bwB+0.6+2.1+0.35, \ey+0.35) {\texttt{...}};
-\node[font=\small] at (\bwA+0.6+\bwB+0.6+2.8+0.35, \ey+0.35) {\texttt{5}};
+\node[font=\small] at (\bxC+0.3+0.5*\ew, \ey+0.35) {\texttt{1}};
+\node[font=\small] at (\bxC+0.3+1.5*\ew, \ey+0.35) {\texttt{2}};
+\node[font=\small] at (\bxC+0.3+2.5*\ew, \ey+0.35) {\texttt{3}};
+\node[font=\small] at (\bxC+0.3+3.5*\ew, \ey+0.35) {\texttt{...}};
+\node[font=\small] at (\bxC+0.3+4.5*\ew, \ey+0.35) {\texttt{5}};
 
-\draw[thick, highlight, dashed] (\bwA+0.6+\bwB+0.6+1.4, \ey) rectangle ++(0.7, 0.7);
-\node[font=\small, highlight] at (\bwA+0.6+\bwB+0.6+1.75, \ey+0.35) {?};
+\draw[thick, highlight, dashed] (\bxC+0.3+2*\ew, \ey) rectangle ++(\ew, 0.7);
+\node[font=\small, highlight] at (\bxC+0.3+2.5*\ew, \ey+0.35) {?};
 
-\node[font=\small] at (\bwA+0.6+\bwB+0.6+1.75, \ey-0.35) {答案下标 $= (K-1) \bmod L_3$};
+\node[font=\small] at (\bxC+0.3+2.5*\ew, \ey-0.35) {答案下标 $= (K-1) \bmod L_3$};
 
-\draw[-{Stealth[length=2.5mm]}, thick, highlight] (\bwA+0.6+\bwB+0.6+\bwC/2, \y) -- (\bwA+0.6+\bwB+0.6+1.75, \ey+0.7+0.05);
+\draw[-{Stealth[length=2.5mm]}, thick, highlight] (\bxC+\bwC/2, \by) -- (\bxC+0.3+2.5*\ew, \ey+0.7+0.05);
 
 \end{tikzpicture}
 \end{document}
