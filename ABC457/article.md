@@ -157,9 +157,16 @@ int main(){
 
 1. <span style="color:#0969da">check(x)</span> 函数是验证的核心：遍历每个元素，计算让它达到 x 所需的操作次数，累加到 tot。一旦 tot 超过 K 就提前返回 false，避免不必要的计算。
 
-2. 二分边界：<span style="color:#0969da">L = 1</span> 是肯定可行的最小值，<span style="color:#0969da">R = a[1] + K + 1</span> 是一个稳妥的上界（因为位置 1 每次只能加 1）。使用 <span style="color:#0969da">R - L > 1</span> 的循环条件，最终 L 就是最大的可行值。
+2. <span style="color:#0969da">左闭右开的二分写法</span>：代码中使用的是 `while(R-L>1)` 的循环条件，这是一种非常清晰的二分模式。
+   - 始终保持 <span style="color:#e74c3c">L 可行、R 不可行</span>的不变性
+   - 当区间缩到只剩相邻两个数时停止，此时 <span style="color:#0969da">L 就是最大的可行值</span>
+   - 与常见的 `L<=R` 写法相比，这种写法不需要考虑 `mid` 边界偏移，代码更简洁，也更容易避免死循环
 
-3. 注意数组下标从 1 开始，这与题目中"加上 i"的定义一致。
+3. <span style="color:#0969da">左右端点的初始化逻辑</span>：
+   - <span style="color:#0969da">L = 1</span>：因为所有 Ai ≥ 1，最小值至少能维持 1，所以 L 一定可行
+   - <span style="color:#0969da">R = a[1] + K + 1</span>：位置 1 每次操作只能加 1，最多提升 K，所以 a[1]+K 一定可达。而 R 取 <span style="color:#e74c3c">a[1]+K+1</span>，这是一个<span style="color:#e74c3c">明确不可行</span>的值，作为上界刚好比答案大 1，保证二分收敛后 L 就是精确答案
+
+4. 注意数组下标从 1 开始，这与题目中"加上 i"的定义一致。
 
 ---
 

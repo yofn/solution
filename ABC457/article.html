@@ -113,8 +113,14 @@ hr { border: none; border-top: 1px solid #e0e0e0; margin: 24px 0; }
 <img src="https://cdn.jsdelivr.net/gh/yofn/solution@main/ABC457/figures_sel/d_code.png" alt="D题代码" style="max-width:100%;display:block;margin:14px auto;border-radius:10px;border:1px solid #ece8e0;">
 <h3>代码解析</h3>
 <p>1. <span style="color:#0969da">check(x)</span> 函数是验证的核心：遍历每个元素，计算让它达到 x 所需的操作次数，累加到 tot。一旦 tot 超过 K 就提前返回 false，避免不必要的计算。</p>
-<p>2. 二分边界：<span style="color:#0969da">L = 1</span> 是肯定可行的最小值，<span style="color:#0969da">R = a[1] + K + 1</span> 是一个稳妥的上界（因为位置 1 每次只能加 1）。使用 <span style="color:#0969da">R - L > 1</span> 的循环条件，最终 L 就是最大的可行值。</p>
-<p>3. 注意数组下标从 1 开始，这与题目中"加上 i"的定义一致。</p>
+<p>2. <span style="color:#0969da">左闭右开的二分写法</span>：代码中使用的是 `while(R-L>1)` 的循环条件，这是一种非常清晰的二分模式。</p>
+<p>- 始终保持 <span style="color:#e74c3c">L 可行、R 不可行</span>的不变性</p>
+<p>- 当区间缩到只剩相邻两个数时停止，此时 <span style="color:#0969da">L 就是最大的可行值</span></p>
+<p>- 与常见的 `L<=R` 写法相比，这种写法不需要考虑 `mid` 边界偏移，代码更简洁，也更容易避免死循环</p>
+<p>3. <span style="color:#0969da">左右端点的初始化逻辑</span>：</p>
+<p>- <span style="color:#0969da">L = 1</span>：因为所有 Ai ≥ 1，最小值至少能维持 1，所以 L 一定可行</p>
+<p>- <span style="color:#0969da">R = a[1] + K + 1</span>：位置 1 每次操作只能加 1，最多提升 K，所以 a[1]+K 一定可达。而 R 取 <span style="color:#e74c3c">a[1]+K+1</span>，这是一个<span style="color:#e74c3c">明确不可行</span>的值，作为上界刚好比答案大 1，保证二分收敛后 L 就是精确答案</p>
+<p>4. 注意数组下标从 1 开始，这与题目中"加上 i"的定义一致。</p>
 <hr>
 <h2>四、结语</h2>
 <p>C 题教会我们：面对"重复次数极大"的问题，先看看<span style="color:#0969da">不同结构的总数</span>是否可控。如果种类有限，就可以用"跳过整块"代替"逐一枚举"。</p>
