@@ -63,6 +63,8 @@ Save as `ABCxxx/article.md`.
 **Problem explanation guidelines:**
 - **Always include a concrete example** after the problem statement. Abstract descriptions alone are hard to follow.
 - **Prefer "diagram + minimal text" over long textual examples**. A well-designed TikZ diagram with 2–3 sentences of explanation is far more effective than a 200-word walkthrough.
+- **Diagram layout: use flow/query-oriented design**. For problems involving "matching constraints to candidates" (like C 题的肋骨匹配), use a **vertical spine + horizontal arrows** layout: constraints on the left with `?` suffix (e.g., `$(5,3)?$`) to indicate a query, candidate strings on the right, and **highlight the matching character** (e.g., red border + light red fill + bold). Remove redundant position labels (like "肋骨1") — the arrow and row position already imply correspondence.
+- **Leave enough vertical margin for enlarged text**. When diagram text uses larger fonts (e.g., removing `font=\small`), lower downstream elements accordingly to prevent overlap.
 - **Complexity must be specific**. Instead of "复杂度爆炸", write the exact complexity: "M^N 最坏可达 (2×10^5)^10，完全不可行".
 
 **Code explanation guidelines:**
