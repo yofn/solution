@@ -1,0 +1,58 @@
+\documentclass[tikz,border=10pt]{standalone}
+\usepackage{ctex}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+
+\definecolor{dpblue}{RGB}{52,152,219}
+\definecolor{matchgreen}{RGB}{46,204,113}
+\definecolor{accentred}{RGB}{231,76,60}
+\definecolor{darktext}{RGB}{44,62,80}
+
+\begin{document}
+\begin{tikzpicture}[font=\large, line cap=round, line join=round]
+
+  % ========== Strings ==========
+  \node[darktext, font=\bfseries] at (0.5,5.5) {S};
+  \foreach \x/\ch in {2/a, 3.3/b, 4.6/r, 5.9/a, 7.2/k} {
+    \node[draw=dpblue, thick, fill=white, minimum width=1cm, minimum height=0.8cm,
+          font=\bfseries] at (\x, 5.5) {\ch};
+  }
+  \node[accentred, font=\bfseries] at (5.9,4.7) {i};
+
+  \node[darktext, font=\bfseries] at (0.5,3.8) {T};
+  \node[draw=matchgreen, thick, fill=matchgreen!10, minimum width=1cm, minimum height=0.8cm,
+        font=\bfseries] at (2,3.8) {a};
+  \node[draw=matchgreen, thick, fill=matchgreen!10, minimum width=1cm, minimum height=0.8cm,
+        font=\bfseries] at (3.3,3.8) {b};
+  \node[matchgreen, font=\bfseries] at (2,3.0) {j-1};
+  \node[matchgreen, font=\bfseries] at (3.3,3.0) {j};
+
+  % ========== DP Arrays ==========
+  \node[darktext, font=\bfseries] at (0.5,1.5) {f};
+  \node[fill=dpblue!15, draw=dpblue, thick, rounded corners=3pt,
+        minimum width=1cm, minimum height=0.7cm] at (2,1.5) {?};
+  \node[fill=dpblue!15, draw=dpblue, thick, rounded corners=3pt,
+        minimum width=1cm, minimum height=0.7cm] at (3.3,1.5) {?};
+  \node[font=\small, dpblue] at (2,0.85) {f[j-1]};
+  \node[font=\small, dpblue] at (3.3,0.85) {f[j]};
+
+  \node[darktext, font=\bfseries] at (0.5,0) {g};
+  \node[fill=matchgreen!20, draw=matchgreen, thick, rounded corners=3pt,
+        minimum width=1cm, minimum height=0.7cm] at (2,0) {?};
+  \node[fill=matchgreen!20, draw=matchgreen, thick, rounded corners=3pt,
+        minimum width=1cm, minimum height=0.7cm] at (3.3,0) {?};
+  \node[font=\small, matchgreen] at (2,-0.65) {g[j-1]};
+  \node[font=\small, matchgreen] at (3.3,-0.65) {g[j]};
+
+  % ========== Transfer arrows ==========
+  \draw[matchgreen, ultra thick, -{Stealth[length=3.5mm]}] (2,1.1) to[bend left=25] (3.3,0.4);
+  \node[matchgreen, font=\small, fill=white, inner sep=2pt] at (2.75,0.9) {匹配};
+
+  % ========== Formula ==========
+  \node[fill=accentred!10, draw=accentred, thick, rounded corners=6pt,
+        minimum width=8cm, minimum height=1cm, align=center] at (6.5,2.2) {
+    \textcolor{accentred}{\bfseries g[j] = f[j-1]} \quad (当 s[i] == t[j-1])
+  };
+
+\end{tikzpicture}
+\end{document}

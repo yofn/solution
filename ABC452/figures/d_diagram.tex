@@ -7,51 +7,55 @@
 \definecolor{matchgreen}{RGB}{46,204,113}
 \definecolor{accentred}{RGB}{231,76,60}
 \definecolor{darktext}{RGB}{44,62,80}
+\definecolor{lightbg}{RGB}{245,247,250}
 
 \begin{document}
 \begin{tikzpicture}[font=\large, line cap=round, line join=round]
 
-  % ========== Strings ==========
-  \node[darktext, font=\bfseries] at (0.5,5.5) {S};
-  \foreach \x/\ch in {2/a, 3.3/b, 4.6/r, 5.9/a, 7.2/k} {
-    \node[draw=dpblue, thick, fill=white, minimum width=1cm, minimum height=0.8cm,
-          font=\bfseries] at (\x, 5.5) {\ch};
-  }
-  \node[accentred, font=\bfseries] at (5.9,4.7) {i};
+  % ========== State Definition ==========
+  \node[fill=dpblue!10, draw=dpblue, thick, rounded corners=6pt,
+        minimum width=10cm, minimum height=1.1cm, align=center] at (5.5,6.2) {
+    \textcolor{dpblue}{\bfseries 状态定义：}$f[i][j]$ = 以 $S[i]$ 结尾、包含 $T[0..j)$ 的子串个数
+  };
 
-  \node[darktext, font=\bfseries] at (0.5,3.8) {T};
-  \node[draw=matchgreen, thick, fill=matchgreen!10, minimum width=1cm, minimum height=0.8cm,
-        font=\bfseries] at (2,3.8) {a};
-  \node[draw=matchgreen, thick, fill=matchgreen!10, minimum width=1cm, minimum height=0.8cm,
-        font=\bfseries] at (3.3,3.8) {b};
-  \node[matchgreen, font=\bfseries] at (2,3.0) {j-1};
-  \node[matchgreen, font=\bfseries] at (3.3,3.0) {j};
+  % ========== 2D DP Table ==========
+  % Row i-1
+  \node[darktext, font=\bfseries] at (0.5,4.8) {i-1};
+  \node[fill=lightbg, draw=gray, thick, rounded corners=3pt,
+        minimum width=1.3cm, minimum height=0.9cm] at (2.5,4.8) {f[i-1][j-1]};
+  \node[fill=lightbg, draw=gray, thick, rounded corners=3pt,
+        minimum width=1.3cm, minimum height=0.9cm] at (4.5,4.8) {f[i-1][j]};
+  \node[fill=lightbg, draw=gray, thick, rounded corners=3pt,
+        minimum width=1.3cm, minimum height=0.9cm] at (6.5,4.8) {...};
 
-  % ========== DP Arrays ==========
-  \node[darktext, font=\bfseries] at (0.5,1.5) {f};
-  \node[fill=dpblue!15, draw=dpblue, thick, rounded corners=3pt,
-        minimum width=1cm, minimum height=0.7cm] at (2,1.5) {?};
-  \node[fill=dpblue!15, draw=dpblue, thick, rounded corners=3pt,
-        minimum width=1cm, minimum height=0.7cm] at (3.3,1.5) {?};
-  \node[font=\small, dpblue] at (2,0.85) {f[j-1]};
-  \node[font=\small, dpblue] at (3.3,0.85) {f[j]};
-
-  \node[darktext, font=\bfseries] at (0.5,0) {g};
+  % Row i
+  \node[darktext, font=\bfseries] at (0.5,3.2) {i};
+  \node[fill=matchgreen!15, draw=matchgreen, thick, rounded corners=3pt,
+        minimum width=1.3cm, minimum height=0.9cm] at (2.5,3.2) {f[i][j-1]};
   \node[fill=matchgreen!20, draw=matchgreen, thick, rounded corners=3pt,
-        minimum width=1cm, minimum height=0.7cm] at (2,0) {?};
-  \node[fill=matchgreen!20, draw=matchgreen, thick, rounded corners=3pt,
-        minimum width=1cm, minimum height=0.7cm] at (3.3,0) {?};
-  \node[font=\small, matchgreen] at (2,-0.65) {g[j-1]};
-  \node[font=\small, matchgreen] at (3.3,-0.65) {g[j]};
+        minimum width=1.3cm, minimum height=0.9cm] at (4.5,3.2) {f[i][j]};
+  \node[fill=lightbg, draw=gray, thick, rounded corners=3pt,
+        minimum width=1.3cm, minimum height=0.9cm] at (6.5,3.2) {...};
 
-  % ========== Transfer arrows ==========
-  \draw[matchgreen, ultra thick, -{Stealth[length=3.5mm]}] (2,1.1) to[bend left=25] (3.3,0.4);
-  \node[matchgreen, font=\small, fill=white, inner sep=2pt] at (2.75,0.9) {匹配};
+  % Column labels
+  \node[darktext, font=\small] at (2.5,5.5) {j-1};
+  \node[darktext, font=\small] at (4.5,5.5) {j};
 
-  % ========== Formula ==========
+  % ========== Transfer Arrow (main) ==========
+  \draw[matchgreen, ultra thick, -{Stealth[length=3.5mm]}] (2.5,4.3) -- (4.5,3.7);
+  \node[matchgreen, font=\small, fill=white, inner sep=2pt] at (3.7,4.2) {匹配};
+
+  % ========== Transfer Formula ==========
   \node[fill=accentred!10, draw=accentred, thick, rounded corners=6pt,
-        minimum width=8cm, minimum height=1cm, align=center] at (6.5,2.2) {
-    \textcolor{accentred}{\bfseries g[j] = f[j-1]} \quad (当 s[i] == t[j-1])
+        minimum width=9cm, minimum height=1.8cm, align=center] at (5.5,1.5) {
+    \textcolor{accentred}{\bfseries 转移方程}\\[4pt]
+    若 $S[i] == T[j-1]$：\quad $f[i][j] = f[i-1][j-1]$\\[2pt]
+    若 $S[i] != T[j-1]$：\quad $f[i][j] = f[i-1][j]$
+  };
+
+  % ========== Bottom note ==========
+  \node[darktext, font=\small, align=center] at (5.5,0.2) {
+    答案 = 总子串数 - $\sum f[i][m]$
   };
 
 \end{tikzpicture}

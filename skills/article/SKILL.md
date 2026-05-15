@@ -18,7 +18,7 @@ Read from the contest directory:
 
 **Note**: Diagram PNGs in `figures_sel/` must be produced by the `figure` skill (TikZ + xelatex + pdftoppm at 400 DPI). Do not accept low-quality images from other sources.
 
-**Sync reminder**: `article.md` references `figures/xxx.png` for local preview, but `article.html` uses CDN links to `figures_sel/xxx.png`. Before converting Markdown to HTML, ensure `figures_sel/` contains the latest PNGs copied from `figures/`.
+**Sync reminder**: `article.md` references `figures/xxx.png` for local Markdown preview, but `article.html` uses CDN links to `figures_sel/xxx.png`. Before converting Markdown to HTML, ensure `figures_sel/` contains the latest PNGs copied from `figures/`.
 
 ### 2. Plan the article structure
 
@@ -29,10 +29,12 @@ Read from the contest directory:
 
 2. Problem C walkthrough
    - Problem restatement (brief, in Chinese)
+   - Simple example to illustrate the problem scenario
    - Key insight / observation
+   - Complexity analysis (concrete, not vague)
    - Diagram explanation (embed PNG)
    - Code walkthrough (embed code block PNG image)
-   - Code explanation in prose
+   - Code explanation in numbered/bullet points
 
 3. Problem D walkthrough
    - Same structure as C
@@ -53,6 +55,14 @@ Save as `ABCxxx/article.md`.
 - Use **colored font** (`<span style="color:#xxx">text</span>`) for emphasis, NOT bold
 - Embed PNG images with local path `![alt](figures/xxx.png)` for Markdown preview
 - WeChat publication target: "信奥观察"
+
+**Problem explanation guidelines:**
+- **Always include a concrete example** after the problem statement. Abstract descriptions alone are hard to follow. Use a small, hand-calculable example (N ≤ 3 or string length ≤ 4) and walk through the logic step by step.
+- **Complexity must be specific**. Instead of "复杂度爆炸", write the exact complexity: "M^N 最坏可达 (2×10^5)^10，完全不可行".
+
+**Code explanation guidelines:**
+- Use **numbered points (1. 2. 3.)** or **bullet points** for code walkthrough. Do NOT write long paragraphs.
+- **Implementation optimizations** (rolling arrays, bit compression, etc.) should be explained in the code explanation section, NOT in the core algorithm section. The core section should focus on the state definition and transition logic.
 
 ### 4. Convert to HTML
 
@@ -169,6 +179,9 @@ hr { border: none; border-top: 1px solid #e0e0e0; margin: 24px 0; }
 - [ ] Colored `<span>` used for emphasis, NOT `<strong>`/`<b>`
 - [ ] h1/h2/h3 have decorative styles distinct from body text
 - [ ] Chinese text throughout
+- [ ] Concrete example included for each problem
+- [ ] Complexity analysis is specific, not vague
+- [ ] Code explanation uses numbered/bullet points
 
 ### 6. Publish to WeChat
 
