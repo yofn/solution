@@ -56,6 +56,7 @@ Save as `ABCxxx/article.md`.
 - **NEVER use Markdown bold `**text**`** in the article body — md_to_html.py does NOT parse it, and `**` will be rendered literally
 - **NEVER use LaTeX math mode `$...$`** in the article body — md_to_html.py does NOT parse it, and `$` will be rendered literally
 - **NEVER use backtick `` `code` ``** in the article body — md_to_html.py does NOT parse inline code, and `` ` `` will be rendered literally
+- **NEVER use quotation marks** (`"..."` or `“...”`) around strings, characters, or code snippets. Instead, use **colored font** (`<span style="color:#0a7a3f">text</span>`) for string literals and characters to maintain visual emphasis consistent with HTML rendering. Example: write <span style="color:#0a7a3f">abc</span> instead of "abc", and <span style="color:#0a7a3f">a</span> instead of 'a'.
 - Embed PNG images with local path `![alt](figures/xxx.png)` for Markdown preview
 - WeChat publication target: "信奥观察"
 

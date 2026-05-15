@@ -33,9 +33,9 @@ AtCoder Beginner Contest 的 C 题和 D 题，往往是检验选手是否具备<
 
 ![C题鱼骨架结构](figures/c_structure.png)
 
-脊柱上的字符串恰好是 "retro"。每根肋骨 i 的长度为 A_i，且第 B_i 位必须等于脊柱的第 i 位。比如肋骨 1 长 5、第 3 位必须是 'r'，而 "chris" 的第 3 位正好是 'r'，所以满足。5 根肋骨全部能找到对应的字符串，答案是 <span style="color:#27ae60">Yes</span>。
+脊柱上的字符串恰好是 <span style="color:#0a7a3f">retro</span>。每根肋骨 i 的长度为 A_i，且第 B_i 位必须等于脊柱的第 i 位。比如肋骨 1 长 5、第 3 位必须是 'r'，而 <span style="color:#0a7a3f">chris</span> 的第 3 位正好是 <span style="color:#0a7a3f">r</span>，所以满足。5 根肋骨全部能找到对应的字符串，答案是 <span style="color:#27ae60">Yes</span>。
 
-如果查询 "cod"（长度只有 3），连脊柱长度要求都不满足，直接 <span style="color:#e74c3c">No</span>。
+如果查询 <span style="color:#0a7a3f">cod</span>（长度只有 3），连脊柱长度要求都不满足，直接 <span style="color:#e74c3c">No</span>。
 
 ### 关键观察
 
@@ -121,19 +121,19 @@ int main(){
 
 ### 举个例子
 
-S = "abc"，T = "ac"。
+S = <span style="color:#0a7a3f">abc</span>，T = <span style="color:#0a7a3f">ac</span>。
 
-S 的所有非空子串有 6 个："a"、"b"、"c"、"ab"、"bc"、"abc"。
+S 的所有非空子串有 6 个：<span style="color:#0a7a3f">a</span>、<span style="color:#0a7a3f">b</span>、<span style="color:#0a7a3f">c</span>、<span style="color:#0a7a3f">ab</span>、<span style="color:#0a7a3f">bc</span>、<span style="color:#0a7a3f">abc</span>。
 
-哪些包含 "ac" 作为子序列？
-- "a"：只有 'a'，没有 'c' → 不包含
-- "b"：没有 'a' 也没有 'c' → 不包含
-- "c"：只有 'c'，没有 'a' → 不包含
-- "ab"：有 'a' 但没有 'c' → 不包含
-- "bc"：没有 'a' → 不包含
-- "abc"：'a' 后面有 'c' → <span style="color:#e74c3c">包含</span>
+哪些包含 <span style="color:#0a7a3f">ac</span> 作为子序列？
+- <span style="color:#0a7a3f">a</span>：只有 <span style="color:#0a7a3f">a</span>，没有 <span style="color:#0a7a3f">c</span> → 不包含
+- <span style="color:#0a7a3f">b</span>：没有 <span style="color:#0a7a3f">a</span> 也没有 <span style="color:#0a7a3f">c</span> → 不包含
+- <span style="color:#0a7a3f">c</span>：只有 <span style="color:#0a7a3f">c</span>，没有 <span style="color:#0a7a3f">a</span> → 不包含
+- <span style="color:#0a7a3f">ab</span>：有 <span style="color:#0a7a3f">a</span> 但没有 <span style="color:#0a7a3f">c</span> → 不包含
+- <span style="color:#0a7a3f">bc</span>：没有 <span style="color:#0a7a3f">a</span> → 不包含
+- <span style="color:#0a7a3f">abc</span>：<span style="color:#0a7a3f">a</span> 后面有 <span style="color:#0a7a3f">c</span> → <span style="color:#e74c3c">包含</span>
 
-所以不包含 "ac" 的子串有 5 个，答案就是 5。
+所以不包含 <span style="color:#0a7a3f">ac</span> 的子串有 5 个，答案就是 5。
 
 ### 为什么"正难则反"？
 

@@ -81,8 +81,8 @@ hr { border: none; border-top: 1px solid #e0e0e0; margin: 24px 0; }
 <h3>举个例子</h3>
 <p>下图是 N = 5 的样例结构：</p>
 <img src="https://cdn.jsdelivr.net/gh/yofn/solution@main/ABC452/figures_sel/c_structure.png" alt="C题鱼骨架结构" style="max-width:100%;display:block;margin:14px auto;border-radius:6px;">
-<p>脊柱上的字符串恰好是 "retro"。每根肋骨 i 的长度为 A_i，且第 B_i 位必须等于脊柱的第 i 位。比如肋骨 1 长 5、第 3 位必须是 'r'，而 "chris" 的第 3 位正好是 'r'，所以满足。5 根肋骨全部能找到对应的字符串，答案是 <span style="color:#27ae60">Yes</span>。</p>
-<p>如果查询 "cod"（长度只有 3），连脊柱长度要求都不满足，直接 <span style="color:#e74c3c">No</span>。</p>
+<p>脊柱上的字符串恰好是 <span style="color:#0a7a3f">retro</span>。每根肋骨 i 的长度为 A_i，且第 B_i 位必须等于脊柱的第 i 位。比如肋骨 1 长 5、第 3 位必须是 'r'，而 <span style="color:#0a7a3f">chris</span> 的第 3 位正好是 <span style="color:#0a7a3f">r</span>，所以满足。5 根肋骨全部能找到对应的字符串，答案是 <span style="color:#27ae60">Yes</span>。</p>
+<p>如果查询 <span style="color:#0a7a3f">cod</span>（长度只有 3），连脊柱长度要求都不满足，直接 <span style="color:#e74c3c">No</span>。</p>
 <h3>关键观察</h3>
 <p>N ≤ 10，非常小；但 M 最大有 2 × 10^5，非常大。</p>
 <p>如果对每个查询 t 都暴力枚举每根肋骨选哪个字符串，每根肋骨有 M 种选择，N 根肋骨就是 M^N 种组合。最坏情况下 M = 2 × 10^5，N = 10，M^N 是一个天文数字，完全不可行。</p>
@@ -110,16 +110,16 @@ hr { border: none; border-top: 1px solid #e0e0e0; margin: 24px 0; }
 <p>给定两个字符串 S 和 T。统计 S 的<span style="color:#e74c3c">所有非空子串</span>中，有多少个<span style="color:#2980b9">不包含 T 作为子序列</span>。</p>
 <p>注意：两个子串即使内容相同，只要取自 S 的不同位置，就算不同的子串。</p>
 <h3>举个例子</h3>
-<p>S = "abc"，T = "ac"。</p>
-<p>S 的所有非空子串有 6 个："a"、"b"、"c"、"ab"、"bc"、"abc"。</p>
-<p>哪些包含 "ac" 作为子序列？</p>
-<p>- "a"：只有 'a'，没有 'c' → 不包含</p>
-<p>- "b"：没有 'a' 也没有 'c' → 不包含</p>
-<p>- "c"：只有 'c'，没有 'a' → 不包含</p>
-<p>- "ab"：有 'a' 但没有 'c' → 不包含</p>
-<p>- "bc"：没有 'a' → 不包含</p>
-<p>- "abc"：'a' 后面有 'c' → <span style="color:#e74c3c">包含</span></p>
-<p>所以不包含 "ac" 的子串有 5 个，答案就是 5。</p>
+<p>S = <span style="color:#0a7a3f">abc</span>，T = <span style="color:#0a7a3f">ac</span>。</p>
+<p>S 的所有非空子串有 6 个：<span style="color:#0a7a3f">a</span>、<span style="color:#0a7a3f">b</span>、<span style="color:#0a7a3f">c</span>、<span style="color:#0a7a3f">ab</span>、<span style="color:#0a7a3f">bc</span>、<span style="color:#0a7a3f">abc</span>。</p>
+<p>哪些包含 <span style="color:#0a7a3f">ac</span> 作为子序列？</p>
+<p>- <span style="color:#0a7a3f">a</span>：只有 <span style="color:#0a7a3f">a</span>，没有 <span style="color:#0a7a3f">c</span> → 不包含</p>
+<p>- <span style="color:#0a7a3f">b</span>：没有 <span style="color:#0a7a3f">a</span> 也没有 <span style="color:#0a7a3f">c</span> → 不包含</p>
+<p>- <span style="color:#0a7a3f">c</span>：只有 <span style="color:#0a7a3f">c</span>，没有 <span style="color:#0a7a3f">a</span> → 不包含</p>
+<p>- <span style="color:#0a7a3f">ab</span>：有 <span style="color:#0a7a3f">a</span> 但没有 <span style="color:#0a7a3f">c</span> → 不包含</p>
+<p>- <span style="color:#0a7a3f">bc</span>：没有 <span style="color:#0a7a3f">a</span> → 不包含</p>
+<p>- <span style="color:#0a7a3f">abc</span>：<span style="color:#0a7a3f">a</span> 后面有 <span style="color:#0a7a3f">c</span> → <span style="color:#e74c3c">包含</span></p>
+<p>所以不包含 <span style="color:#0a7a3f">ac</span> 的子串有 5 个，答案就是 5。</p>
 <h3>为什么"正难则反"？</h3>
 <p>直接统计"不包含 T 作为子序列"的子串数量非常棘手。因为"不包含"意味着 T 的每一个字符都不能按顺序出现在子串中，这涉及复杂的组合限制。</p>
 <p>但"包含 T 作为子序列"则相对容易统计。我们可以用动态递推的方式，逐个位置计算"以当前位置结尾、包含 T 作为子序列的子串个数"，然后用总子串数减去这个值即可。</p>
