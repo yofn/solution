@@ -55,6 +55,7 @@ Save as `ABCxxx/article.md`.
 - Use **colored font** (`<span style="color:#xxx">text</span>`) for emphasis, NOT bold
 - **NEVER use Markdown bold `**text**`** in the article body — md_to_html.py does NOT parse it, and `**` will be rendered literally
 - **NEVER use LaTeX math mode `$...$`** in the article body — md_to_html.py does NOT parse it, and `$` will be rendered literally
+- **NEVER use backtick `` `code` ``** in the article body — md_to_html.py does NOT parse inline code, and `` ` `` will be rendered literally
 - Embed PNG images with local path `![alt](figures/xxx.png)` for Markdown preview
 - WeChat publication target: "信奥观察"
 
