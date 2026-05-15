@@ -5,55 +5,74 @@
 
 \definecolor{spineblue}{RGB}{52,152,219}
 \definecolor{ribgreen}{RGB}{46,204,113}
+\definecolor{matchred}{RGB}{231,76,60}
 \definecolor{darktext}{RGB}{44,62,80}
+\definecolor{lightbg}{RGB}{245,247,250}
 
 \begin{document}
 \begin{tikzpicture}[font=\large, line cap=round, line join=round]
 
-  % ========== Spine ==========
-  \node[fill=spineblue!10, draw=spineblue, thick, rounded corners=4pt,
-        minimum width=9cm, minimum height=1.1cm, anchor=center] at (6,4.2) {};
-  \node[spineblue, font=\bfseries] at (6,4.7) {脊柱};
-  
-  \foreach \x/\ch in {2.5/r, 4.0/e, 5.5/t, 7.0/r, 8.5/o} {
-    \node[draw=spineblue, thick, fill=white, minimum width=1cm, minimum height=0.7cm, font=\bfseries] at (\x,4.2) {\ch};
+  % ========== Spine (vertical) ==========
+  \node[spineblue, font=\bfseries] at (1,6.2) {脊柱};
+  \foreach \y/\ch in {5.4/r, 4.6/e, 3.8/t, 3.0/r, 2.2/o} {
+    \node[draw=spineblue, thick, fill=white, minimum width=0.9cm, minimum height=0.7cm, font=\bfseries] at (1,\y) {\ch};
   }
 
-  % ========== Ribs ==========
-  % Rib 1: (5,3) → chris
-  \draw[ribgreen, thick, -{Stealth[length=3mm]}] (2.5,3.7) -- (2.5,3.0);
-  \node[fill=ribgreen!12, draw=ribgreen, thick, rounded corners=3pt,
-        minimum width=1.8cm, minimum height=0.6cm] at (2.5,2.7) {chris};
-  \node[ribgreen, font=\small] at (2.5,2.2) {肋骨1};
-  \node[darktext, font=\small, anchor=west] at (3.45,2.7) {$(5,3)$};
+  % ========== Rib queries ==========
+  % Each row: arrow from spine right to rib string
+  % Label (A_i,B_i)? above arrow
+  % Rib string on right, B_i-th character highlighted
 
-  % Rib 2: (5,2) → retro
-  \draw[ribgreen, thick, -{Stealth[length=3mm]}] (4.0,3.7) -- (4.0,3.0);
-  \node[fill=ribgreen!12, draw=ribgreen, thick, rounded corners=3pt,
-        minimum width=1.8cm, minimum height=0.6cm] at (4.0,2.7) {retro};
-  \node[ribgreen, font=\small] at (4.0,2.2) {肋骨2};
-  \node[darktext, font=\small, anchor=west] at (4.95,2.7) {$(5,2)$};
+  % Helper macro for drawing a rib row
+  % #1=y, #2=A, #3=B, #4=string, #5=list of chars
+  % We manually place each character so we can highlight the B-th one
 
-  % Rib 3: (4,1) → tuna
-  \draw[ribgreen, thick, -{Stealth[length=3mm]}] (5.5,3.7) -- (5.5,3.0);
-  \node[fill=ribgreen!12, draw=ribgreen, thick, rounded corners=3pt,
-        minimum width=1.8cm, minimum height=0.6cm] at (5.5,2.7) {tuna};
-  \node[ribgreen, font=\small] at (5.5,2.2) {肋骨3};
-  \node[darktext, font=\small, anchor=west] at (6.45,2.7) {$(4,1)$};
+  % Row 1: (5,3)? → chris  (highlight 'r' at pos 3)
+  \draw[ribgreen, thick, -{Stealth[length=3mm]}] (1.6,5.4) -- (3.0,5.4);
+  \node[darktext, font=\small] at (2.3,5.9) {$(5,3)?$};
+  \node[draw=gray!40, fill=lightbg, thick, rounded corners=2pt, minimum width=0.7cm, minimum height=0.6cm, font=\small] at (3.5,5.4) {c};
+  \node[draw=gray!40, fill=lightbg, thick, rounded corners=2pt, minimum width=0.7cm, minimum height=0.6cm, font=\small] at (4.2,5.4) {h};
+  \node[draw=matchred, fill=matchred!15, thick, rounded corners=2pt, minimum width=0.7cm, minimum height=0.6cm, font=\small\bfseries] at (4.9,5.4) {r};
+  \node[draw=gray!40, fill=lightbg, thick, rounded corners=2pt, minimum width=0.7cm, minimum height=0.6cm, font=\small] at (5.6,5.4) {i};
+  \node[draw=gray!40, fill=lightbg, thick, rounded corners=2pt, minimum width=0.7cm, minimum height=0.6cm, font=\small] at (6.3,5.4) {s};
+  \node[ribgreen, font=\small] at (4.9,4.9) {肋骨1};
 
-  % Rib 4: (5,1) → retro
-  \draw[ribgreen, thick, -{Stealth[length=3mm]}] (7.0,3.7) -- (7.0,3.0);
-  \node[fill=ribgreen!12, draw=ribgreen, thick, rounded corners=3pt,
-        minimum width=1.8cm, minimum height=0.6cm] at (7.0,2.7) {retro};
-  \node[ribgreen, font=\small] at (7.0,2.2) {肋骨4};
-  \node[darktext, font=\small, anchor=west] at (7.95,2.7) {$(5,1)$};
+  % Row 2: (5,2)? → retro  (highlight 'e' at pos 2)
+  \draw[ribgreen, thick, -{Stealth[length=3mm]}] (1.6,4.6) -- (3.0,4.6);
+  \node[darktext, font=\small] at (2.3,5.1) {$(5,2)?$};
+  \node[draw=gray!40, fill=lightbg, thick, rounded corners=2pt, minimum width=0.7cm, minimum height=0.6cm, font=\small] at (3.5,4.6) {r};
+  \node[draw=matchred, fill=matchred!15, thick, rounded corners=2pt, minimum width=0.7cm, minimum height=0.6cm, font=\small\bfseries] at (4.2,4.6) {e};
+  \node[draw=gray!40, fill=lightbg, thick, rounded corners=2pt, minimum width=0.7cm, minimum height=0.6cm, font=\small] at (4.9,4.6) {t};
+  \node[draw=gray!40, fill=lightbg, thick, rounded corners=2pt, minimum width=0.7cm, minimum height=0.6cm, font=\small] at (5.6,4.6) {r};
+  \node[draw=gray!40, fill=lightbg, thick, rounded corners=2pt, minimum width=0.7cm, minimum height=0.6cm, font=\small] at (6.3,4.6) {o};
+  \node[ribgreen, font=\small] at (4.9,4.1) {肋骨2};
 
-  % Rib 5: (3,2) → cod
-  \draw[ribgreen, thick, -{Stealth[length=3mm]}] (8.5,3.7) -- (8.5,3.0);
-  \node[fill=ribgreen!12, draw=ribgreen, thick, rounded corners=3pt,
-        minimum width=1.8cm, minimum height=0.6cm] at (8.5,2.7) {cod};
-  \node[ribgreen, font=\small] at (8.5,2.2) {肋骨5};
-  \node[darktext, font=\small, anchor=west] at (9.45,2.7) {$(3,2)$};
+  % Row 3: (4,1)? → tuna  (highlight 't' at pos 1)
+  \draw[ribgreen, thick, -{Stealth[length=3mm]}] (1.6,3.8) -- (3.0,3.8);
+  \node[darktext, font=\small] at (2.3,4.3) {$(4,1)?$};
+  \node[draw=matchred, fill=matchred!15, thick, rounded corners=2pt, minimum width=0.7cm, minimum height=0.6cm, font=\small\bfseries] at (3.5,3.8) {t};
+  \node[draw=gray!40, fill=lightbg, thick, rounded corners=2pt, minimum width=0.7cm, minimum height=0.6cm, font=\small] at (4.2,3.8) {u};
+  \node[draw=gray!40, fill=lightbg, thick, rounded corners=2pt, minimum width=0.7cm, minimum height=0.6cm, font=\small] at (4.9,3.8) {n};
+  \node[draw=gray!40, fill=lightbg, thick, rounded corners=2pt, minimum width=0.7cm, minimum height=0.6cm, font=\small] at (5.6,3.8) {a};
+  \node[ribgreen, font=\small] at (4.55,3.3) {肋骨3};
+
+  % Row 4: (5,1)? → retro  (highlight 'r' at pos 1)
+  \draw[ribgreen, thick, -{Stealth[length=3mm]}] (1.6,3.0) -- (3.0,3.0);
+  \node[darktext, font=\small] at (2.3,3.5) {$(5,1)?$};
+  \node[draw=matchred, fill=matchred!15, thick, rounded corners=2pt, minimum width=0.7cm, minimum height=0.6cm, font=\small\bfseries] at (3.5,3.0) {r};
+  \node[draw=gray!40, fill=lightbg, thick, rounded corners=2pt, minimum width=0.7cm, minimum height=0.6cm, font=\small] at (4.2,3.0) {e};
+  \node[draw=gray!40, fill=lightbg, thick, rounded corners=2pt, minimum width=0.7cm, minimum height=0.6cm, font=\small] at (4.9,3.0) {t};
+  \node[draw=gray!40, fill=lightbg, thick, rounded corners=2pt, minimum width=0.7cm, minimum height=0.6cm, font=\small] at (5.6,3.0) {r};
+  \node[draw=gray!40, fill=lightbg, thick, rounded corners=2pt, minimum width=0.7cm, minimum height=0.6cm, font=\small] at (6.3,3.0) {o};
+  \node[ribgreen, font=\small] at (4.9,2.5) {肋骨4};
+
+  % Row 5: (3,2)? → cod  (highlight 'o' at pos 2)
+  \draw[ribgreen, thick, -{Stealth[length=3mm]}] (1.6,2.2) -- (3.0,2.2);
+  \node[darktext, font=\small] at (2.3,2.7) {$(3,2)?$};
+  \node[draw=gray!40, fill=lightbg, thick, rounded corners=2pt, minimum width=0.7cm, minimum height=0.6cm, font=\small] at (3.5,2.2) {c};
+  \node[draw=matchred, fill=matchred!15, thick, rounded corners=2pt, minimum width=0.7cm, minimum height=0.6cm, font=\small\bfseries] at (4.2,2.2) {o};
+  \node[draw=gray!40, fill=lightbg, thick, rounded corners=2pt, minimum width=0.7cm, minimum height=0.6cm, font=\small] at (4.9,2.2) {d};
+  \node[ribgreen, font=\small] at (4.2,1.7) {肋骨5};
 
 \end{tikzpicture}
 \end{document}
