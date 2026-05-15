@@ -53,11 +53,14 @@ Save as `ABCxxx/article.md`.
 - No contestant IDs or personal identifiers
 - Code blocks: delete ALL comments from the source; move explanations to surrounding text
 - Use **colored font** (`<span style="color:#xxx">text</span>`) for emphasis, NOT bold
+- **NEVER use Markdown bold `**text**`** in the article body — md_to_html.py does NOT parse it, and `**` will be rendered literally
+- **NEVER use LaTeX math mode `$...$`** in the article body — md_to_html.py does NOT parse it, and `$` will be rendered literally
 - Embed PNG images with local path `![alt](figures/xxx.png)` for Markdown preview
 - WeChat publication target: "信奥观察"
 
 **Problem explanation guidelines:**
-- **Always include a concrete example** after the problem statement. Abstract descriptions alone are hard to follow. Use a small, hand-calculable example (N ≤ 3 or string length ≤ 4) and walk through the logic step by step.
+- **Always include a concrete example** after the problem statement. Abstract descriptions alone are hard to follow.
+- **Prefer "diagram + minimal text" over long textual examples**. A well-designed TikZ diagram with 2–3 sentences of explanation is far more effective than a 200-word walkthrough.
 - **Complexity must be specific**. Instead of "复杂度爆炸", write the exact complexity: "M^N 最坏可达 (2×10^5)^10，完全不可行".
 
 **Code explanation guidelines:**
@@ -183,10 +186,12 @@ hr { border: none; border-top: 1px solid #e0e0e0; margin: 24px 0; }
 - [ ] Complexity analysis is specific, not vague
 - [ ] Code explanation uses numbered/bullet points
 
-### 6. Publish to WeChat
+### 6. Auto-push
 
-1. Push the repository to GitHub (ensure all PNGs in `figures_sel/` are pushed)
-2. Wait 1–2 minutes for jsDelivr cache to refresh
-3. Open `article.html` in a browser to confirm all images load
-4. Select all and copy the HTML content
-5. Paste into WeChat Official Account editor — images will auto-download and be re-hosted on WeChat's CDN
+After every change (code, diagram, article, HTML), **automatically run `git add -A && git commit && git push`** without asking the user for confirmation.
+
+### 7. Publish to WeChat
+
+1. Open `article.html` in a browser to confirm all images load
+2. Select all and copy the HTML content
+3. Paste into WeChat Official Account editor — images will auto-download and be re-hosted on WeChat's CDN
