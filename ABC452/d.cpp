@@ -1,7 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
 using ll = long long;
-const int mod = 998244353;
 
 int main() {
     string s, t; cin >> s >> t;
@@ -13,8 +12,8 @@ int main() {
         auto g = f;
         f[0] = i+1;
         for(int j=1; j<=m; ++j){
-            if(s[i]!=t[j-1]) continue;
-            g[j] = f[j-1];
+            if(s[i]==t[j-1])
+                g[j] = f[j-1];
         }
         tot -= g[m];
         swap(f,g);
