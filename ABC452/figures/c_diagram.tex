@@ -1,0 +1,54 @@
+\documentclass[tikz,border=10pt]{standalone}
+\usepackage{ctex}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+
+\definecolor{spineblue}{RGB}{52,152,219}
+\definecolor{ribgreen}{RGB}{46,204,113}
+\definecolor{accentred}{RGB}{231,76,60}
+\definecolor{darktext}{RGB}{44,62,80}
+
+\begin{document}
+\begin{tikzpicture}[font=\large, line cap=round, line join=round]
+
+  % ========== Spine ==========
+  \node[fill=spineblue!12, draw=spineblue, thick, rounded corners=4pt,
+        minimum width=7.5cm, minimum height=1.1cm, anchor=center] at (5,3.8) {};
+  \node[spineblue, font=\bfseries] at (5,4.4) {脊柱};
+  
+  \node[draw=spineblue, thick, fill=white, minimum width=1cm, minimum height=0.7cm, font=\bfseries] at (2.2,3.8) {r};
+  \node[draw=spineblue, thick, fill=white, minimum width=1cm, minimum height=0.7cm, font=\bfseries] at (3.6,3.8) {e};
+  \node[draw=spineblue, thick, fill=white, minimum width=1cm, minimum height=0.7cm, font=\bfseries] at (5.0,3.8) {t};
+  \node[draw=spineblue, thick, fill=white, minimum width=1cm, minimum height=0.7cm, font=\bfseries] at (6.4,3.8) {r};
+  \node[draw=spineblue, thick, fill=white, minimum width=1cm, minimum height=0.7cm, font=\bfseries] at (7.8,3.8) {o};
+
+  % ========== Ribs ==========
+  % Rib 1
+  \draw[ribgreen, thick, -{Stealth[length=3mm]}] (2.2,3.3) -- (2.2,2.6);
+  \node[fill=ribgreen!12, draw=ribgreen, thick, rounded corners=3pt,
+        minimum width=1.8cm, minimum height=0.6cm] at (1.0,2.3) {chris};
+  \node[ribgreen, font=\small] at (1.0,1.75) {肋骨1};
+  \node[darktext, font=\small] at (3.4,2.85) {(5,3)=r};
+
+  % Rib 2
+  \draw[ribgreen, thick, -{Stealth[length=3mm]}] (3.6,3.3) -- (3.6,2.6);
+  \node[fill=ribgreen!12, draw=ribgreen, thick, rounded corners=3pt,
+        minimum width=1.8cm, minimum height=0.6cm] at (3.6,2.3) {retro};
+  \node[ribgreen, font=\small] at (3.6,1.75) {肋骨2};
+  \node[darktext, font=\small] at (5.0,2.85) {(5,2)=e};
+
+  % Rib 3
+  \draw[ribgreen, thick, -{Stealth[length=3mm]}] (5.0,3.3) -- (5.0,2.6);
+  \node[fill=ribgreen!12, draw=ribgreen, thick, rounded corners=3pt,
+        minimum width=1.8cm, minimum height=0.6cm] at (6.4,2.3) {tuna};
+  \node[ribgreen, font=\small] at (6.4,1.75) {肋骨3};
+  \node[darktext, font=\small] at (7.8,2.85) {(4,1)=t};
+
+  % ========== Key insight ==========
+  \node[fill=accentred!10, draw=accentred, thick, rounded corners=6pt,
+        minimum width=8cm, minimum height=1cm, align=center] at (5,0.6) {
+    \textcolor{accentred}{\bfseries 核心判定：}\texttt{f[A\_i][B\_i][c]} 为真？
+  };
+
+\end{tikzpicture}
+\end{document}

@@ -82,7 +82,10 @@ hr { border: none; border-top: 1px solid #e0e0e0; margin: 24px 0; }
 <p>N ≤ 10，非常小；但 M 最大有 2 × 10^5，非常大。如果对每个 S_j 都暴力枚举每根肋骨选哪个字符串，复杂度是爆炸的。</p>
 <p>换个角度想：我们其实并不关心每根肋骨具体选了哪个字符串，只关心<span style="color:#e74c3c">某个位置上是否有某个字符</span>。</p>
 <p>具体来说，对于第 i 根肋骨，它需要满足的条件是：存在一个长度为 A_i 的字符串，其第 B_i 位恰好是脊柱的第 i 个字符 c。这个条件只跟三个因素有关：长度 A_i、位置 B_i、字符 c。它跟脊柱的其他字符完全无关，跟其他肋骨也无关。</p>
-<p>因此，我们可以事先把所有 S_1 到 S_M 中的字符串"拆解"成特征信息：</p>
+<p>下图展示了鱼骨架的结构和判定思路：</p>
+<img src="https://cdn.jsdelivr.net/gh/yofn/solution@main/ABC452/figures_sel/c_diagram.png" alt="C题鱼骨架示意" style="max-width:100%;display:block;margin:14px auto;border-radius:6px;">
+<p>脊柱上的字符串 "retro" 每个位置对应一根肋骨的约束。我们只需要检查：对于每个位置 i，是否存在一个长度为 A_i 的字符串，其第 B_i 位恰好是脊柱的第 i 个字符。</p>
+<p>因此可以事先把所有 S_1 到 S_M 拆解成特征信息：</p>
 <img src="https://cdn.jsdelivr.net/gh/yofn/solution@main/ABC452/figures_sel/c_code.png" alt="C题代码" style="max-width:100%;display:block;margin:14px auto;border-radius:10px;border:1px solid #ece8e0;">
 <p>这个数组的维度是 11 × 11 × 26，非常小。遍历一遍 M 个字符串就能预处理完成。</p>
 <h3>判定过程</h3>
@@ -108,10 +111,12 @@ hr { border: none; border-top: 1px solid #e0e0e0; margin: 24px 0; }
 <p>总子串数是固定的：|S| × (|S| + 1) / 2。</p>
 <h3>DP 设计</h3>
 <p>定义 `f[j]` 为：以当前已处理位置结尾的所有子串中，包含 `T[0..j-1]`（即 T 的前 j 个字符）作为子序列的子串个数。</p>
+<p>下图展示了核心的状态转移：</p>
+<img src="https://cdn.jsdelivr.net/gh/yofn/solution@main/ABC452/figures_sel/d_diagram.png" alt="D题DP转移示意" style="max-width:100%;display:block;margin:14px auto;border-radius:6px;">
 <p>当我们从位置 i-1 推进到位置 i 时：</p>
-<p>1. `f[0] = i + 1`。因为以位置 i 结尾的所有子串都包含空串作为子序列，这样的子串共有 i+1 个（从位置 0 到 i 中任选一个起点）。</p>
-<p>2. 如果 `S[i] == T[j-1]`，那么以位置 i 结尾且包含 `T[0..j-1]` 的子串，可以由"以位置 i-1 结尾且包含 `T[0..j-2]` 的子串"扩展而来。即 `g[j] = f[j-1]`。</p>
-<p>3. 用 `g[m]` 累加以位置 i 结尾的"坏子串"数量，从总数中扣除。</p>
+<p>1. `f[0] = i + 1`。以位置 i 结尾的所有子串都包含空串作为子序列，共有 i+1 个。</p>
+<p>2. 如果 `S[i] == T[j-1]`，那么 `g[j] = f[j-1]`。即：以位置 i 结尾包含 `T[0..j-1]` 的子串数，等于以 i-1 结尾包含 `T[0..j-2]` 的子串数。</p>
+<p>3. 每次用 `g[m]` 从总数中扣除，最终得到不包含 T 的子串数量。</p>
 <p>这里用一个技巧：用数组 `g` 拷贝上一轮状态，在 `g` 上做更新，最后 swap 回 `f`。这样空间复杂度只有 O(|T|)，而 |T| ≤ 50，非常高效。</p>
 <h3>代码</h3>
 <img src="https://cdn.jsdelivr.net/gh/yofn/solution@main/ABC452/figures_sel/d_code.png" alt="D题代码" style="max-width:100%;display:block;margin:14px auto;border-radius:10px;border:1px solid #ece8e0;">
