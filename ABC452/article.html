@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ABC452 题解</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  font-size: 16px; line-height: 1.85; color: #333;
+  background: #f0f2f5; padding: 16px;
+}
+.container {
+  max-width: 420px; margin: 0 auto; background: #fff;
+  padding: 24px 20px; border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+h1 {
+  font-size: 22px; color: #2c3e50;
+  background: linear-gradient(90deg, #fff0f0 0%, #fff 100%);
+  border-left: 5px solid #e74c3c; padding: 14px 16px;
+  margin: 32px 0 20px; border-radius: 0 10px 10px 0;
+}
+h2 {
+  font-size: 18px; color: #34495e; position: relative;
+  padding: 10px 0 10px 36px; margin: 28px 0 16px;
+  border-bottom: 1px dashed #ddd;
+}
+h2::before {
+  content: ""; position: absolute; left: 0; top: 10px;
+  width: 26px; height: 26px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 50%; box-shadow: 0 2px 6px rgba(102,126,234,0.35);
+}
+h2::after {
+  content: ""; position: absolute; left: 8px; top: 18px;
+  width: 10px; height: 10px; background: #fff; border-radius: 50%;
+}
+h3 {
+  font-size: 15px; color: #555; display: inline-block;
+  background: linear-gradient(90deg, #f0f4f8 0%, #f8fafc 100%);
+  padding: 5px 16px; border-radius: 20px;
+  border: 1px solid #e8ecf1; margin: 20px 0 12px;
+}
+p { margin: 12px 0; text-align: justify; word-break: break-word; }
+img { max-width: 100%; display: block; margin: 16px auto; border-radius: 6px; }
+pre {
+  background: #faf8f5; color: #2d2d2d; padding: 16px 18px;
+  border-radius: 10px; overflow-x: auto; font-size: 13px;
+  line-height: 1.65; margin: 14px 0; border: 1px solid #ece8e0;
+}
+code { font-family: "SF Mono", "Fira Code", Monaco, "Cascadia Code", Consolas, monospace; }
+.kw { color: #0066cc; }
+.ty { color: #0969da; }
+.st { color: #0a7a3f; }
+.nu { color: #d73a49; }
+.pp { color: #6f42c1; }
+.fn { color: #8250df; }
+hr { border: none; border-top: 1px solid #e0e0e0; margin: 24px 0; }
+</style>
+</head>
+<body>
+<div class="container">
+<h1>ABC452 题解：预处理与正难则反，两道思维型题目</h1>
+<h2>一、为什么选这两道题来写</h2>
+<p>AtCoder Beginner Contest 的 C 题和 D 题，往往是检验选手是否具备<span style="color:#e74c3c">算法思维</span>的分水岭。它们通常不需要高深的模板，但对问题的观察角度和转化能力有很高要求。</p>
+<p>这次 ABC452 的两道题恰好对应了两种非常实用的解题思想：</p>
+<p>- <span style="color:#e74c3c">C 题 — 预处理 + 多条件判定</span>：N 很小，但 M 很大，需要把查询前的预处理做到极致。</p>
+<p>- <span style="color:#2980b9">D 题 — 正难则反 + 线性 DP</span>：直接统计"不包含 T"很困难，转而统计"包含 T"再从总数中扣除。</p>
+<p>这两种思想在算法竞赛中无处不在。预处理能把 O(M × N × 某值) 的暴力查询降到 O(M × N)；正难则反能把一个看似需要容斥或复杂条件的计数问题，变成一道简洁的线性递推。掌握它们，相当于在工具箱里多了两把趁手的利器。</p>
+<p>下面进入具体的题目分析。</p>
+<hr>
+<h2>二、C 题：Fishbones（预处理判定）</h2>
+<h3>题意</h3>
+<p>有一个鱼骨架，由 N 根肋骨和 1 根脊柱组成。艺术家要在每根骨头上写一个字符串，满足：</p>
+<p>- 脊柱上的字符串长度为 N。</p>
+<p>- 第 i 根肋骨上的字符串长度为 A_i，且它的第 B_i 个字符必须等于脊柱的第 i 个字符。</p>
+<p>- 所有骨头上的字符串都必须来自给定的字符串集合 {S_1, S_2, …, S_M}（允许重复）。</p>
+<p>现在对于每个 S_j，问：是否存在一种合法的写法，使得脊柱上的字符串恰好是 S_j？</p>
+<h3>关键观察</h3>
+<p>N ≤ 10，非常小；但 M 最大有 2 × 10^5，非常大。如果对每个 S_j 都暴力枚举每根肋骨选哪个字符串，复杂度是爆炸的。</p>
+<p>换个角度想：我们其实并不关心每根肋骨具体选了哪个字符串，只关心<span style="color:#e74c3c">某个位置上是否有某个字符</span>。</p>
+<p>具体来说，对于第 i 根肋骨，它需要满足的条件是：存在一个长度为 A_i 的字符串，其第 B_i 位恰好是脊柱的第 i 个字符 c。这个条件只跟三个因素有关：长度 A_i、位置 B_i、字符 c。它跟脊柱的其他字符完全无关，跟其他肋骨也无关。</p>
+<p>因此，我们可以事先把所有 S_1 到 S_M 中的字符串"拆解"成特征信息：</p>
+<img src="https://cdn.jsdelivr.net/gh/yofn/solution@main/ABC452/figures_sel/c_code.png" alt="C题代码" style="max-width:100%;display:block;margin:14px auto;border-radius:10px;border:1px solid #ece8e0;">
+<p>这个数组的维度是 11 × 11 × 26，非常小。遍历一遍 M 个字符串就能预处理完成。</p>
+<h3>判定过程</h3>
+<p>对于每个查询 S_j：</p>
+<p>1. 如果 |S_j| ≠ N，直接输出 No。</p>
+<p>2. 否则，对脊柱的每个位置 i（1 ≤ i ≤ N），检查 f[A_i][B_i][S_j[i]] 是否为 true。</p>
+<p>3. 如果全部满足，输出 Yes；否则输出 No。</p>
+<p>单次查询只需 O(N) 时间，总复杂度 O(M × N)，轻松通过。</p>
+<h3>代码</h3>
+<img src="https://cdn.jsdelivr.net/gh/yofn/solution@main/ABC452/figures_sel/c_code.png" alt="C题代码" style="max-width:100%;display:block;margin:14px auto;border-radius:10px;border:1px solid #ece8e0;">
+<h3>代码解析</h3>
+<p>数组 `f[len][pos][c]` 是整道题的核心。第一层循环遍历所有 M 个字符串，把每个字符串的每个字符"登记"到对应的长度、位置和字符维度上。</p>
+<p>第二层循环处理查询。这里有个细节：肋骨的编号从 1 开始，所以 `b[j]` 直接作为第二维下标使用；而字符串的遍历下标 `j` 从 0 开始，对应脊柱的第 j+1 个字符。</p>
+<p>如果 `len != n`，说明这个字符串连脊柱的长度要求都不满足，直接输出 No。</p>
+<hr>
+<h2>三、D 题：No-Subsequence Substring（正难则反 + 线性 DP）</h2>
+<h3>题意</h3>
+<p>给定两个字符串 S 和 T。统计 S 的<span style="color:#e74c3c">所有非空子串</span>中，有多少个<span style="color:#2980b9">不包含 T 作为子序列</span>。</p>
+<p>注意：两个子串即使内容相同，只要取自 S 的不同位置，就算不同的子串。</p>
+<h3>为什么"正难则反"？</h3>
+<p>直接统计"不包含 T 作为子序列"的子串数量非常棘手。因为"不包含"意味着 T 的每一个字符都不能按顺序出现在子串中，这涉及复杂的组合限制。</p>
+<p>但"包含 T 作为子序列"则相对容易统计。我们可以用动态递推的方式，逐个位置计算"以当前位置结尾、包含 T 作为子序列的子串个数"，然后用总子串数减去这个值即可。</p>
+<p>总子串数是固定的：|S| × (|S| + 1) / 2。</p>
+<h3>DP 设计</h3>
+<p>定义 `f[j]` 为：以当前已处理位置结尾的所有子串中，包含 `T[0..j-1]`（即 T 的前 j 个字符）作为子序列的子串个数。</p>
+<p>当我们从位置 i-1 推进到位置 i 时：</p>
+<p>1. `f[0] = i + 1`。因为以位置 i 结尾的所有子串都包含空串作为子序列，这样的子串共有 i+1 个（从位置 0 到 i 中任选一个起点）。</p>
+<p>2. 如果 `S[i] == T[j-1]`，那么以位置 i 结尾且包含 `T[0..j-1]` 的子串，可以由"以位置 i-1 结尾且包含 `T[0..j-2]` 的子串"扩展而来。即 `g[j] = f[j-1]`。</p>
+<p>3. 用 `g[m]` 累加以位置 i 结尾的"坏子串"数量，从总数中扣除。</p>
+<p>这里用一个技巧：用数组 `g` 拷贝上一轮状态，在 `g` 上做更新，最后 swap 回 `f`。这样空间复杂度只有 O(|T|)，而 |T| ≤ 50，非常高效。</p>
+<h3>代码</h3>
+<img src="https://cdn.jsdelivr.net/gh/yofn/solution@main/ABC452/figures_sel/d_code.png" alt="D题代码" style="max-width:100%;display:block;margin:14px auto;border-radius:10px;border:1px solid #ece8e0;">
+<h3>代码解析</h3>
+<p>`tot` 初始化为 S 的所有非空子串总数。每处理一个位置 i，`g[m]` 就是以位置 i 结尾、包含完整 T 作为子序列的"坏子串"数量，直接扣除。</p>
+<p>循环内的逻辑需要特别注意顺序：`f[0]` 先被更新为 i+1，然后 j 从小到大遍历时，`g[j]` 引用的是已经更新过的 `f[j-1]`。这恰好保证了递推的正确性——当前字符同时匹配 T 的多个前缀时，状态是逐层传递的。</p>
+<p>swap 之后，`f` 数组保存的是处理完位置 i 后的最新状态，供下一轮使用。</p>
+<p>整个算法的时间复杂度是 O(|S| × |T|)，最大约 10^7，在 2 秒内完全足够；空间复杂度是 O(|T|)，几乎不占用额外内存。</p>
+<hr>
+<h2>四、写在最后</h2>
+<p>C 题告诉我们：<span style="color:#e74c3c">当条件可以拆解且查询量很大时，预处理往往是突破口</span>。把问题中"是否存在某个字符串满足某条件"转化为"是否存在某个字符串具有某特征"，就能把二维的字符串匹配问题降维成三维的布尔数组查询。</p>
+<p>D 题告诉我们：<span style="color:#2980b9">当正面计数很困难时，试试从反面入手</span>。"不包含 T"的反面是"包含 T"，而"包含 T"可以通过一个自然的前缀匹配 DP 来统计。总子串数是已知的，一减就得到答案。</p>
+<p>这两道题都不涉及高深的算法模板，但对<span style="color:#8e44ad">观察力和问题转化能力</span>的要求很高。而这正是算法竞赛中最核心的能力——不是记住多少模板，而是看到问题时能想到最合适的切入角度。</p>
+<p>AtCoder Beginner Contest 每周六晚上开赛。如果你正在学习算法竞赛，建议你把它变成<span style="color:#e74c3c">每周固定的练习仪式</span>。哪怕只做 A~D，长期坚持下来，对题感的提升也是肉眼可见的。</p>
+<p>我们下周六晚上见。</p>
+</div>
+</body>
+</html>
